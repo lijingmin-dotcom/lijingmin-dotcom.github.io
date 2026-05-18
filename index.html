@@ -17,18 +17,17 @@
         html{scroll-behavior:smooth;}
 
         :root {
-            --bg-canvas: #E6DFD4;     /* 核心：高级画廊暖砂岩墙面色 */
-            --bg-card: #FAF6EE;       /* 核心：温润手工卡纸白 */
-            --text-dark: #322A22;     /* 核心：深烧炭褐黑 */
+            --bg-canvas: #E6DFD4;     /* Advanced暖砂岩墙面色 */
+            --bg-card: #FAF6EE;       /* 温润手工卡纸白 */
+            --text-dark: #322A22;     /* 深烧炭褐黑 */
             --text-muted: #8C7B6B;    /* 建筑测绘铜灰 */
             --line-solid: #322A22;    /* 刚性结构线 */
             --line-light: #D6CDBF;    /* 墙面测绘辅助线 */
-            --line-grid: rgba(50, 42, 34, 0.04); /* 隐约的全局工程网格 */
+            --line-grid: rgba(50, 42, 34, 0.04); /* 全局工程网格 */
         }
 
         body{
             background: var(--bg-canvas);
-            /* 标尺级物理网格底 */
             background-image: 
                 linear-gradient(to right, var(--line-grid) 1px, transparent 1px),
                 linear-gradient(to bottom, var(--line-grid) 1px, transparent 1px);
@@ -40,38 +39,27 @@
             position: relative;
         }
 
-        /* --- 核心显影防护：强制状态覆盖 --- */
+        /* --- 核心显影防护与GPU硬加速一体化 --- */
+        .content img {
+            will-change: transform, opacity, filter; /* 激活 GPU 加速硬件图层 */
+        }
         .content img.loaded { 
-            opacity: 1 !important; /* 关键修复：加重状态权重，彻底击碎CSS层叠覆盖Bug，确保图片100%显影 */
+            opacity: 1 !important; /* 强制破除CSS层叠覆盖 */
         }
 
         /* --- 移动端汉堡按钮 --- */
         .menu-btn{
-            position: fixed;
-            top: 25px;
-            right: 25px;
-            width: 44px;
-            height: 44px;
-            background: var(--bg-card);
-            border: 1px solid var(--text-dark);
-            border-radius: 0; 
-            display: none;
-            align-items: center;
-            justify-content: center;
-            font-size: 14px;
-            color: var(--text-dark);
-            z-index: 9999;
-            cursor: pointer;
+            position: fixed; top: 25px; right: 25px; width: 44px; height: 44px;
+            background: var(--bg-card); border: 1px solid var(--text-dark);
+            display: none; align-items: center; justify-content: center;
+            font-size: 14px; color: var(--text-dark); z-index: 9999; cursor: pointer;
         }
 
         /* --- 左侧宣纸直角侧边栏 --- */
         .sidebar{
-            position: fixed;
-            top: 0; left: 0; width: 280px; height: 100vh;
-            background: var(--bg-card);
-            border-right: 1px solid var(--line-light);
-            padding: 80px 40px;
-            z-index: 999;
+            position: fixed; top: 0; left: 0; width: 280px; height: 100vh;
+            background: var(--bg-card); border-right: 1px solid var(--line-light);
+            padding: 80px 40px; z-index: 999;
             transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
         }
         .sidebar::after {
@@ -79,26 +67,15 @@
             background: var(--line-grid);
         }
         .sidebar .logo{
-            font-family: "Noto Serif SC", "Georgia", serif;
-            font-size: 16px;
-            font-weight: 700;
-            color: var(--text-dark);
-            letter-spacing: 5px;
-            margin-bottom: 80px;
-            text-align: center;
-            text-transform: uppercase;
+            font-family: "Noto Serif SC", "Georgia", serif; font-size: 16px; font-weight: 700;
+            color: var(--text-dark); letter-spacing: 5px; margin-bottom: 80px;
+            text-align: center; text-transform: uppercase;
         }
         .nav{ display: flex; flex-direction: column; gap: 4px; }
         .nav a{
-            padding: 14px 20px;
-            text-decoration: none;
-            color: var(--text-muted);
-            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-            font-size: 13px;
-            text-align: left;
-            letter-spacing: 3px;
-            font-weight: 500;
-            position: relative;
+            padding: 14px 20px; text-decoration: none; color: var(--text-muted);
+            font-size: 13px; text-align: left; letter-spacing: 3px; font-weight: 500; position: relative;
+            transition: color 0.4s cubic-bezier(0.16, 1, 0.3, 1), padding-left 0.4s cubic-bezier(0.16, 1, 0.3, 1);
         }
         .nav a:hover{ color: var(--text-dark); padding-left: 26px; }
         .nav a.active{ color: var(--text-dark); font-weight: 700; background: var(--bg-canvas); }
@@ -111,24 +88,16 @@
         .content{ margin-left: 280px; padding: 100px 60px; min-height: 100vh; }
         
         .reveal {
-            opacity: 0;
-            transform: translateY(20px);
-            transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+            opacity: 0; transform: translateY(20px);
             margin-bottom: 140px; 
+            transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
         }
         .reveal.reveal-active { opacity: 1; transform: translateY(0); }
 
         /* 建筑标尺标题 */
         .section-title{
-            font-family: "Noto Serif SC", "Source Han Serif CN", serif;
-            font-size: 18px;
-            font-weight: 700;
-            color: var(--text-dark);
-            margin-bottom: 50px;
-            letter-spacing: 3px;
-            display: flex;
-            align-items: center;
-            gap: 20px;
+            font-family: "Noto Serif SC", "Source Han Serif CN", serif; font-size: 18px; font-weight: 700;
+            color: var(--text-dark); margin-bottom: 50px; letter-spacing: 3px; display: flex; align-items: center; gap: 20px;
         }
         .section-title::before { content: '┠'; font-family: monospace; color: var(--text-dark); }
         .section-title::after { content: ''; flex: 1; height: 1px; background: var(--line-solid); }
@@ -136,25 +105,15 @@
         /* --- 动态视频板块 --- */
         .video-show{ margin-bottom:30px; }
         .video-main{
-            width:100%;
-            height:500px;
-            overflow:hidden;
-            margin-bottom:25px;
-            background: #000;
-            border: 1px solid var(--text-dark);
+            width:100%; height:500px; overflow:hidden; margin-bottom:25px;
+            background: #000; border: 1px solid var(--text-dark);
         }
         .video-main video{ width:100%; height:100%; object-fit: contain; }
         .video-thumbs{ display: flex; gap: 8px; flex-wrap: wrap; }
         .video-thumb{
-            padding: 10px 24px;
-            background: var(--bg-card);
-            border: 1px solid var(--line-light);
-            cursor: pointer;
-            font-size: 12px;
-            font-weight: 600;
-            color: var(--text-muted);
-            letter-spacing: 2px;
-            transition: all 0.3s ease;
+            padding: 10px 24px; background: var(--bg-card); border: 1px solid var(--line-light);
+            cursor: pointer; font-size: 12px; font-weight: 600; color: var(--text-muted); letter-spacing: 2px;
+            transition: border-color 0.3s ease, color 0.3s ease, background-color 0.3s ease;
         }
         .video-thumb:hover { border-color: var(--text-dark); color: var(--text-dark); }
         .video-thumb.active{ background: var(--text-dark); color: var(--bg-card); border-color: var(--text-dark); }
@@ -164,71 +123,42 @@
            【平面设计】板块：标准 4 列自适应紧凑型瀑布流网格
            ========================================================================== */
         .filter-menu {
-            display: flex;
-            gap: 10px;
-            margin-bottom: 45px;
-            border-top: 1px solid var(--text-dark);
-            border-bottom: 1px dashed var(--line-light);
-            padding: 15px 0;
-            flex-wrap: wrap;
+            display: flex; gap: 10px; margin-bottom: 45px; padding: 15px 0; flex-wrap: wrap;
+            border-top: 1px solid var(--text-dark); border-bottom: 1px dashed var(--line-light);
         }
         .filter-btn {
-            background: transparent;
-            border: 1px dashed var(--line-light);
-            padding: 8px 22px;
-            font-size: 11px;
-            letter-spacing: 2px;
-            color: var(--text-muted);
-            cursor: pointer;
-            font-weight: 600;
-            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            background: transparent; border: 1px dashed var(--line-light); padding: 8px 22px;
+            font-size: 11px; letter-spacing: 2px; color: var(--text-muted); cursor: pointer; font-weight: 600;
+            transition: border-color 0.3s ease, color 0.3s ease, background-color 0.3s ease;
         }
         .filter-btn:hover { border-color: var(--text-dark); color: var(--text-dark); }
         .filter-btn.active { background: var(--text-dark); color: var(--bg-card); border-color: var(--text-dark); }
 
-        .gallery { 
-            column-count: 4;     
-            column-gap: 32px;    
-            position: relative;
-        }
-        
-        .gallery .card {
-            break-inside: avoid; 
-            display: block; 
-            width: 100%;
-            margin-bottom: 35px; 
-            position: relative;
-            cursor: pointer;
-            background: none;
-            border: none;
-        }
-        
+        .gallery { column-count: 4; column-gap: 32px; position: relative; }
+        .gallery .card { break-inside: avoid; display: block; width: 100%; margin-bottom: 35px; position: relative; cursor: pointer; }
         .gallery .card.hide { display: none !important; }
 
-        .gallery .card::before, .gallery .card::after {
-            content: ''; position: absolute; width: 12px; height: 12px;
-            transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
-            opacity: 0.25; pointer-events: none;
-            z-index: 3;
+        .card::before, .card::after {
+            content: ''; position: absolute; width: 12px; height: 12px; opacity: 0.25; pointer-events: none; z-index: 3;
+            transition: top 0.4s ease, left 0.4s ease, right 0.4s ease, bottom 0.4s ease, opacity 0.4s ease;
         }
-        .gallery .card::before { top: -5px; left: -5px; border-top: 1px solid var(--text-dark); border-left: 1px solid var(--text-dark); }
-        .gallery .card::after { bottom: -5px; right: -5px; border-bottom: 1px solid var(--text-dark); border-right: 1px solid var(--text-dark); }
+        .card::before { top: -5px; left: -5px; border-top: 1px solid var(--text-dark); border-left: 1px solid var(--text-dark); }
+        .card::after { bottom: -5px; right: -5px; border-bottom: 1px solid var(--text-dark); border-right: 1px solid var(--text-dark); }
 
-        .gallery .card-inner {
+        .card-inner {
             width: 100%; height: auto; display: flex; flex-direction: column;
             background: var(--bg-card); border: 1px solid var(--line-light);
             padding: 10px 10px 38px 10px; position: relative;
             box-shadow: 0 6px 20px rgba(50, 42, 34, 0.02), 0 1px 2px rgba(50, 42, 34, 0.01);
-            transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+            transition: border-color 0.5s ease, transform 0.5s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.5s ease;
+            will-change: transform, box-shadow;
         }
+        .card-img-wrapper { width: 100%; height: auto; display: block; position: relative; background: rgba(50, 42, 34, 0.02); }
 
-        .gallery .card-img-wrapper { width: 100%; height: auto; display: block; position: relative; background: rgba(50, 42, 34, 0.02); }
-
-        .gallery .card img {
+        .card img {
             width: 100%; height: auto; display: block;
-            filter: grayscale(5%) sepia(3%) contrast(98%);
-            opacity: 0;
-            transition: opacity 0.4s ease, transform 0.5s cubic-bezier(0.16, 1, 0.3, 1), filter 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+            filter: grayscale(5%) sepia(3%) contrast(98%); opacity: 0;
+            transition: opacity 0.4s ease, transform 0.5s cubic-bezier(0.16, 1, 0.3, 1), filter 0.5s ease;
         }
 
         .gallery .card-meta {
@@ -240,132 +170,94 @@
         }
         .gallery .card-meta::before { content: '┼'; font-size: 8px; }
 
+        .gallery .card:hover .card-inner { border-color: var(--text-dark); transform: translateY(-6px); box-shadow: 0 20px 40px rgba(50, 42, 34, 0.06); }
+        .gallery .card:hover::before { top: -10px; left: -10px; opacity: 1; }
+        .gallery .card:hover::after { bottom: -10px; right: -10px; opacity: 1; }
+        .gallery .card:hover img { filter: grayscale(0%) sepia(0%) contrast(100%); }
+
 
         /* ==========================================================================
            【摄影图集】板块：画廊志风格 3 列大呼吸瀑布流 + 内嵌渐变 Viewfinder
-           ========================================================================== */
-        .photo-gallery-masonry {
-            column-count: 3; 
-            column-gap: 40px; 
-            position: relative;
-        }
+           ========================================================================= */
+        .photo-gallery-masonry { column-count: 3; column-gap: 40px; position: relative; }
+        .photo-gallery-masonry .card { break-inside: avoid; display: block; width: 100%; margin-bottom: 40px; position: relative; cursor: pointer; }
 
-        .photo-gallery-masonry .card {
-            break-inside: avoid;
-            display: block;
-            width: 100%;
-            margin-bottom: 40px; 
-            position: relative;
-            cursor: pointer;
-        }
-
-        /* 摄影栏目四角测绘 L 标 */
         .photo-gallery-masonry .card::before, .photo-gallery-masonry .card::after {
-            content: ''; position: absolute; width: 12px; height: 12px;
-            transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
-            opacity: 0.25; pointer-events: none;
-            z-index: 3;
+            content: ''; position: absolute; width: 12px; height: 12px; opacity: 0.25; pointer-events: none; z-index: 3;
+            transition: top 0.4s ease, left 0.4s ease, right 0.4s ease, bottom 0.4s ease, opacity 0.4s ease;
         }
         .photo-gallery-masonry .card::before { top: -5px; left: -5px; border-top: 1px solid var(--text-dark); border-left: 1px solid var(--text-dark); }
         .photo-gallery-masonry .card::after { bottom: -5px; right: -5px; border-bottom: 1px solid var(--text-dark); border-right: 1px solid var(--text-dark); }
 
         .photo-gallery-masonry .card-inner {
-            width: 100%; height: auto;
-            background: var(--bg-card); border: 1px solid var(--line-light);
-            padding: 12px; 
-            position: relative;
-            box-shadow: 0 6px 25px rgba(50, 42, 34, 0.02);
-            transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
-            overflow: hidden;
+            width: 100%; height: auto; background: var(--bg-card); border: 1px solid var(--line-light); padding: 12px; position: relative;
+            box-shadow: 0 6px 25px rgba(50, 42, 34, 0.02); overflow: hidden;
+            transition: border-color 0.5s ease, transform 0.5s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.5s ease;
+            will-change: transform, box-shadow;
         }
 
         .photo-gallery-masonry .card img {
             width: 100%; height: auto; display: block;
-            filter: grayscale(6%) sepia(2%) contrast(97%);
-            opacity: 0;
-            transition: opacity 0.4s ease, transform 0.6s cubic-bezier(0.16, 1, 0.3, 1), filter 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+            filter: grayscale(6%) sepia(2%) contrast(97%); opacity: 0;
+            transition: opacity 0.4s ease, transform 0.6s cubic-bezier(0.16, 1, 0.3, 1), filter 0.6s ease;
         }
 
-        /* 内嵌悬停式相机测光表参数 (Viewfinder Hud) */
+        /* 内嵌式 Hud 参数流 */
         .photo-gallery-masonry .card-meta {
             position: absolute; bottom: 0; left: 0; width: 100%;
             display: flex; justify-content: space-between; align-items: center;
-            font-family: monospace; font-size: 10px; letter-spacing: 1px;
-            color: #FAF6EE;
+            font-family: monospace; font-size: 10px; letter-spacing: 1px; color: #FAF6EE;
             background: linear-gradient(to top, rgba(50, 42, 34, 0.8), rgba(50, 42, 34, 0));
-            padding: 30px 20px 15px 20px;
-            opacity: 0;
-            transform: translateY(8px);
-            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-            z-index: 4;
-            pointer-events: none;
-            border-top: none;
+            padding: 30px 20px 15px 20px; opacity: 0; transform: translateY(8px); pointer-events: none; z-index: 4; border-top: none;
+            transition: opacity 0.4s cubic-bezier(0.16, 1, 0.3, 1), transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
         }
         .photo-gallery-masonry .card-meta::before { display: none; }
 
-        /* 悬停互动动作 */
-        .photo-gallery-masonry .card:hover .card-inner {
-            border-color: var(--text-dark); transform: translateY(-6px);
-            box-shadow: 0 25px 45px rgba(50, 42, 34, 0.08);
-        }
+        .photo-gallery-masonry .card:hover .card-inner { border-color: var(--text-dark); transform: translateY(-6px); box-shadow: 0 25px 45px rgba(50, 42, 34, 0.08); }
         .photo-gallery-masonry .card:hover::before { top: -10px; left: -10px; opacity: 1; }
         .photo-gallery-masonry .card:hover::after { bottom: -10px; right: -10px; opacity: 1; }
         .photo-gallery-masonry .card:hover img { filter: grayscale(0%) sepia(0%) contrast(100%); transform: scale(1.03); }
         .photo-gallery-masonry .card:hover .card-meta { opacity: 1; transform: translateY(0); }
 
 
-        /* --- 追加加载控制台 --- */
+        /* --- 页面功能控制台 --- */
         .load-container { display: flex; justify-content: center; margin-top: 60px; }
         .load-more-btn {
             background: transparent; border: 1px solid var(--text-dark); padding: 14px 45px;
-            font-size: 11px; letter-spacing: 4px; font-weight: 700; color: var(--text-dark);
-            cursor: pointer; text-transform: uppercase; transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            font-size: 11px; letter-spacing: 4px; font-weight: 700; color: var(--text-dark); cursor: pointer; text-transform: uppercase;
+            transition: background-color 0.3s ease, color 0.3s ease;
         }
         .load-more-btn:hover { background: var(--text-dark); color: var(--bg-card); }
 
-        /* --- 磨砂玻璃放大弹窗 --- */
+        /* --- 磨砂卡纸弹窗 --- */
         .img-popup{
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(42, 38, 34, 0.93); backdrop-filter: blur(12px);
-            z-index: 99999; display: flex; align-items: center; justify-content: center; padding: 40px;
-            opacity: 0; visibility: hidden; transition: opacity 0.5s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.5s cubic-bezier(0.16, 1, 0.3, 1);
-            cursor: zoom-out;
+            background: rgba(42, 38, 34, 0.93); backdrop-filter: blur(12px); z-index: 99999;
+            display: flex; align-items: center; justify-content: center; padding: 40px;
+            opacity: 0; visibility: hidden; cursor: zoom-out;
+            transition: opacity 0.4s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.4s cubic-bezier(0.16, 1, 0.3, 1);
         }
         .img-popup img{
-            max-width: 92%; max-height: 92%; object-fit: contain;
-            border: 1px solid rgba(255, 255, 255, 0.15); box-shadow: 0 30px 70px rgba(0,0,0,0.3);
-            transform: scale(0.95); transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+            max-width: 92%; max-height: 92%; object-fit: contain; border: 1px solid rgba(255, 255, 255, 0.15); box-shadow: 0 30px 70px rgba(0,0,0,0.3);
+            transform: scale(0.95); transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
             background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 100 100"><circle cx="50" cy="50" r="40" stroke="%23FAF6EE" stroke-width="4" fill="none" stroke-dasharray="150 100"><animateTransform attributeName="transform" type="rotate" from="0 50 50" to="360 50 50" dur="0.8s" repeatCount="indefinite"/></circle></svg>') center no-repeat;
         }
         .img-popup.active{ opacity: 1; visibility: visible; }
         .img-popup.active img { transform: scale(1); }
 
-        /* 底栏 */
-        .footer{ 
-            text-align:center; padding:100px 0 40px; color:var(--text-muted); font-size:11px; letter-spacing: 3px;
-            border-top: 1px dashed var(--text-dark); text-transform: uppercase;
-        }
+        .footer{ text-align:center; padding:100px 0 40px; color:var(--text-muted); font-size:11px; letter-spacing: 3px; border-top: 1px dashed var(--text-dark); text-transform: uppercase; }
 
-        /* --- 响应式降维弹性控制 --- */
-        @media (max-width:1400px) { 
-            .gallery { column-count: 3; gap: 24px; } 
-            .photo-gallery-masonry { column-count: 3; gap: 30px; }
-        }
+        /* --- 响应式布局自适应调节 --- */
+        @media (max-width:1400px) { .gallery { column-count: 3; gap: 24px; } .photo-gallery-masonry { column-count: 3; gap: 30px; } }
         @media (max-width:1100px) {
-            .sidebar{ width: 240px; padding: 40px 20px; }
-            .content{ margin-left: 240px; padding: 80px 30px; }
-            .gallery { column-count: 2; gap: 20px; }
-            .photo-gallery-masonry { column-count: 2; gap: 24px; }
+            .sidebar{ width: 240px; padding: 40px 20px; } .content{ margin-left: 240px; padding: 80px 30px; }
+            .gallery { column-count: 2; gap: 20px; } .photo-gallery-masonry { column-count: 2; gap: 24px; }
         }
         @media (max-width:768px) {
-            .menu-btn{ display:flex; }
-            .sidebar{ transform: translateX(-100%); width: 260px; box-shadow: 15px 0 40px rgba(42,38,34,0.04); }
-            .sidebar.show{ transform: translateX(0); }
-            .content{ margin-left: 0; padding: 100px 20px 40px; }
-            .video-main{ height:260px; }
-            .reveal { margin-bottom: 80px; }
-            .gallery { column-count: 1; gap: 24px; }
-            .photo-gallery-masonry { column-count: 1; gap: 20px; }
+            .menu-btn{ display:flex; } .sidebar{ transform: translateX(-100%); width: 260px; box-shadow: 15px 0 40px rgba(42,38,34,0.04); }
+            .sidebar.show{ transform: translateX(0); } .content{ margin-left: 0; padding: 100px 20px 40px; }
+            .video-main{ height:260px; } .reveal { margin-bottom: 80px; }
+            .gallery { column-count: 1; gap: 24px; } .photo-gallery-masonry { column-count: 1; gap: 20px; }
         }
     </style>
 </head>
@@ -516,7 +408,7 @@
             </div>
         </section>
 
-        <section class="section" id="about">
+        <section class="section reveal" id="about">
             <h2 class="section-title">关于我</h2>
             <p style="font-family: 'Noto Serif SC', serif; font-size:18px; font-weight:700; color:var(--text-dark); letter-spacing: 2px; line-height: 1.6; border-left: 3px solid var(--line-solid); padding-left: 24px;">
                 以视觉为语，融极简意境，于方寸之间雕琢设计本心。
@@ -533,7 +425,7 @@
     </div>
 
     <script>
-        // 1. 移动端菜单逻辑
+        // 1. 移动端汉堡包菜单控制
         const menuBtn = document.getElementById('menuBtn');
         const sidebar = document.getElementById('sidebar');
         const navLinks = document.querySelectorAll('.nav a');
@@ -541,13 +433,13 @@
         menuBtn.addEventListener('click', (e) => {
             sidebar.classList.toggle('show');
             e.stopPropagation();
-        });
-        document.addEventListener('click', () => sidebar.classList.remove('show'));
+        }, {passive: true});
+        document.addEventListener('click', () => sidebar.classList.remove('show'), {passive: true});
         navLinks.forEach(link => {
-            link.addEventListener('click', () => sidebar.classList.remove('show'));
+            link.addEventListener('click', () => sidebar.classList.remove('show'), {passive: true});
         });
 
-        // 2. 原生大体积视频流硬件加速切换调度
+        // 2. 原生大视频流精准硬件切源调度
         const thumbs = document.querySelectorAll('.video-thumb');
         const mainVideo = document.getElementById('mainVideo');
         thumbs.forEach(thumb => {
@@ -558,10 +450,10 @@
                 mainVideo.src = thumb.dataset.src;
                 mainVideo.load();
                 mainVideo.play();
-            });
+            }, {passive: true});
         });
 
-        // 3. 弹窗放大（双阶冷热按需分离提取大图）
+        // 3. 弹窗控制（流式按需加载，关闭自动粉碎链路释放运行内存）
         const popup = document.getElementById('imgPopup');
         const bigImg = document.getElementById('bigImg');
         
@@ -574,15 +466,15 @@
                     document.body.style.overflow = 'hidden';
                     e.stopPropagation();
                 }
-            });
+            }, {passive: true});
         });
         popup.addEventListener('click', () => {
             popup.classList.remove('active');
             document.body.style.overflow = '';
-            setTimeout(() => { bigImg.src = ''; }, 400); 
-        });
+            setTimeout(() => { bigImg.src = ''; }, 400); // 彻底释放移动端显存占用，防止长时间浏览后白屏闪退
+        }, {passive: true});
 
-        // 4. 高性能分批流控 ＋ 平面海报分类检索调度
+        // 4. 平面海报分流检索控制器
         const filterBtns = document.querySelectorAll('.filter-menu .filter-btn');
         const galleryCards = document.querySelectorAll('#galleryGrid .card');
         const loadMoreBtn = document.getElementById('loadMoreBtn');
@@ -624,7 +516,7 @@
         loadMoreBtn.addEventListener('click', () => {
             initialLimit += 12; 
             renderGallery();
-        });
+        }, {passive: true});
 
         filterBtns.forEach(btn => {
             btn.addEventListener('click', () => {
@@ -636,17 +528,17 @@
                     initialLimit = 12; 
                 }
                 renderGallery();
-            });
+            }, {passive: true});
         });
 
         renderGallery();
 
-        // 5. 全页面（海报 ＋ 摄影）瀑布流图片渐进式冷启动加载监听器
+        // 5. 高阶异步冷启动全网格图片加载监听器
         const allImgs = document.querySelectorAll('.content img');
         allImgs.forEach(img => {
             const forceShowTimeout = setTimeout(() => {
                 img.classList.add('loaded');
-            }, 1500);
+            }, 1500); // 极端环境强行显影安全线
 
             if (img.complete) {
                 clearTimeout(forceShowTimeout);
@@ -663,7 +555,7 @@
             }
         });
 
-        // 6. 智能监控 (Scrollspy) + 触底自动激活关于我高亮
+        // 6. 现代无损智能观察流 (Scrollspy) —— 100% 砍掉高开销 window.onscroll 滚动监听
         const reveals = document.querySelectorAll('.reveal');
 
         const globalObserver = new IntersectionObserver((entries) => {
@@ -674,7 +566,7 @@
                     updateNav(id);
                 }
             });
-        }, { root: null, rootMargin: '-20% 0px -40% 0px', threshold: 0.05 });
+        }, { root: null, rootMargin: '-15% 0px -30% 0px', threshold: 0.02 });
 
         reveals.forEach(el => globalObserver.observe(el));
 
@@ -687,12 +579,6 @@
                 }
             });
         }
-
-        window.addEventListener('scroll', () => {
-            if ((window.innerHeight + window.scrollY) >= document.documentElement.scrollHeight - 50) {
-                updateNav('about');
-            }
-        }, { passive: true });
     </script>
 </body>
 </html>

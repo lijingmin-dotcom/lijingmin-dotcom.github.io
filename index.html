@@ -69,7 +69,7 @@
             background: var(--line-solid);
         }
 
-        /* --- 右侧内容观展区 --- */
+        /* --- 右侧内容主展区 --- */
         .content{ margin-left: 280px; padding: 100px 60px; min-height: 100vh; }
         
         .reveal {
@@ -102,6 +102,7 @@
         }
         .video-thumb:hover { border-color: var(--text-dark); color: var(--text-dark); }
         .video-thumb.active{ background: var(--text-dark); color: var(--bg-card); border-color: var(--text-dark); }
+
 
         /* ==========================================================================
            【基建标准】平面海报网格与自适应弹性流
@@ -145,7 +146,7 @@
         }
         .card-img-wrapper { width: 100%; height: auto; display: block; }
 
-        /* 统一流体惰性加载图片样式 */
+        /* 统一流体惰性加载图片真实样式 */
         .card img {
             width: 100%; height: auto; display: block;
             filter: grayscale(5%) sepia(3%) contrast(98%);
@@ -175,23 +176,22 @@
            ========================================================================== */
         #photoGrid {
             display: grid;
-            grid-template-columns: repeat(12, 1fr); /* 核心：12列光学河道 */
-            gap: 0px 32px; /* 消除原生高间距，改由物理负外边距控制交错流动 */
+            grid-template-columns: repeat(12, 1fr); /* 核心：12列主河道拓扑 */
+            gap: 0px 32px; 
             position: relative;
             column-count: auto; 
         }
         
         #photoGrid .card { margin-bottom: 0; break-inside: auto; }
 
-        /* 🌊 蜿蜒曲线规律编排：控制32张图在空间里如河流般蛇形左中右激荡 */
-        #photoGrid .card:nth-child(6n+1) { grid-column: 1 / span 5; margin-top: 60px; margin-bottom: 80px; }   /* 左侧主航道 */
-        #photoGrid .card:nth-child(6n+2) { grid-column: 5 / span 5; margin-top: -30px; margin-bottom: 120px; } /* 中流砥柱微重叠 */
-        #photoGrid .card:nth-child(6n+3) { grid-column: 8 / span 4; margin-top: 40px; margin-bottom: 90px; }   /* 右侧浅滩 */
-        #photoGrid .card:nth-child(6n+4) { grid-column: 4 / span 6; margin-top: -50px; margin-bottom: 140px; } /* 中右宽幅回流 */
-        #photoGrid .card:nth-child(6n+5) { grid-column: 2 / span 4; margin-top: 20px; margin-bottom: 100px; }  /* 左侧回旋 */
-        #photoGrid .card:nth-child(6n+6) { grid-column: 7 / span 5; margin-top: -40px; margin-bottom: 15px; }  /* 右侧甩尾入下湾 */
+        /* 🌊 大河非对称控制网：让 32 张照片如河流般在空间中曲折错落流动 */
+        #photoGrid .card:nth-child(6n+1) { grid-column: 1 / span 5; margin-top: 60px; margin-bottom: 80px; }   
+        #photoGrid .card:nth-child(6n+2) { grid-column: 5 / span 5; margin-top: -30px; margin-bottom: 120px; } 
+        #photoGrid .card:nth-child(6n+3) { grid-column: 8 / span 4; margin-top: 40px; margin-bottom: 90px; }   
+        #photoGrid .card:nth-child(6n+4) { grid-column: 4 / span 6; margin-top: -50px; margin-bottom: 140px; } 
+        #photoGrid .card:nth-child(6n+5) { grid-column: 2 / span 4; margin-top: 20px; margin-bottom: 100px; }  
+        #photoGrid .card:nth-child(6n+6) { grid-column: 7 / span 5; margin-top: -40px; margin-bottom: 15px; }  
 
-        /* 摄影大河板块的悬停交互：垂直挺拔，边缘利落 */
         #photoGrid .card:hover .card-inner {
             border-color: var(--text-dark); transform: translateY(-8px);
             box-shadow: 0 30px 60px rgba(50, 42, 34, 0.09);
@@ -223,7 +223,7 @@
             border-top: 1px dashed var(--text-dark); text-transform: uppercase;
         }
 
-        /* --- 响应式降维：保护移动端的窄屏大河生态 --- */
+        /* --- 响应式降维：完美兼容移动端设备 --- */
         @media (max-width:1400px) { 
             .gallery { column-count: 3; gap: 24px; } 
             #photoGrid { grid-template-columns: repeat(2, 1fr); gap: 40px 24px; }
@@ -243,7 +243,7 @@
             .video-main{ height:260px; }
             .reveal { margin-bottom: 80px; }
             .gallery { column-count: 1; gap: 24px; }
-            /* 手机端收缩为极其精细的纵向单列画廊流 */
+            /* 手机端收束为极致清晰的单列画廊流 */
             #photoGrid { grid-template-columns: 1fr; gap: 35px; }
             #photoGrid .card:nth-child(n) { margin-top: 0 !important; margin-bottom: 0 !important; }
         }
@@ -448,7 +448,7 @@
             card.addEventListener('click', (e) => {
                 const img = card.querySelector('img');
                 if(img) {
-                    // 弹窗里必须读取 data-src 获取真实高清图资源
+                    // 弹窗读取真正的 data-src 展现高清原图
                     bigImg.src = img.dataset.src || img.src;
                     popup.classList.add('active');
                     document.body.style.overflow = 'hidden';
@@ -499,7 +499,7 @@
                 loadContainer.style.display = 'none';
             }
             
-            // 每次分类切换或载入更多后，重新触发监测机制去读取图片
+            // 每次检索切换后，重置懒加载检测仪
             triggerLazyLoadCheck();
         }
 
@@ -525,14 +525,13 @@
 
 
         // ==========================================================================
-        // 5. 【核心性能救星】：高级硬件级交错流控制——真实惰性懒加载监听
+        // 5. 【极限优化核心】：IntersectionObserver 硬件级惰性动态异步懒加载
         // ==========================================================================
         let lazyObserver;
         
         function initLazyLoad() {
             const allLazyImages = document.querySelectorAll('img[data-src]');
-            
-            // 响应式调整监测边界：手机屏短，提前150像素预加载；电脑大屏提前80像素
+            // 移动端安全线拓宽至 150 像素，提前预判加载，极致丝滑
             let rootMarginMargin = window.innerWidth > 768 ? "0px 0px 80px 0px" : "0px 0px 150px 0px";
 
             if ('IntersectionObserver' in window) {
@@ -540,13 +539,11 @@
                     entries.forEach(entry => {
                         if (entry.isIntersecting) {
                             const img = entry.target;
-                            // 注入真实图片路径
-                            img.src = img.dataset.src;
+                            img.src = img.dataset.src; // 瞬间吞入真实物理资源
                             
                             img.addEventListener('load', () => img.classList.add('loaded'));
-                            img.addEventListener('error', () => img.classList.add('loaded')); // 容错：加载失败也强行显示，防止框架假死
+                            img.addEventListener('error', () => img.classList.add('loaded')); // 容错托底
                             
-                            // 解除监控
                             observer.unobserve(img);
                         }
                     });
@@ -554,7 +551,7 @@
 
                 allLazyImages.forEach(img => lazyObserver.observe(img));
             } else {
-                // 如果是极老旧的设备，降级直接直出图片
+                // 老旧浏览器降维直出
                 allLazyImages.forEach(img => {
                     img.src = img.dataset.src;
                     img.classList.add('loaded');

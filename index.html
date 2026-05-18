@@ -152,7 +152,7 @@
             transition: border-color 0.5s ease, transform 0.5s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.5s ease;
             will-change: transform, box-shadow;
         }
-        .card-img-wrapper { width: 100%; min-height: 150px; display: block; position: relative; background: rgba(50, 42, 34, 0.02); }
+        .card-img-wrapper { width: 100%; min-height: 100px; display: block; position: relative; background: rgba(50, 42, 34, 0.02); }
 
         .card img {
             width: 100%; height: auto; display: block;
@@ -252,11 +252,37 @@
             .sidebar{ width: 240px; padding: 40px 20px; } .content{ margin-left: 240px; padding: 80px 30px; }
             .gallery { column-count: 2; gap: 20px; } .photo-gallery-masonry { column-count: 2; gap: 24px; }
         }
+        
+        /* ==========================================================================
+           【🚀 终极便携改版】针对 768px 以下手机端进行双列卡片无边框压缩排版
+           ========================================================================= */
         @media (max-width:768px) {
-            .menu-btn{ display:flex; } .sidebar{ transform: translateX(-100%); width: 260px; box-shadow: 15px 0 40px rgba(42,38,34,0.04); }
-            .sidebar.show{ transform: translateX(0); } .content{ margin-left: 0; padding: 100px 20px 40px; }
-            .video-main{ height:260px; } .reveal { margin-bottom: 80px; }
-            .gallery { column-count: 1; gap: 24px; } .photo-gallery-masonry { column-count: 1; gap: 20px; }
+            .menu-btn{ display:flex; } 
+            .sidebar{ transform: translateX(-100%); width: 260px; box-shadow: 15px 0 40px rgba(42,38,34,0.04); }
+            .sidebar.show{ transform: translateX(0); } 
+            
+            /* 压缩手机端两侧留白，将空间完全让给图片 */
+            .content{ margin-left: 0; padding: 100px 16px 40px; } 
+            .video-main{ height:230px; } 
+            .reveal { margin-bottom: 70px; }
+            .section-title { margin-bottom: 30px; }
+
+            /* 🌟 平面设计：手机升级为紧凑流畅双列瀑布流 */
+            .gallery { column-count: 2; column-gap: 16px; } 
+            .gallery .card { margin-bottom: 18px; }
+            .gallery .card-inner { padding: 6px 6px 28px 6px; }
+            .gallery .card-meta { bottom: 6px; left: 8px; right: 8px; font-size: 8px; letter-spacing: 0.5px; }
+
+            /* 🌟 摄影叙事：手机升级为双列独立先锋瀑布流 */
+            .photo-gallery-masonry { column-count: 2; column-gap: 16px; }
+            .photo-gallery-masonry .card { margin-bottom: 18px; }
+            .photo-gallery-masonry .card-inner { padding: 6px; }
+            /* 缩减手机端Hud字体，防止换行错位 */
+            .photo-gallery-masonry .card-meta { padding: 20px 8px 6px 8px; font-size: 8px; letter-spacing: 0.5px; }
+            
+            /* 便携按钮：手机端升级为容易触控的通栏大按钮 */
+            .load-container { margin-top: 30px; }
+            .load-more-btn { width: 100%; text-align: center; padding: 12px 0; }
         }
     </style>
 </head>
@@ -323,10 +349,10 @@
                 <div class="card" data-cat="img1"><div class="card-inner"><div class="card-img-wrapper"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-src="img1/9.jpg" data-full="img1/9.jpg"></div><div class="card-meta"><span>img-09</span><span>archive</span></div></div></div>
                 <div class="card" data-cat="img1"><div class="card-inner"><div class="card-img-wrapper"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-src="img1/10.jpg" data-full="img1/10.jpg"></div><div class="card-meta"><span>img-10</span><span>archive</span></div></div></div>
                 <div class="card" data-cat="img1"><div class="card-inner"><div class="card-img-wrapper"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-src="img1/11.jpg" data-full="img1/11.jpg"></div><div class="card-meta"><span>img-11</span><span>archive</span></div></div></div>
-                <div class="card" data-cat="img1"><div class="card-inner"><div class="card-img-wrapper"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-src="img1/12.jpg" data-full="img1/12.jpg"></div><div class="card-meta"><span>img-12</span><span>archive</span></div></div></div>
-                <div class="card" data-cat="img1"><div class="card-inner"><div class="card-img-wrapper"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-src="img1/13.jpg" data-full="img1/13.jpg"></div><div class="card-meta"><span>img-13</span><span>archive</span></div></div></div>
-                <div class="card" data-cat="img1"><div class="card-inner"><div class="card-img-wrapper"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-src="img1/14.jpg" data-full="img1/14.jpg"></div><div class="card-meta"><span>img-14</span><span>archive</span></div></div></div>
-                <div class="card" data-cat="img1"><div class="card-inner"><div class="card-img-wrapper"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-src="img1/15.jpg" data-full="img1/15.jpg"></div><div class="card-meta"><span>img-15</span><span>archive</span></div></div></div>
+                <div class="card" data-cat="img1"><div class="card-inner"><div class="card-img-wrapper"><img src="img1/12.jpg" data-full="img1/12.jpg"></div><div class="card-meta"><span>img-12</span><span>archive</span></div></div></div>
+                <div class="card" data-cat="img1"><div class="card-inner"><div class="card-img-wrapper"><img src="img1/13.jpg" data-full="img1/13.jpg"></div><div class="card-meta"><span>img-13</span><span>archive</span></div></div></div>
+                <div class="card" data-cat="img1"><div class="card-inner"><div class="card-img-wrapper"><img src="img1/14.jpg" data-full="img1/14.jpg"></div><div class="card-meta"><span>img-14</span><span>archive</span></div></div></div>
+                <div class="card" data-cat="img1"><div class="card-inner"><div class="card-img-wrapper"><img src="img1/15.jpg" data-full="img1/15.jpg"></div><div class="card-meta"><span>img-15</span><span>archive</span></div></div></div>
                 
                 <div class="card" data-cat="img2"><div class="card-inner"><div class="card-img-wrapper"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-src="img2/16.jpg" data-full="img2/16.jpg"></div><div class="card-meta"><span>img-16</span><span>archive</span></div></div></div>
                 <div class="card" data-cat="img2"><div class="card-inner"><div class="card-img-wrapper"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-src="img2/17.jpg" data-full="img2/17.jpg"></div><div class="card-meta"><span>img-17</span><span>archive</span></div></div></div>
@@ -424,7 +450,7 @@
     </div>
 
     <script>
-        // 1. 移动端汉堡包菜单控制
+        // 1. 移动端菜单逻辑
         const menuBtn = document.getElementById('menuBtn');
         const sidebar = document.getElementById('sidebar');
         const navLinks = document.querySelectorAll('.nav a');
@@ -452,7 +478,7 @@
             }, {passive: true});
         });
 
-        // 3. 弹窗控制（流式按需加载，关闭自动粉碎链路释放运行内存）
+        // 3. 弹窗放大（双阶冷热按需分离提取大图）
         const popup = document.getElementById('imgPopup');
         const bigImg = document.getElementById('bigImg');
         
@@ -460,7 +486,6 @@
             card.addEventListener('click', (e) => {
                 const img = card.querySelector('img');
                 if(img) {
-                    // 如果图片已经加载好，将 data-full 里的高清大图抓取过去
                     bigImg.src = img.dataset.full ? img.dataset.full : img.src;
                     popup.classList.add('active');
                     document.body.style.overflow = 'hidden';
@@ -471,7 +496,7 @@
         popup.addEventListener('click', () => {
             popup.classList.remove('active');
             document.body.style.overflow = '';
-            setTimeout(() => { bigImg.src = ''; }, 400); // 关闭后断开路径清除内存，防手机白屏崩溃
+            setTimeout(() => { bigImg.src = ''; }, 400); 
         }, {passive: true});
 
         // 4. 高性能分批流控 ＋ 平面海报分类检索调度
@@ -512,7 +537,6 @@
                 loadContainer.style.display = 'none';
             }
             
-            // 每次切换分类或点加载更多，触发一次全局懒加载器扫描
             if (typeof window.triggerLazyLoad === 'function') {
                 window.triggerLazyLoad();
             }
@@ -536,21 +560,18 @@
             }, {passive: true});
         });
 
-        // 5. 🎯【突破级流控】全自动化 JS 强力懒加载监听中心
-        // 彻底切断 CSS 瀑布流提前偷跑流量的弊端，保证非可视区完全零请求
+        // 5. 【突破级流控】全自动化 JS 强力懒加载监听中心
         const allLazyImgs = document.querySelectorAll('.content img[data-src]');
         
         const imgObserver = new IntersectionObserver((entries, observer) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
                     const img = entry.target;
-                    
-                    // 只有滑到面前了，才把真实路径塞给 src，开始请求流量
                     img.src = img.dataset.src;
                     
                     const forceShowTimeout = setTimeout(() => {
                         img.classList.add('loaded');
-                    }, 1500); // 极端超时强制线
+                    }, 1500); 
 
                     img.onload = () => {
                         clearTimeout(forceShowTimeout);
@@ -561,19 +582,17 @@
                         img.classList.add('loaded'); 
                     };
                     
-                    // 卸载观察，该图片这辈子只需请求一次
                     observer.unobserve(img);
                 }
             });
         }, { 
             root: null, 
-            rootMargin: '200px 0px 400px 0px', // 提前往下嗅探 400px，保证用户向下滚动时顺滑，不会有生硬的卡顿感
+            rootMargin: '200px 0px 400px 0px', // 提前往下扩展观察视野，确保手机端下拉时无缝衔接
             threshold: 0.01 
         });
 
         window.triggerLazyLoad = function() {
             allLazyImgs.forEach(img => {
-                // 如果父卡片没有被隐藏，且还挂着 data-src，继续激活观察
                 if (!img.closest('.card').classList.contains('hide')) {
                     imgObserver.observe(img);
                 }

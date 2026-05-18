@@ -94,14 +94,14 @@
         .nav a.active{ background: var(--wabi-dark); color: var(--wabi-card); font-weight: 500; }
 
         /* --- 右侧内容区 --- */
-        .content{ margin-left: 280px; padding: 90px 60px; min-height: 100vh; }
+        .content{ margin-left: 280px; padding: 90px 80px; min-height: 100vh; }
         
         /* 流体感滚动复苏显现动画 */
         .reveal {
             opacity: 0;
             transform: translateY(40px) scale(0.99);
-            transition: opacity 1s cubic-bezier(0.215, 0.610, 0.355, 1), transform 1s cubic-bezier(0.215, 0.610, 0.355, 1);
-            margin-bottom: 140px;
+            transition: opacity 1.2s cubic-bezier(0.215, 0.610, 0.355, 1), transform 1.2s cubic-bezier(0.215, 0.610, 0.355, 1);
+            margin-bottom: 160px;
         }
         .reveal.reveal-active { opacity: 1; transform: translateY(0) scale(1); }
 
@@ -109,7 +109,7 @@
             font-size: 20px;
             font-weight: 500;
             color: var(--wabi-dark);
-            margin-bottom: 50px;
+            margin-bottom: 60px;
             letter-spacing: 3px;
             display: flex;
             align-items: center;
@@ -146,88 +146,61 @@
         .video-thumb.active{ background: var(--wabi-dark); color: var(--wabi-card); border-color: var(--wabi-dark); }
 
         /* ==========================================================================
-           【全新布局重构】杂志感纯粹瀑布流风格（无裁剪，自然错落）
+           【重构核心】平面海报板块：高级杂志奢华独立排版（去网格、去外壳、大留白）
            ========================================================================== */
         .gallery { 
-            column-count: 3;    /* 默认分 3 列流动 */
-            column-gap: 40px;   /* 列与列之间的艺术间距 */
-            counter-reset: poster-item; 
+            column-count: 2;     /* 降为极具高级感的 2 列流动，绝不拥挤 */
+            column-gap: 80px;    /* 极宽的列间距，形成天然的呼吸盲区 */
             padding-top: 20px;
         }
         
         .card {
-            break-inside: avoid;   /* 防止单张画作中途被截断分栏 */
-            display: inline-block; /* 允许高度随内容完全自适应 */
+            break-inside: avoid; 
+            display: block; 
             width: 100%;
-            margin-bottom: 50px;   /* 纵向画作卡片之间的落差间距 */
-            counter-increment: poster-item;
-            
-            background: #FAF9F6; 
-            border-radius: 2px;  
-            padding: 16px 16px 45px 16px; /* 精准卡纸双层装裱留白 */
+            margin-bottom: 110px; /* 极深的纵向空隙，让视线一次只聚焦在一张大作上 */
             position: relative;
-            
-            /* 沉静质感的物理纸张投影 */
-            box-shadow: 
-                0 4px 10px rgba(54, 53, 48, 0.02),
-                0 12px 30px rgba(54, 53, 48, 0.04);
-                
             cursor: pointer;
-            transform-style: preserve-3d;
-            perspective: 1000px;
-            transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1), 
-                        box-shadow 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+            background: none;     /* 彻底砍掉多余的白盒子底色 */
+            padding: 0;           /* 砍掉繁琐的内部装裱 */
+            border-radius: 0;
+            border: none;
+            box-shadow: none;
         }
 
         .card img {
             width: 100%;
-            height: auto;        /* 核心：高度完全交由原图物理比例决定，绝对不裁剪 */
+            height: auto;        /* 100% 完整原比例显示 */
             display: block;
-            border-radius: 1px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.03); 
-            transform: translateZ(0px);
-            transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1),
-                        box-shadow 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+            border-radius: 2px;  /* 极其轻微的边缘钝化 */
+            
+            /* 如烟丝般化开的微弱、宽幅扩散阴影，模拟纸张悬浮在墙面上的自然光晕 */
+            box-shadow: 0 30px 70px rgba(54, 53, 48, 0.05); 
+            
+            /* 侘寂融色：静止时带轻微低饱和，使其柔和地长在宣纸网页里，不刺眼 */
+            filter: grayscale(12%) contrast(96%);
+            
+            transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1),
+                        filter 0.8s cubic-bezier(0.16, 1, 0.3, 1),
+                        box-shadow 0.8s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
-        /* 纯CSS高档独立馆藏编码标签 */
-        .card::after {
-            content: "COLL. N° " counter(poster-item, decimal-leading-zero);
-            position: absolute;
-            bottom: 16px;
-            left: 16px;
-            font-family: "Courier New", Courier, monospace;
-            font-size: 11px;
-            letter-spacing: 2px;
-            color: var(--wabi-accent);
-            opacity: 0.6;
-            transform: translateZ(0px);
-            transition: all 0.5s ease;
-        }
-
-        /* 杂志风悬停微动立体视差 */
-        .card:hover {
-            transform: translateY(-6px) rotateX(4deg) rotateY(-3deg);
-            box-shadow: 0 22px 45px rgba(54, 53, 48, 0.07);
-        }
-        
+        /* 触碰交互：褪去灰度，作品悄然唤醒 */
         .card:hover img {
-            transform: translateZ(15px) scale(1.01); 
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.06); 
+            transform: translateY(-6px) scale(1.015); 
+            filter: grayscale(0%) contrast(100%);
+            box-shadow: 0 45px 90px rgba(54, 53, 48, 0.1); /* 投影拉长加深 */
         }
 
-        .card:hover::after {
-            opacity: 1;
-            color: var(--wabi-dark);
-            transform: translateZ(8px);
-        }
+        /* 移除多余的装饰性伪元素 */
+        .card::after { display: none; }
 
         /* --- 磨砂玻璃放大弹窗 --- */
         .img-popup{
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(35, 32, 30, 0.88);
-            backdrop-filter: blur(8px);
+            background: rgba(35, 32, 30, 0.9);
+            backdrop-filter: blur(10px);
             z-index: 99999;
             display: flex; align-items: center; justify-content: center; padding: 20px;
             opacity: 0; visibility: hidden;
@@ -235,23 +208,21 @@
             cursor: zoom-out;
         }
         .img-popup img{
-            max-width: 92%; max-height: 92%; object-fit: contain;
-            border-radius: 4px;
-            transform: scale(0.92);
+            max-width: 94%; max-height: 94%; object-fit: contain;
+            border-radius: 2px;
+            transform: scale(0.94);
             transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
         }
         .img-popup.active{ opacity: 1; visibility: visible; }
         .img-popup.active img { transform: scale(1); }
 
-        .footer{ text-align:center; padding:80px 0 30px; color:var(--wabi-accent); font-size:13px; letter-spacing: 2px; }
+        .footer{ text-align:center; padding:100px 0 40px; color:var(--wabi-accent); font-size:13px; letter-spacing: 2px; }
 
-        /* --- 响应式布局与瀑布流智能自适应升降列 --- */
-        @media (max-width:1200px){
-            .gallery { column-count: 2; column-gap: 30px; }
-        }
+        /* --- 响应式布局 --- */
         @media (max-width:1024px){
             .sidebar{ width: 240px; padding: 40px 20px; }
             .content{ margin-left: 240px; padding: 60px 40px; }
+            .gallery { column-gap: 50px; }
         }
         @media (max-width:768px){
             .menu-btn{ display:flex; }
@@ -261,10 +232,9 @@
             .video-main{ height:260px; }
             .reveal { margin-bottom: 80px; }
             
-            /* 移动端降为单列纵向铺满 */
+            /* 移动端降为最舒适的单列大图 */
             .gallery { column-count: 1; column-gap: 0; }
-            .card { margin-bottom: 35px; padding-bottom: 40px; }
-            .card::after { bottom: 12px; }
+            .card { margin-bottom: 50px; }
         }
     </style>
 </head>
@@ -371,6 +341,9 @@
             <h2 class="section-title">关于我</h2>
             <p style="font-size:16px; font-weight:500; color:var(--wabi-dark); margin-bottom:15px; letter-spacing: 1px;">
                 以视觉为语，融极简意境，于方寸之间雕琢设计本心。
+            </p>
+            <p style="font-size:15px; color:var(--wabi-text); max-width:640px; line-height: 2; letter-spacing: 0.5px;">
+                专注视觉设计、平面海报与动态视频创作。在设计中，我倾向于克制与留白，解构繁琐，寻找材质本真的肌理与温度。坚持侘寂美学理念——于不完美中探寻完整，用心捏造每一份带有呼吸感的视觉作品。
             </p>
         </section>
 

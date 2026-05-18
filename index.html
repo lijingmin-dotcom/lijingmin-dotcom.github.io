@@ -594,3 +594,60 @@
             });
         });
         renderGallery();
+
+        // 5. 【Bug 修复核心】图片渐进式冷启动加载监听器
+        // 关键更正：将原来的选择器拓展为 '.content img' 或 'img'，从而让摄影板块图片也能完美淡入显影
+        const allImgs = document.querySelectorAll('.content img');
+        allImgs.forEach(img => {
+            // 安全阻断防护：若断网或图片路径 404，强行在 1.5 秒后卸载透明遮罩，保证骨架可正常显示
+            const forceShowTimeout = setTimeout(() => {
+                img.classList.add('loaded');
+            }, 1500);
+
+            if (img.complete) {
+                clearTimeout(forceShowTimeout);
+                img.classList.add('loaded');
+            } else {
+                img.onload = () => {
+                    clearTimeout(forceShowTimeout);
+                    img.classList.add('loaded');
+                };
+                img.onerror = () => {
+                    clearTimeout(forceShowTimeout);
+                    img.classList.add('loaded'); // 触发报错占位显示，避免无限隐形
+                };
+            }
+        });
+
+        // 6. 智能监控 (Scrollspy) ＋ 触底秒出关于我高亮
+        const reveals = document.querySelectorAll('.reveal');
+        const globalObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('reveal-active');
+                    const id = entry.target.getAttribute('id');
+                    updateNav(id);
+                }
+            });
+        }, { root: null, rootMargin: '-20% 0px -40% 0px', threshold: 0.05 });
+
+        reveals.forEach(el => globalObserver.observe(el));
+
+        function updateNav(id) {
+            navLinks.forEach(link => {
+                if (link.getAttribute('href') === `#${id}`) {
+                    link.classList.add('active');
+                } else {
+                    link.classList.remove('active');
+                }
+            });
+        }
+
+        window.addEventListener('scroll', () => {
+            if ((window.innerHeight + window.scrollY) >= document.documentElement.scrollHeight - 50) {
+                updateNav('about');
+            }
+        }, { passive: true });
+    </script>
+</body>
+</html>

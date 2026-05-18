@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DESIGN WORKS | 侘寂风设计作品集</title>
+    <title>DESIGN WORKS | 李静敏设计集</title>
     <style>
         /* --- 基础重置与高级侘寂调色盘 --- */
         *{margin:0;padding:0;box-sizing:border-box;}
@@ -27,7 +27,7 @@
             position: relative;
         }
 
-        /* 全屏粗陶/宣纸微弱肌理特技 */
+        /* 全屏粗陶/宣纸微弱肌理 */
         body::before {
             content: "";
             position: fixed;
@@ -145,30 +145,27 @@
         .video-thumb:hover { border-color: var(--wabi-accent); color: var(--wabi-dark); transform: translateY(-2px); }
         .video-thumb.active{ background: var(--wabi-dark); color: var(--wabi-card); border-color: var(--wabi-dark); }
 
-        /* ==========================================================================
-           【重构核心】平面海报板块 - 美术馆实体布展风
-           ========================================================================== */
+        /* --- 平面海报板块（高级画廊实体布展风） --- */
         .gallery{ 
             display:grid; 
             grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); 
-            gap: 70px 45px; /* 增大行距，为错落留出空间 */
-            counter-reset: poster-item; /* 启动画作自动计数器 */
+            gap: 70px 45px; 
+            counter-reset: poster-item; 
             padding-top: 20px;
         }
         
         .card{
             counter-increment: poster-item;
-            background: #FAF9F6; /* 比大背景更纯净一丢丢的卡纸白 */
-            border-radius: 2px;  /* 极其锐利的手工裁切小圆角 */
-            padding: 18px 18px 50px 18px; /* 底部留白加深，形成艺术品装裱的卡纸（Passepartout）比例 */
-            aspect-ratio: 3 / 4.2; /* 经典艺术画框黄金比例 */
+            background: #FAF9F6; 
+            border-radius: 2px;  
+            padding: 18px 18px 50px 18px; /* 底部预留艺术标签留白 */
+            aspect-ratio: 3 / 4.2; 
             height: auto;
             display: flex;
             align-items: center;
             justify-content: center;
             position: relative;
             
-            /* 复合光影：模拟物理画框嵌在墙面上的深浅两层投影 + 内部微弱凹陷 */
             box-shadow: 
                 0 2px 5px rgba(54, 53, 48, 0.02),
                 0 15px 35px rgba(54, 53, 48, 0.05),
@@ -177,30 +174,28 @@
             cursor: pointer;
             overflow: hidden;
             
-            /* 开启3D空间环境 */
             transform-style: preserve-3d;
             perspective: 1200px;
             transition: transform 0.7s cubic-bezier(0.16, 1, 0.3, 1), 
                         box-shadow 0.7s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
-        /* 打破扁平死板！利用CSS让画作产生“高低错落”的不规则无序悬挂感 */
+        /* 错落排布布局 */
         .card:nth-child(2n) { margin-top: 45px; }
         .card:nth-child(3n) { margin-top: -20px; }
 
         .card img{
             width: 100%;
             height: 100%;
-            object-fit: cover; /* 完美裁切贴合框线 */
+            object-fit: contain; /* 改为 contain：确保图片完整展示，绝对不被裁切 */
             border-radius: 1px;
-            /* 画面本身在画框内侧的微阴影 */
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06); 
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04); 
             transform: translateZ(0px);
             transition: transform 0.7s cubic-bezier(0.16, 1, 0.3, 1),
                         box-shadow 0.7s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
-        /* 自动化独立馆藏标签：无需修改HTML，纯CSS注入画廊高档感 */
+        /* 纯CSS独立馆藏编码标签 */
         .card::after {
             content: "COLL. N° " counter(poster-item, decimal-leading-zero);
             position: absolute;
@@ -214,20 +209,18 @@
             transition: all 0.5s ease;
         }
 
-        /* 3D 纵深互动特效 */
+        /* 悬停立体互动 */
         .card:hover{
-            /* 画框整体产生物理倾斜（向右上微微抬起）并向外拔出 */
             transform: translateY(-8px) rotateX(6deg) rotateY(-5deg);
             box-shadow: 
                 0 5px 15px rgba(54, 53, 48, 0.02),
-                0 35px 70px rgba(54, 53, 48, 0.09), /* 影子拉长、变淡、变柔和 */
+                0 35px 70px rgba(54, 53, 48, 0.09), 
                 inset 0 0 15px rgba(226, 221, 213, 0.1);
         }
         
         .card:hover img{
-            /* 核心视差：画面脱离底层卡纸，在3D空间中往前悬浮出来（Z轴位移） */
-            transform: translateZ(25px) scale(1.02);
-            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.12); /* 画作悬空后，投射在底座上的影子加深 */
+            transform: translateZ(25px) scale(1.01); /* 往Z轴拔出，形成微小空气立体感 */
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1); 
         }
 
         .card:hover::after {
@@ -236,7 +229,7 @@
             transform: translateZ(12px);
         }
 
-        /* --- 弹窗 --- */
+        /* --- 磨砂玻璃放大弹窗 --- */
         .img-popup{
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
@@ -249,7 +242,7 @@
             cursor: zoom-out;
         }
         .img-popup img{
-            max-width: 90%; max-height: 90%; object-fit: contain;
+            max-width: 92%; max-height: 92%; object-fit: contain;
             border-radius: 4px;
             transform: scale(0.92);
             transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
@@ -272,7 +265,6 @@
             .video-main{ height:260px; }
             .reveal { margin-bottom: 80px; }
             
-            /* 移动端单列或双列流媒体下，取消错落，保持滑动流畅度 */
             .gallery { gap: 35px 25px; padding-top: 0; }
             .card:nth-child(2n), .card:nth-child(3n) { margin-top: 0; }
             .card { padding-bottom: 40px; }
@@ -299,7 +291,7 @@
         <!-- 首页板块 -->
         <section class="section reveal" id="home" style="min-height: 50vh; display: flex; flex-direction: column; justify-content: center;">
             <h1 style="font-size:36px; font-weight:500; color:var(--wabi-dark); margin-bottom:20px; text-align:center; letter-spacing: 6px;">
-                侘寂风设计作品集
+                李静敏设计集
             </h1>
             <p style="text-align:center; color:var(--wabi-accent); font-size:14px; letter-spacing: 8px; text-transform: uppercase;">
                 Less is more · Natural textures
@@ -387,7 +379,7 @@
         </section>
 
         <div class="footer">
-            © 侘寂风设计作品集 · 原创视觉
+            © 李静敏设计集 · 原创视觉
         </div>
     </div>
 

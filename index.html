@@ -27,14 +27,12 @@
             padding:0 25px;
         }
 
-        /* 顶部立体标题 */
         .header{
             text-align:center;
             padding:80px 0 55px;
             position:relative;
             overflow:hidden;
         }
-
         .header h1{
             font-size:42px;
             color:#3F5A82;
@@ -43,14 +41,12 @@
             margin-bottom:15px;
             text-shadow:0 4px 12px rgba(63,90,130,0.12);
         }
-
         .header p{
             font-size:17px;
             color:#718096;
             letter-spacing:2px;
         }
 
-        /* 分区标题 */
         .title{
             font-size:24px;
             color:#3F5A82;
@@ -59,35 +55,54 @@
             border-left:5px solid #8AA8D0;
             transition:all 0.35s ease;
         }
-
         .title:hover{
             padding-left:28px;
             border-left-color:#4A6692;
         }
 
-        /* 视频样式 */
-        .video-group{
-            display:grid;
-            gap:40px;
-            margin-bottom:50px;
-        }
-
-        .video-group iframe{
+        /* 视频区：主播放+缩略图网格 */
+        .video-show{margin-bottom:30px;}
+        .video-main{
             width:100%;
             height:460px;
-            border:none;
             border-radius:20px;
-            background:#fff;
+            overflow:hidden;
             box-shadow:0 10px 30px rgba(100,130,160,0.13);
-            transition:all 0.4s cubic-bezier(0.165,0.84,0.44,1);
+            margin-bottom:20px;
+        }
+        .video-main iframe{
+            width:100%;
+            height:100%;
+            border:none;
+        }
+        .video-thumbs{
+            display:grid;
+            grid-template-columns:repeat(auto-fill, minmax(280px, 1fr));
+            gap:20px;
+            margin-bottom:50px;
+        }
+        .video-thumb{
+            height:180px;
+            border-radius:12px;
+            overflow:hidden;
+            cursor:pointer;
+            opacity:0.85;
+            transition:all 0.3s ease;
+            box-shadow:0 4px 15px rgba(100,130,160,0.1);
+        }
+        .video-thumb.active{opacity:1;box-shadow:0 0 0 3px #8AA8D0;}
+        .video-thumb:hover{
+            opacity:1;
+            transform:translateY(-5px);
+            box-shadow:0 8px 25px rgba(100,130,160,0.2);
+        }
+        .video-thumb iframe{
+            width:100%;
+            height:100%;
+            border:none;
+            pointer-events:none; /* 防止点击触发原生控制 */
         }
 
-        .video-group iframe:hover{
-            transform:translateY(-12px) scale(1.015);
-            box-shadow:0 22px 50px rgba(100,130,160,0.22);
-        }
-
-        /* 🔥 核心：图片完美居中 + 3D炫酷卡片 */
         .gallery{
             display:grid;
             grid-template-columns:repeat(auto-fill,minmax(270px,1fr));
@@ -95,7 +110,6 @@
             margin-bottom:100px;
         }
 
-        /* 立体卡片 */
         .card{
             height:340px;
             background:#ffffff;
@@ -108,45 +122,34 @@
             transition:all 0.45s cubic-bezier(0.175,0.885,0.32,1.275);
             position:relative;
             overflow:hidden;
+            cursor: pointer;
         }
 
-        /* 图片完美居中（不裁剪、不变形） */
         .card img{
             max-width:100%;
             max-height:100%;
             object-fit:contain;
             display:block;
             transition:all 0.35s ease;
+            border-radius:8px;
         }
 
-        /* 🔥 超级炫酷 3D 效果 */
         .card:hover{
             transform:translateY(-18px) rotateY(4deg) rotateX(4deg);
             box-shadow:0 28px 60px rgba(80,110,140,0.18);
             background:linear-gradient(135deg,#ffffff 0%,#f7f9fc 100%);
         }
-
-        .card:hover img{
-            transform:scale(1.06);
-        }
-
-        /* 流光扫过特效 */
+        .card:hover img{transform:scale(1.06);}
         .card::after{
             content:'';
             position:absolute;
-            top:0;
-            left:-150%;
-            width:100%;
-            height:100%;
+            top:0;left:-150%;
+            width:100%;height:100%;
             background:linear-gradient(90deg,transparent,rgba(138,168,208,0.18),transparent);
             transition:left 0.75s ease;
         }
+        .card:hover::after{left:150%;}
 
-        .card:hover::after{
-            left:150%;
-        }
-
-        /* 底部 */
         .footer{
             text-align:center;
             padding:60px 0;
@@ -155,11 +158,22 @@
             border-top:1px solid #E2E8F0;
             animation: breathe 4s infinite ease-in-out;
         }
+        @keyframes breathe{0%,100%{opacity:0.8;}50%{opacity:1;}}
 
-        @keyframes breathe{
-            0%,100%{opacity:0.8;}
-            50%{opacity:1;}
+        .img-popup{
+            position: fixed;top:0;left:0;
+            width:100%;height:100%;
+            background:rgba(0,0,0,0.85);
+            z-index:9999;
+            display:none;
+            align-items:center;justify-content:center;
+            padding:20px;
         }
+        .img-popup img{
+            max-width:90%;max-height:90%;
+            object-fit:contain;border-radius:6px;
+        }
+        .img-popup.active{display:flex;}
     </style>
 </head>
 
@@ -171,10 +185,23 @@
         </div>
 
         <h2 class="title">动态视频作品</h2>
-        <div class="video-group">
-            <iframe src="//player.bilibili.com/player.html?isOutside=true&aid=116594084681794&bvid=BV1nBLF63EKB&cid=38419038865&p=1" allowfullscreen></iframe>
-            <iframe src="//player.bilibili.com/player.html?isOutside=true&aid=116594084745275&bvid=BV1rBLF63EVK&cid=38419039962&p=1" allowfullscreen></iframe>
-            <iframe src="//player.bilibili.com/player.html?isOutside=true&aid=116594135014244&bvid=BV1euLF6cEff&cid=38419171789&p=1" allowfullscreen></iframe>
+        <div class="video-show">
+            <!-- 主播放区 -->
+            <div class="video-main">
+                <iframe id="mainVideo" src="//player.bilibili.com/player.html?isOutside=true&aid=116594084681794&bvid=BV1nBLF63EKB&cid=38419038865&p=1" allowfullscreen></iframe>
+            </div>
+            <!-- 缩略图列表（一行2-3个） -->
+            <div class="video-thumbs">
+                <div class="video-thumb active" data-src="//player.bilibili.com/player.html?isOutside=true&aid=116594084681794&bvid=BV1nBLF63EKB&cid=38419038865&p=1">
+                    <iframe src="//player.bilibili.com/player.html?isOutside=true&aid=116594084681794&bvid=BV1nBLF63EKB&cid=38419038865&p=1"></iframe>
+                </div>
+                <div class="video-thumb" data-src="//player.bilibili.com/player.html?isOutside=true&aid=116594084745275&bvid=BV1rBLF63EVK&cid=38419039962&p=1">
+                    <iframe src="//player.bilibili.com/player.html?isOutside=true&aid=116594084745275&bvid=BV1rBLF63EVK&cid=38419039962&p=1"></iframe>
+                </div>
+                <div class="video-thumb" data-src="//player.bilibili.com/player.html?isOutside=true&aid=116594135014244&bvid=BV1euLF6cEff&cid=38419171789&p=1">
+                    <iframe src="//player.bilibili.com/player.html?isOutside=true&aid=116594135014244&bvid=BV1euLF6cEff&cid=38419171789&p=1"></iframe>
+                </div>
+            </div>
         </div>
 
         <h2 class="title">平面设计作品集</h2>
@@ -195,7 +222,6 @@
             <div class="card"><img src="img1/13.jpg"></div>
             <div class="card"><img src="img1/14.jpg"></div>
             <div class="card"><img src="img1/15.jpg"></div>
-
             <!-- img2 16-30 -->
             <div class="card"><img src="img2/16.jpg"></div>
             <div class="card"><img src="img2/17.jpg"></div>
@@ -212,7 +238,6 @@
             <div class="card"><img src="img2/28.jpg"></div>
             <div class="card"><img src="img2/29.jpg"></div>
             <div class="card"><img src="img2/30.jpg"></div>
-
             <!-- img3 31-47 -->
             <div class="card"><img src="img3/31.jpg"></div>
             <div class="card"><img src="img3/32.jpg"></div>
@@ -233,9 +258,41 @@
             <div class="card"><img src="img3/47.jpg"></div>
         </div>
 
-        <div class="footer">
-            原创设计作品集 · 用心创作视觉美学
-        </div>
+        <div class="footer">原创设计作品集 · 用心创作视觉美学</div>
     </div>
+
+    <!-- 图片放大弹窗 -->
+    <div class="img-popup" id="imgPopup">
+        <img src="" id="bigImg">
+    </div>
+
+    <script>
+        // 视频切换
+        const thumbs=document.querySelectorAll('.video-thumb');
+        const mainVideo=document.getElementById('mainVideo');
+        thumbs.forEach(thumb => {
+            thumb.addEventListener('click', () => {
+                thumbs.forEach(t => t.classList.remove('active'));
+                thumb.classList.add('active');
+                mainVideo.src=thumb.dataset.src;
+            });
+        });
+
+        // 图片放大
+        const cards=document.querySelectorAll('.card img');
+        const popup=document.getElementById('imgPopup');
+        const bigImg=document.getElementById('bigImg');
+        cards.forEach(item => {
+            item.addEventListener('click', () => {
+                bigImg.src=item.src;
+                popup.classList.add('active');
+                document.body.style.overflow='hidden';
+            });
+        });
+        popup.addEventListener('click', () => {
+            popup.classList.remove('active');
+            document.body.style.overflow='';
+        });
+    </script>
 </body>
 </html>

@@ -158,7 +158,7 @@
             counter-increment: poster-item;
             background: #FAF9F6; 
             border-radius: 2px;  
-            padding: 18px 18px 50px 18px; /* 底部预留艺术标签留白 */
+            padding: 18px 18px 50px 18px; 
             aspect-ratio: 3 / 4.2; 
             height: auto;
             display: flex;
@@ -180,14 +180,13 @@
                         box-shadow 0.7s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
-        /* 错落排布布局 */
         .card:nth-child(2n) { margin-top: 45px; }
         .card:nth-child(3n) { margin-top: -20px; }
 
         .card img{
             width: 100%;
             height: 100%;
-            object-fit: contain; /* 改为 contain：确保图片完整展示，绝对不被裁切 */
+            object-fit: contain; 
             border-radius: 1px;
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04); 
             transform: translateZ(0px);
@@ -195,7 +194,6 @@
                         box-shadow 0.7s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
-        /* 纯CSS独立馆藏编码标签 */
         .card::after {
             content: "COLL. N° " counter(poster-item, decimal-leading-zero);
             position: absolute;
@@ -209,7 +207,6 @@
             transition: all 0.5s ease;
         }
 
-        /* 悬停立体互动 */
         .card:hover{
             transform: translateY(-8px) rotateX(6deg) rotateY(-5deg);
             box-shadow: 
@@ -219,7 +216,7 @@
         }
         
         .card:hover img{
-            transform: translateZ(25px) scale(1.01); /* 往Z轴拔出，形成微小空气立体感 */
+            transform: translateZ(25px) scale(1.01); 
             box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1); 
         }
 
@@ -306,9 +303,9 @@
                     <iframe id="mainVideo" src="//player.bilibili.com/player.html?isOutside=true&aid=116594084681794&bvid=BV1nBLF63EKB&cid=38419038865&p=1" allowfullscreen></iframe>
                 </div>
                 <div class="video-thumbs">
-                    <div class="video-thumb active" data-src="//player.bilibili.com/player.html?isOutside=true&aid=116594084681794&bvid=BV1nBLF63EKB&cid=38419038865&p=1">留白意境 · 壹</div>
-                    <div class="video-thumb" data-src="//player.bilibili.com/player.html?isOutside=true&aid=116594084745275&bvid=BV1rBLF63EVK&cid=38419039962&p=1">光影残缺 · 贰</div>
-                    <div class="video-thumb" data-src="//player.bilibili.com/player.html?isOutside=true&aid=116594135014244&bvid=BV1euLF6cEff&cid=38419171789&p=1">自然纯粹 · 叁</div>
+                    <div class="video-thumb active" data-src="//player.bilibili.com/player.html?isOutside=true&aid=116594084681794&bvid=BV1nBLF63EKB&cid=38419038865&p=1">· 壹</div>
+                    <div class="video-thumb" data-src="//player.bilibili.com/player.html?isOutside=true&aid=116594084745275&bvid=BV1rBLF63EVK&cid=38419039962&p=1">· 貳</div>
+                    <div class="video-thumb" data-src="//player.bilibili.com/player.html?isOutside=true&aid=116594135014244&bvid=BV1euLF6cEff&cid=38419171789&p=1">· 叁</div>
                 </div>
             </div>
         </section>
@@ -373,6 +370,9 @@
         <!-- 关于我 -->
         <section class="section reveal" id="about">
             <h2 class="section-title">关于我</h2>
+            <p style="font-size:16px; font-weight:500; color:var(--wabi-dark); margin-bottom:15px; letter-spacing: 1px;">
+                以视觉为语，融极简意境，于方寸之间雕琢设计本心。
+            </p>
             <p style="font-size:15px; color:var(--wabi-text); max-width:640px; line-height: 2; letter-spacing: 0.5px;">
                 专注视觉设计、平面海报与动态视频创作。在设计中，我倾向于克制与留白，解构繁琐，寻找材质本真的肌理与温度。坚持侘寂美学理念——于不完美中探寻完整，用心捏造每一份带有呼吸感的视觉作品。
             </p>

@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>个人设计作品集</title>
+    <style>
+        *{margin:0;padding:0;box-sizing:border-box;}
+        body{background:#f5f5f5;font-family:微软雅黑;}
+        .wrap{max-width:1200px;margin:0 auto;padding:20px;}
+        .top{text-align:center;padding:40px 0;}
+        .top h1{font-size:30px;color:#222;}
+        .top p{color:#666;margin-top:10px;}
+        .nav{display:flex;justify-content:center;gap:30px;margin:20px 0;}
+        .nav a{text-decoration:none;color:#333;padding:6px 15px;border-radius:20px;background:#eee;}
+        .title{font-size:22px;margin:40px 0 20px;border-left:4px solid #333;padding-left:15px;}
+        .img-list{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:20px;}
+        .img-list img{width:100%;border-radius:6px;box-shadow:0 2px 8px #ccc;}
+        .video-list{display:grid;grid-template-columns:repeat(auto-fill,minmax(380px,1fr));gap:30px;margin:20px 0;}
+        video{width:100%;border-radius:6px;}
+        .foot{text-align:center;margin-top:60px;padding:30px;color:#999;}
+    </style>
+</head>
+<body>
+    <div class="wrap">
+        <div class="top">
+            <h1>我的作品集</h1>
+            <p>视觉设计 | 海报制作 | 动态视频</p>
+        </div>
+        <div class="nav">
+            <a href="#hb">海报作品</a>
+            <a href="#sp">视频作品</a>
+            <a href="#about">个人简介</a>
+        </div>
+
+        <div id="hb">
+            <h2 class="title">海报合集</h2>
+            <div class="img-list">
+                <img src="img/1.jpg" alt="">
+                <img src="img/2.jpg" alt="">
+                <img src="img/3.jpg" alt="">
+            </div>
+        </div>
+
+        <div id="sp">
+            <h2 class="title">视频作品</h2>
+            <div class="video-list">
+                <video controls><source src="video/1.mp4"></video>
+                <video controls><source src="video/2.mp4"></video>
+            </div>
+        </div>
+
+        <div id="about">
+            <h2 class="title">关于我</h2>
+            <p>这里填写你的个人介绍、擅长领域、联系方式</p>
+        </div>
+
+        <div class="foot">
+            个人作品集网站 2026
+        </div>
+    </div>
+</body>
+</html>

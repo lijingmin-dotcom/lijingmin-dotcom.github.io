@@ -4,6 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>DESIGN & PHOTOGRAPHY | 李静敏作品集</title>
+
+    <meta property="og:title" content="李静敏作品集 | DESIGN & PHOTOGRAPHY">
+    <meta property="og:description" content="以视觉为语，融极简意境，于方寸之间雕琢设计本心。">
+    <meta property="og:image" content="img1/1.jpg"> <meta property="og:type" content="website">
+
     <style>
         /* --- 基础重置与轻奢砂岩包豪斯变量 --- */
         *{margin:0;padding:0;box-sizing:border-box;}
@@ -32,7 +37,48 @@
             position: relative;
         }
 
-        /* 亮点一：建筑测绘级 1px 滚动进度轨道 */
+        /* 👑 亮点一：电脑端高精硬件级艺术光标样式 */
+        @media (min-width: 769px) {
+            body { cursor: none !important; }
+            a, button, .card, .video-thumb { cursor: none !important; }
+            .custom-cursor {
+                position: fixed; top: 0; left: 0; width: 6px; height: 6px; 
+                background: var(--text-dark); border-radius: 50%; pointer-events: none; 
+                z-index: 100000; transform: translate(-50%, -50%); 
+                transition: width 0.2s, height 0.2s, background-color 0.2s;
+                will-change: transform;
+            }
+            .custom-cursor-ring {
+                position: fixed; top: 0; left: 0; width: 32px; height: 32px; 
+                border: 1px solid rgba(50, 42, 34, 0.25); border-radius: 50%; pointer-events: none; 
+                z-index: 100000; transform: translate(-50%, -50%); 
+                transition: transform 0.06s cubic-bezier(0.25, 1, 0.5, 1), width 0.2s, height 0.2s, border-color 0.2s;
+                will-change: transform;
+            }
+            body.cursor-hover .custom-cursor { width: 3px; height: 3px; background: #FAF6EE; mix-blend-mode: difference; }
+            body.cursor-hover .custom-cursor-ring { width: 44px; height: 44px; border-color: var(--text-dark); border-width: 1.5px; }
+        }
+
+        /* 👑 亮点三：右键版权卫士——盲雕测绘级浮动警示条 */
+        .copyright-alert {
+            position: fixed; bottom: 35px; left: 50%; transform: translate(-50%, 20px);
+            background: var(--text-dark); color: var(--bg-card); font-family: monospace;
+            font-size: 10px; letter-spacing: 2px; padding: 12px 28px; z-index: 100005;
+            opacity: 0; visibility: hidden; pointer-events: none; text-transform: uppercase;
+            box-shadow: 0 15px 40px rgba(50, 42, 34, 0.2); border: 1px solid rgba(255,255,255,0.08);
+            transition: opacity 0.4s cubic-bezier(0.16, 1, 0.3, 1), transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.4s;
+        }
+        .copyright-alert.active { opacity: 1; visibility: visible; transform: translate(-50%, 0); }
+        
+        /* 艺术级反另存为——卡纸物理暗室闪烁动效 */
+        .flash-effect { animation: galleryFlash 0.45s cubic-bezier(0.25, 1, 0.5, 1); }
+        @keyframes galleryFlash {
+            0% { filter: brightness(1) contrast(1); }
+            40% { filter: brightness(1.35) contrast(0.9) grayscale(1); opacity: 0.4; }
+            100% { filter: brightness(1) contrast(1); }
+        }
+
+        /* 建筑测绘级滚动进度条 */
         .scroll-progress {
             position: fixed; top: 0; left: 280px; right: 0; height: 2px;
             background: var(--text-dark); transform: scaleX(0); transform-origin: left;
@@ -65,7 +111,7 @@
         }
         .nav{ display: flex; flex-direction: column; gap: 4px; }
         
-        /* 亮点四：字间距动能呼吸交互导航 */
+        /* 字间距动能呼吸导航 */
         .nav a{
             padding: 14px 20px; text-decoration: none; color: var(--text-muted);
             font-size: 13px; text-align: left; letter-spacing: 3px; font-weight: 500; 
@@ -76,10 +122,9 @@
             background: var(--text-dark); transition: width 0.4s cubic-bezier(0.16, 1, 0.3, 1);
         }
         .nav a:hover{ 
-            color: var(--text-dark); padding-left: 28px; 
-            letter-spacing: 5px; /* 间距顺滑拉伸 */
+            color: var(--text-dark); padding-left: 28px; letter-spacing: 5px; 
         }
-        .nav a:hover::after { width: 35px; } /* 盲雕横线动态画出 */
+        .nav a:hover::after { width: 35px; } 
         
         .nav a.active{ color: var(--text-dark); font-weight: 700; background: var(--bg-canvas); }
         .nav a.active::before {
@@ -90,7 +135,7 @@
         /* --- 右侧内容观展区 --- */
         .content{ margin-left: 280px; padding: 100px 60px; min-height: 100vh; position: relative; }
         
-        /* 亮点二：环境随动数字化柔灯幕布 */
+        /* 环境随动柔灯光幕 */
         .content::before {
             content: ''; position: fixed; top: 0; left: 280px; right: 0; height: 100vh;
             background: radial-gradient(550px circle at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(250,246,238,0.38), transparent 80%);
@@ -102,8 +147,7 @@
         .reveal {
             opacity: 0; transform: translateY(15px);
             transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1), transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
-            margin-bottom: 140px; 
-            position: relative; z-index: 2; /* 确保图层在光幕之上，文字更清晰 */
+            margin-bottom: 140px; position: relative; z-index: 2; 
         }
         .reveal.reveal-active { opacity: 1; transform: translateY(0); }
 
@@ -131,7 +175,6 @@
         .video-thumb:hover { border-color: var(--text-dark); color: var(--text-dark); }
         .video-thumb.active{ background: var(--text-dark); color: var(--bg-card); border-color: var(--text-dark); }
 
-
         /* ==========================================================================
            【基建标准】平面海报网格与自适应弹性流
            ========================================================================== */
@@ -158,7 +201,7 @@
         }
         .card.hide { display: none !important; }
 
-        /* 亮点三：四角自适应相机视窗“对焦准心锁定”物理指标 */
+        /* 相机对焦锁定框 */
         .card::before, .card::after {
             content: ''; position: absolute; width: 12px; height: 12px;
             opacity: 0.25; pointer-events: none; z-index: 3;
@@ -166,8 +209,6 @@
         }
         .card::before { top: -5px; left: -5px; border-top: 1px solid var(--text-dark); border-left: 1px solid var(--text-dark); }
         .card::after { bottom: -5px; right: -5px; border-bottom: 1px solid var(--text-dark); border-right: 1px solid var(--text-dark); }
-
-        /* 悬停瞬间：四角准心利落外弹并产生高级微旋偏转 */
         .card:hover::before { top: -12px; left: -12px; transform: rotate(-45deg); border-color: var(--text-dark); opacity: 1; }
         .card:hover::after { bottom: -12px; right: -12px; transform: rotate(-45deg); border-color: var(--text-dark); opacity: 1; }
 
@@ -196,14 +237,14 @@
         }
         .card-meta::before { content: '┼'; font-size: 8px; }
 
-        .card:hover .card-inner { 
+        .gallery .card:hover .card-inner { 
             border-color: var(--text-dark); transform: translateY(-6px); 
             box-shadow: 0 20px 40px rgba(50, 42, 34, 0.06); 
         }
 
 
         /* ==========================================================================
-           【大河排版】摄影图集：12列不规则“蜿蜒大河”编排（左右错落激荡流动）
+           【顶尖编排】摄影图集：12列不规则“蜿蜒大河”布局体系
            ========================================================================== */
         #photoGrid {
             display: grid;
@@ -281,6 +322,11 @@
 </head>
 
 <body>
+
+    <div class="custom-cursor" id="cDot"></div>
+    <div class="custom-cursor-ring" id="cRing"></div>
+
+    <div class="copyright-alert" id="copyAlert">[ PROTECTED ARCHIVE // 版权所有 拒绝复制 ]</div>
 
     <div class="scroll-progress" id="progressRail"></div>
 
@@ -439,10 +485,6 @@
         </div>
     </div>
 
-    <div class="img-popup" id="imgPopup">
-        <img src="" id="bigImg" alt="作品放大预览">
-    </div>
-
     <script>
         // 1. 移动端菜单逻辑
         const menuBtn = document.getElementById('menuBtn');
@@ -555,7 +597,7 @@
 
 
         // ==========================================================================
-        // 5. 【极限优化】：真实异步惰性拦截懒加载机制
+        // 5. 【极限优化核心】：真实异步惰性拦截懒加载机制
         // ==========================================================================
         let lazyObserver;
         
@@ -594,12 +636,14 @@
 
 
         // ==========================================================================
-        // ✨ 新增亮点亮点脚本：建筑测绘滚动条 ＋ 环境随动粒子暗光
+        // ✨ 高阶微动态：测绘进度条 ＋ 环境随动光轴 ＋ 👑 数字化硬件光标 ＋ 👑 右键防护
         // ==========================================================================
         const progressRail = document.getElementById('progressRail');
         const viewCanvas = document.getElementById('viewCanvas');
+        const cDot = document.getElementById('cDot');
+        const cRing = document.getElementById('cRing');
 
-        // 亮点一：测绘进度条核心滚动计算
+        // 1. 滚动条物理深度换算
         window.addEventListener('scroll', () => {
             const totalScroll = document.documentElement.scrollHeight - window.innerHeight;
             if (totalScroll > 0) {
@@ -607,24 +651,66 @@
                 progressRail.style.transform = `scaleX(${scrolledFraction})`;
             }
             
-            // 触底自动激活侧边栏关于我高亮
             if ((window.innerHeight + window.scrollY) >= document.documentElement.scrollHeight - 50) {
                 updateNav('about');
             }
         });
 
-        // 亮点二：数字化氛围微光随鼠标坐标更新
-        if (window.innerWidth > 768) {
-            window.addEventListener('mousemove', (e) => {
+        // 2. 硬件光标坐标随动与环境随动光幕复合计算 (GPU 加速)
+        window.addEventListener('mousemove', (e) => {
+            if (window.innerWidth > 768) {
                 const rect = viewCanvas.getBoundingClientRect();
-                // 实时换算相对于右侧观展区的物理偏移百分比
                 const x = e.clientX - rect.left;
                 const y = e.clientY - rect.top;
                 viewCanvas.style.setProperty('--mouse-x', `${x}px`);
                 viewCanvas.style.setProperty('--mouse-y', `${y}px`);
-            });
+                
+                if (cDot && cRing) {
+                    cDot.style.transform = `translate3d(${e.clientX}px, ${e.clientY}px, 0)`;
+                    cRing.style.transform = `translate3d(${e.clientX}px, ${e.clientY}px, 0)`;
+                }
+            }
+        });
+
+        // 3. 智能捕获所有可交互实体进行光标“锁定对焦”响应
+        if (window.innerWidth > 768 && cDot && cRing) {
+            function updateCursorScanners() {
+                const targets = document.querySelectorAll('a, button, .card, .video-thumb');
+                targets.forEach(el => {
+                    el.removeEventListener('mouseenter', addCursorHover);
+                    el.removeEventListener('mouseleave', removeCursorHover);
+                    el.addEventListener('mouseenter', addCursorHover);
+                    el.addEventListener('mouseleave', removeCursorHover);
+                });
+            }
+            function addCursorHover() { document.body.classList.add('cursor-hover'); }
+            function removeCursorHover() { document.body.classList.remove('cursor-hover'); }
+            updateCursorScanners();
         }
 
+        // 👑 4. 右键防盗防盗刷＋暗室闪烁警示机制
+        window.addEventListener('contextmenu', (e) => {
+            const clickedCard = e.target.closest('.card') || e.target.closest('video');
+            if (clickedCard) {
+                e.preventDefault(); // 强行斩断系统右键菜单
+                
+                // 抓取衬板并触发硬件级闪烁
+                const cardInner = clickedCard.querySelector('.card-inner') || clickedCard;
+                cardInner.classList.remove('flash-effect');
+                void cardInner.offsetWidth; // 强制触发浏览器重绘重绘
+                cardInner.classList.add('flash-effect');
+                
+                // 顺滑弹出版权提示
+                const alertEl = document.getElementById('copyAlert');
+                if (alertEl) {
+                    alertEl.classList.add('active');
+                    clearTimeout(window.alertTimeout);
+                    window.alertTimeout = setTimeout(() => {
+                        alertEl.classList.remove('active');
+                    }, 2200);
+                }
+            }
+        });
 
         // 6. 智能监控 (Scrollspy)
         let mobileMargin = window.innerWidth > 768 ? '-20% 0px -40% 0px' : '0px 0px -10% 0px';

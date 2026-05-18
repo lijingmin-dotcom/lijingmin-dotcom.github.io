@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>创意设计作品集 | 视觉展示</title>
+    <style>
+        *{margin:0;padding:0;box-sizing:border-box;}
+        html{scroll-behavior:smooth;}
+        
+        body{
+            background: linear-gradient(135deg, #F8FAFC 0%, #EFF4F9 100%);
+            font-family: "PingFang SC","Microsoft YaHei",sans-serif;
+            color:#4A5568;
+            min-height:100vh;
+            animation: pageIn 1.1s ease;
+        }
+
+        @keyframes pageIn{
+            0%{opacity:0;transform:translateY(30px);}
+            100%{opacity:1;transform:translateY(0);}
+        }
+
+        .container{
+            max-width:1380px;
+            margin:0 auto;
+            padding:0 25px;
+        }
+
+        /* 顶部立体标题 */
+        .header{
+            text-align:center;
+            padding:80px 0 55px;
+            position:relative;
+            overflow:hidden;
+        }
+
+        .header h1{
+            font-size:42px;
+            color:#3F5A82;
+            letter-spacing:8px;
+            font-weight:500;
+            margin-bottom:15px;
+            text-shadow:0 4px 12px rgba(63,90,130,0.12);
+        }
+
+        .header p{
+            font-size:17px;
+            color:#718096;
+            letter-spacing:2px;
+        }
+
+        /* 分区标题 */
+        .title{
+            font-size:24px;
+            color:#3F5A82;
+            margin:70px 0 35px;
+            padding-left:20px;
+            border-left:5px solid #8AA8D0;
+            transition:all 0.35s ease;
+        }
+
+        .title:hover{
+            padding-left:28px;
+            border-left-color:#4A6692;
+        }
+
+        /* 视频样式 */
+        .video-group{
+            display:grid;
+            gap:40px;
+            margin-bottom:50px;
+        }
+
+        .video-group iframe{
+            width:100%;
+            height:460px;
+            border:none;
+            border-radius:20px;
+            background:#fff;
+            box-shadow:0 10px 30px rgba(100,130,160,0.13);
+            transition:all 0.4s cubic-bezier(0.165,0.84,0.44,1);
+        }
+
+        .video-group iframe:hover{
+            transform:translateY(-12px) scale(1.015);
+            box-shadow:0 22px 50px rgba(100,130,160,0.22);
+        }
+
+        /* 🔥 核心：图片完美居中 + 3D炫酷卡片 */
+        .gallery{
+            display:grid;
+            grid-template-columns:repeat(auto-fill,minmax(270px,1fr));
+            gap:32px;
+            margin-bottom:100px;
+        }
+
+        /* 立体卡片 */
+        .card{
+            height:340px;
+            background:#ffffff;
+            border-radius:22px;
+            padding:20px;
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            box-shadow:0 8px 25px rgba(80,110,140,0.08);
+            transition:all 0.45s cubic-bezier(0.175,0.885,0.32,1.275);
+            position:relative;
+            overflow:hidden;
+        }
+
+        /* 图片完美居中（不裁剪、不变形） */
+        .card img{
+            max-width:100%;
+            max-height:100%;
+            object-fit:contain;
+            display:block;
+            transition:all 0.35s ease;
+        }
+
+        /* 🔥 超级炫酷 3D 效果 */
+        .card:hover{
+            transform:translateY(-18px) rotateY(4deg) rotateX(4deg);
+            box-shadow:0 28px 60px rgba(80,110,140,0.18);
+            background:linear-gradient(135deg,#ffffff 0%,#f7f9fc 100%);
+        }
+
+        .card:hover img{
+            transform:scale(1.06);
+        }
+
+        /* 流光扫过特效 */
+        .card::after{
+            content:'';
+            position:absolute;
+            top:0;
+            left:-150%;
+            width:100%;
+            height:100%;
+            background:linear-gradient(90deg,transparent,rgba(138,168,208,0.18),transparent);
+            transition:left 0.75s ease;
+        }
+
+        .card:hover::after{
+            left:150%;
+        }
+
+        /* 底部 */
+        .footer{
+            text-align:center;
+            padding:60px 0;
+            color:#8798B0;
+            font-size:15px;
+            border-top:1px solid #E2E8F0;
+            animation: breathe 4s infinite ease-in-out;
+        }
+
+        @keyframes breathe{
+            0%,100%{opacity:0.8;}
+            50%{opacity:1;}
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>DESIGN WORKS</h1>
+            <p>创意视觉 · 平面海报 · 动态设计 · 原创作品</p>
+        </div>
+
+        <h2 class="title">动态视频作品</h2>
+        <div class="video-group">
+            <iframe src="//player.bilibili.com/player.html?isOutside=true&aid=116594084681794&bvid=BV1nBLF63EKB&cid=38419038865&p=1" allowfullscreen></iframe>
+            <iframe src="//player.bilibili.com/player.html?isOutside=true&aid=116594084745275&bvid=BV1rBLF63EVK&cid=38419039962&p=1" allowfullscreen></iframe>
+            <iframe src="//player.bilibili.com/player.html?isOutside=true&aid=116594135014244&bvid=BV1euLF6cEff&cid=38419171789&p=1" allowfullscreen></iframe>
+        </div>
+
+        <h2 class="title">平面设计作品集</h2>
+        <div class="gallery">
+            <!-- img1 1-15 -->
+            <div class="card"><img src="img1/1.jpg"></div>
+            <div class="card"><img src="img1/2.jpg"></div>
+            <div class="card"><img src="img1/3.jpg"></div>
+            <div class="card"><img src="img1/4.jpg"></div>
+            <div class="card"><img src="img1/5.jpg"></div>
+            <div class="card"><img src="img1/6.jpg"></div>
+            <div class="card"><img src="img1/7.jpg"></div>
+            <div class="card"><img src="img1/8.jpg"></div>
+            <div class="card"><img src="img1/9.jpg"></div>
+            <div class="card"><img src="img1/10.jpg"></div>
+            <div class="card"><img src="img1/11.jpg"></div>
+            <div class="card"><img src="img1/12.jpg"></div>
+            <div class="card"><img src="img1/13.jpg"></div>
+            <div class="card"><img src="img1/14.jpg"></div>
+            <div class="card"><img src="img1/15.jpg"></div>
+
+            <!-- img2 16-30 -->
+            <div class="card"><img src="img2/16.jpg"></div>
+            <div class="card"><img src="img2/17.jpg"></div>
+            <div class="card"><img src="img2/18.jpg"></div>
+            <div class="card"><img src="img2/19.jpg"></div>
+            <div class="card"><img src="img2/20.jpg"></div>
+            <div class="card"><img src="img2/21.jpg"></div>
+            <div class="card"><img src="img2/22.jpg"></div>
+            <div class="card"><img src="img2/23.jpg"></div>
+            <div class="card"><img src="img2/24.jpg"></div>
+            <div class="card"><img src="img2/25.jpg"></div>
+            <div class="card"><img src="img2/26.jpg"></div>
+            <div class="card"><img src="img2/27.jpg"></div>
+            <div class="card"><img src="img2/28.jpg"></div>
+            <div class="card"><img src="img2/29.jpg"></div>
+            <div class="card"><img src="img2/30.jpg"></div>
+
+            <!-- img3 31-47 -->
+            <div class="card"><img src="img3/31.jpg"></div>
+            <div class="card"><img src="img3/32.jpg"></div>
+            <div class="card"><img src="img3/33.jpg"></div>
+            <div class="card"><img src="img3/34.jpg"></div>
+            <div class="card"><img src="img3/35.jpg"></div>
+            <div class="card"><img src="img3/36.jpg"></div>
+            <div class="card"><img src="img3/37.jpg"></div>
+            <div class="card"><img src="img3/38.jpg"></div>
+            <div class="card"><img src="img3/39.jpg"></div>
+            <div class="card"><img src="img3/40.jpg"></div>
+            <div class="card"><img src="img3/41.jpg"></div>
+            <div class="card"><img src="img3/42.jpg"></div>
+            <div class="card"><img src="img3/43.jpg"></div>
+            <div class="card"><img src="img3/44.jpg"></div>
+            <div class="card"><img src="img3/45.jpg"></div>
+            <div class="card"><img src="img3/46.jpg"></div>
+            <div class="card"><img src="img3/47.jpg"></div>
+        </div>
+
+        <div class="footer">
+            原创设计作品集 · 用心创作视觉美学
+        </div>
+    </div>
+</body>
+</html>

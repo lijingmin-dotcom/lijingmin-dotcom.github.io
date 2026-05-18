@@ -3,34 +3,48 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DESIGN WORKS | 侘寂风设计作品集</title>
+    <title>DESIGN WORKS | 李静敏设计作品集</title>
     <style>
-        /* --- 基础重置与侘寂风核心变量 --- */
+        /* --- 基础重置与高级侘寂调色盘 --- */
         *{margin:0;padding:0;box-sizing:border-box;}
         html{scroll-behavior:smooth;}
 
         :root {
-            --wabi-bg: #F4F1EA;       /* 大地原色：宣纸/粗沙般的底色 */
-            --wabi-card: #FAF8F5;     /* 器物素白：柔和微暖 */
-            --wabi-text: #3A3530;     /* 炭黑：沉静不刺眼 */
-            --wabi-light: #E6E1DA;    /* 陶器缝隙灰 */
-            --wabi-accent: #8A7E72;   /* 枯木/苔藓灰 */
-            --wabi-dark: #2A2622;     /* 深炭 */
+            --wabi-bg: #F2EFE9;       /* 宣纸落灰：带有一点粗糙质感的大地色 */
+            --wabi-card: #FAF8F5;     /* 素胚陶器白 */
+            --wabi-text: #36322E;     /* 烧炭黑 */
+            --wabi-light: #E2DDD5;    /* 砂砾灰 */
+            --wabi-accent: #85796D;   /* 枯木苔藓 */
+            --wabi-dark: #23201E;     /* 深黛 */
         }
 
         body{
             background: var(--wabi-bg);
-            font-family: "PingFang SC", "Noto Serif SC", "-apple-system", sans-serif;
+            font-family: "PingFang SC", "Noto Serif SC", sans-serif;
             color: var(--wabi-text);
             line-height: 1.8;
             -webkit-font-smoothing: antialiased;
+            position: relative;
         }
 
-        /* --- 移动端汉堡按钮（融入背景） --- */
+        /* 【特效一：全屏粗陶/宣纸肌理】
+           利用动态生成的SVG噪点，让整个网页覆盖一层像纸张或水泥墙面般的微弱纹理 
+        */
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0; left: 0; width: 100vw; height: 100vh;
+            opacity: 0.04; /* 极其微弱，只有隐约的质感 */
+            pointer-events: none;
+            z-index: 99999;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+        }
+
+        /* --- 移动端汉堡按钮（优雅微动） --- */
         .menu-btn{
             position: fixed;
             top: 20px;
-            right: 20px; /* 移到右侧更符合右手操作习惯 */
+            right: 20px;
             width: 48px;
             height: 48px;
             background: var(--wabi-card);
@@ -41,252 +55,190 @@
             justify-content: center;
             font-size: 20px;
             color: var(--wabi-text);
-            box-shadow: 0 4px 12px rgba(0,0,0,0.03);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.02);
             z-index: 9999;
             cursor: pointer;
-            transition: all 0.3s ease;
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
         }
-        .menu-btn:active { transform: scale(0.95); }
+        .menu-btn:hover { transform: scale(1.05); border-color: var(--wabi-accent); }
 
-        /* --- 左侧固定导航栏（增加呼吸感） --- */
+        /* --- 左侧侧边栏 --- */
         .sidebar{
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 280px;
-            height: 100vh;
+            top: 0; left: 0; width: 280px; height: 100vh;
             background: var(--wabi-card);
             border-right: 1px solid var(--wabi-light);
             padding: 60px 40px;
             z-index: 999;
-            transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+            transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
         }
         .sidebar .logo{
-            font-size: 20px;
+            font-size: 18px;
             font-weight: 600;
             color: var(--wabi-dark);
-            letter-spacing: 4px;
+            letter-spacing: 6px;
             margin-bottom: 60px;
             text-align: center;
-            position: relative;
+            text-transform: uppercase;
         }
-        .sidebar .logo::after {
-            content: '';
-            position: absolute;
-            bottom: -15px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 15px;
-            height: 1px;
-            background: var(--wabi-accent);
-        }
-        .nav{
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-        }
+        .nav{ display: flex; flex-direction: column; gap: 8px; }
         .nav a{
             padding: 12px 20px;
             text-decoration: none;
             color: var(--wabi-accent);
             border-radius: 8px;
-            transition: all 0.3s ease;
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
             font-size: 14px;
             text-align: center;
-            letter-spacing: 1px;
+            letter-spacing: 2px;
+            position: relative;
         }
-        .nav a:hover{
-            background: var(--wabi-bg);
-            color: var(--wabi-dark);
-        }
+        .nav a:hover{ color: var(--wabi-dark); background: var(--wabi-bg); }
         .nav a.active{
-            background: var(--wabi-accent);
+            background: var(--wabi-dark);
             color: var(--wabi-card);
             font-weight: 500;
         }
 
         /* --- 右侧内容区 --- */
-        .content{
-            margin-left: 280px;
-            padding: 80px 60px;
-            min-height: 100vh;
+        .content{ margin-left: 280px; padding: 90px 60px; min-height: 100vh; }
+        
+        /* 【特效二：流体感滚动复苏】
+           默认隐藏，当JS监听到滚动到可视区域时，激活 .reveal-active 类 
+        */
+        .reveal {
+            opacity: 0;
+            transform: translateY(40px) scale(0.99);
+            transition: opacity 1s cubic-bezier(0.215, 0.610, 0.355, 1), transform 1s cubic-bezier(0.215, 0.610, 0.355, 1);
+            margin-bottom: 140px;
         }
-        .section{
-            margin-bottom: 120px;
-            opacity: 0; /* 用于入场动画效果 */
-            transform: translateY(20px);
-            animation: fadeInSection 0.8s forwards cubic-bezier(0.25, 1, 0.5, 1);
-        }
-        @keyframes fadeInSection {
-            to { opacity: 1; transform: translateY(0); }
-        }
-        .section-title{
-            font-size: 22px;
-            font-weight: 500;
-            color: var(--wabi-dark);
-            margin-bottom: 40px;
-            letter-spacing: 2px;
-            display: flex;
-            align-items: center;
-            gap: 15px;
-        }
-        .section-title::after {
-            content: '';
-            flex: 1;
-            height: 1px;
-            background: var(--wabi-light);
+        .reveal.reveal-active {
+            opacity: 1;
+            transform: translateY(0) scale(1);
         }
 
-        /* --- 视频区域优化 --- */
+        .section-title{
+            font-size: 20px;
+            font-weight: 500;
+            color: var(--wabi-dark);
+            margin-bottom: 50px;
+            letter-spacing: 3px;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+        .section-title::after { content: ''; flex: 1; height: 1px; background: var(--wabi-light); }
+
+        /* --- 视频交互区 --- */
         .video-show{ margin-bottom:30px; }
         .video-main{
             width:100%;
-            height:500px;
+            height:520px;
             border-radius:12px;
             overflow:hidden;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.02);
-            margin-bottom:24px;
+            box-shadow: 0 20px 40px rgba(54,50,46,0.03);
+            margin-bottom:28px;
             background: #000;
+            border: 1px solid var(--wabi-light);
         }
         .video-main iframe{ width:100%; height:100%; border:none; }
-        
-        /* 极简文本式切换标签，杜绝多iframe卡顿 */
-        .video-thumbs{
-            display: flex;
-            gap: 12px;
-            flex-wrap: wrap;
-        }
+        .video-thumbs{ display: flex; gap: 14px; flex-wrap: wrap; }
         .video-thumb{
-            padding: 12px 24px;
+            padding: 12px 26px;
             background: var(--wabi-card);
             border: 1px solid var(--wabi-light);
-            border-radius: 6px;
+            border-radius: 30px; /* 胶囊圆角，更有现代排版感 */
             cursor: pointer;
             font-size: 13px;
             color: var(--wabi-accent);
-            transition: all 0.3s ease;
+            letter-spacing: 1px;
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
         }
-        .video-thumb:hover {
-            border-color: var(--wabi-accent);
-            color: var(--wabi-dark);
-        }
-        .video-thumb.active{
-            background: var(--wabi-dark);
-            color: var(--wabi-card);
-            border-color: var(--wabi-dark);
-        }
+        .video-thumb:hover { border-color: var(--wabi-accent); color: var(--wabi-dark); transform: translateY(-2px); }
+        .video-thumb.active{ background: var(--wabi-dark); color: var(--wabi-card); border-color: var(--wabi-dark); }
 
-        /* --- 图片画廊（自然低调的光影） --- */
-        .gallery{
-            display:grid;
-            grid-template-columns:repeat(auto-fill, minmax(280px, 1fr));
-            gap:32px;
-        }
+        /* --- 图片画廊 --- */
+        .gallery{ display:grid; grid-template-columns:repeat(auto-fill, minmax(280px, 1fr)); gap:32px; }
+        
+        /* 【特效三：温润器物悬停特效】 */
         .card{
-            height:340px;
+            height:360px;
             background: var(--wabi-card);
-            border-radius:12px;
-            padding:24px;
+            border-radius:16px;
+            padding:28px;
             display:flex;
             align-items:center;
             justify-content:center;
             border: 1px solid var(--wabi-light);
-            transition: all 0.5s cubic-bezier(0.25, 1, 0.5, 1);
+            /* 使用工业级的缓动曲线，让鼠标滑过时的动画丝滑、厚重 */
+            transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1), 
+                        border-color 0.6s cubic-bezier(0.16, 1, 0.3, 1), 
+                        box-shadow 0.6s cubic-bezier(0.16, 1, 0.3, 1);
             cursor: pointer;
-            overflow: hidden; /* 防止图片放大溢出 */
+            overflow: hidden;
         }
         .card img{
             max-width:100%;
             max-height:100%;
             object-fit:contain;
             border-radius:4px;
-            transition: transform 0.5s cubic-bezier(0.25, 1, 0.5, 1);
+            transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
         }
         .card:hover{
-            transform: translateY(-6px);
+            transform: translateY(-8px);
             border-color: var(--wabi-accent);
-            box-shadow: 0 15px 35px rgba(58, 53, 48, 0.04);
+            /* 模拟自然光照产生的环境虚光影 */
+            box-shadow: 0 25px 50px rgba(54, 53, 48, 0.05);
         }
         .card:hover img{
-            transform: scale(1.04);
+            transform: scale(1.05); /* 轻微放大 */
         }
 
-        /* --- 丝滑图片放大弹窗 --- */
+        /* --- 弹窗特效优化 --- */
         .img-popup{
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(42, 38, 34, 0.85); /* 带有暖色调的暗色幕布 */
-            backdrop-filter: blur(4px);
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(35, 32, 30, 0.88);
+            backdrop-filter: blur(8px); /* 磨砂玻璃特效 */
             z-index: 99999;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 20px;
-            opacity: 0;
-            visibility: hidden;
-            transition: opacity 0.4s ease, visibility 0.4s ease;
+            display: flex; align-items: center; justify-content: center; padding: 20px;
+            opacity: 0; visibility: hidden;
+            transition: opacity 0.5s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.5s cubic-bezier(0.16, 1, 0.3, 1);
             cursor: zoom-out;
         }
         .img-popup img{
-            max-width: 90%;
-            max-height: 90%;
-            object-fit: contain;
-            border-radius: 6px;
-            transform: scale(0.9);
-            transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+            max-width: 90%; max-height: 90%; object-fit: contain;
+            border-radius: 4px;
+            transform: scale(0.92);
+            transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
         }
-        /* 激活状态 */
-        .img-popup.active{
-            opacity: 1;
-            visibility: visible;
-        }
-        .img-popup.active img {
-            transform: scale(1);
-        }
+        .img-popup.active{ opacity: 1; visibility: visible; }
+        .img-popup.active img { transform: scale(1); }
 
-        .footer{
-            text-align:center;
-            padding:60px 0 20px;
-            color:var(--wabi-accent);
-            font-size:13px;
-            letter-spacing: 1px;
-        }
+        .footer{ text-align:center; padding:80px 0 30px; color:var(--wabi-accent); font-size:13px; letter-spacing: 2px; }
 
-        /* --- 响应式细节优化 --- */
+        /* --- 响应式布局 --- */
         @media (max-width:1024px){
             .sidebar{ width: 240px; padding: 40px 20px; }
             .content{ margin-left: 240px; padding: 60px 40px; }
         }
-
         @media (max-width:768px){
             .menu-btn{ display:flex; }
-            .sidebar{
-                transform: translateX(-100%);
-                box-shadow: 10px 0 30px rgba(0,0,0,0.05);
-                width: 260px;
-            }
+            .sidebar{ transform: translateX(-100%); box-shadow: 10px 0 30px rgba(0,0,0,0.03); width: 260px; }
             .sidebar.show{ transform: translateX(0); }
-            .content{
-                margin-left: 0;
-                padding: 80px 24px 40px;
-            }
-            .video-main{ height:240px; }
-            .gallery{ gap: 20px; }
-            .card{ height: 280px; }
+            .content{ margin-left: 0; padding: 80px 24px 40px; }
+            .video-main{ height:260px; }
+            .reveal { margin-bottom: 80px; }
         }
     </style>
 </head>
 
 <body>
-    <!-- 移动端汉堡菜单 -->
+
     <button class="menu-btn" id="menuBtn">☰</button>
 
-    <!-- 左侧固定导航栏 -->
     <div class="sidebar" id="sidebar">
-        <div class="logo">WABI·SABI</div>
+        <div class="logo">Wabi·Sabi</div>
         <div class="nav" id="navLinks">
             <a href="#home" class="active">首页</a>
             <a href="#video">动态视频</a>
@@ -295,45 +247,33 @@
         </div>
     </div>
 
-    <!-- 右侧内容区 -->
     <div class="content">
-        <!-- 首页 -->
-        <section class="section" id="home" style="min-height: 40vh; display: flex; flex-direction: column; justify-content: center;">
-            <h1 style="font-size:32px; font-weight:500; color:var(--wabi-dark); margin-bottom:20px; text-align:center; letter-spacing: 4px;">
+        <section class="section reveal" id="home" style="min-height: 50vh; display: flex; flex-direction: column; justify-content: center;">
+            <h1 style="font-size:36px; font-weight:500; color:var(--wabi-dark); margin-bottom:20px; text-align:center; letter-spacing: 6px;">
                 侘寂风设计作品集
             </h1>
-            <p style="text-align:center; color:var(--wabi-accent); font-size:14px; letter-spacing: 6px; text-transform: uppercase;">
-                Wabi Sabi · Aesthetic · Portfolio
+            <p style="text-align:center; color:var(--wabi-accent); font-size:14px; letter-spacing: 8px; text-transform: uppercase;">
+                Less is more · Natural textures
             </p>
         </section>
 
-        <!-- 动态视频作品 -->
-        <section class="section" id="video">
+        <section class="section reveal" id="video">
             <h2 class="section-title">动态视频作品</h2>
             <div class="video-show">
                 <div class="video-main">
                     <iframe id="mainVideo" src="//player.bilibili.com/player.html?isOutside=true&aid=116594084681794&bvid=BV1nBLF63EKB&cid=38419038865&p=1" allowfullscreen></iframe>
                 </div>
-                <!-- 优化后的控制标签 -->
                 <div class="video-thumbs">
-                    <div class="video-thumb active" data-src="//player.bilibili.com/player.html?isOutside=true&aid=116594084681794&bvid=BV1nBLF63EKB&cid=38419038865&p=1">
-                        视觉呈现篇 · 01
-                    </div>
-                    <div class="video-thumb" data-src="//player.bilibili.com/player.html?isOutside=true&aid=116594084745275&bvid=BV1rBLF63EVK&cid=38419039962&p=1">
-                        概念意境篇 · 02
-                    </div>
-                    <div class="video-thumb" data-src="//player.bilibili.com/player.html?isOutside=true&aid=116594135014244&bvid=BV1euLF6cEff&cid=38419171789&p=1">
-                        光影叙事篇 · 03
-                    </div>
+                    <div class="video-thumb active" data-src="//player.bilibili.com/player.html?isOutside=true&aid=116594084681794&bvid=BV1nBLF63EKB&cid=38419038865&p=1">· 壹</div>
+                    <div class="video-thumb" data-src="//player.bilibili.com/player.html?isOutside=true&aid=116594084745275&bvid=BV1rBLF63EVK&cid=38419039962&p=1">· 贰</div>
+                    <div class="video-thumb" data-src="//player.bilibili.com/player.html?isOutside=true&aid=116594135014244&bvid=BV1euLF6cEff&cid=38419171789&p=1">· 叁</div>
                 </div>
             </div>
         </section>
 
-        <!-- 平面海报（全部加入 loading="lazy" 性能大提升） -->
-        <section class="section" id="poster">
+        <section class="section reveal" id="poster">
             <h2 class="section-title">平面设计作品</h2>
             <div class="gallery">
-                <!-- img1 -->
                 <div class="card"><img src="img1/1.jpg" loading="lazy"></div>
                 <div class="card"><img src="img1/2.jpg" loading="lazy"></div>
                 <div class="card"><img src="img1/3.jpg" loading="lazy"></div>
@@ -349,7 +289,6 @@
                 <div class="card"><img src="img1/13.jpg" loading="lazy"></div>
                 <div class="card"><img src="img1/14.jpg" loading="lazy"></div>
                 <div class="card"><img src="img1/15.jpg" loading="lazy"></div>
-                <!-- img2 -->
                 <div class="card"><img src="img2/16.jpg" loading="lazy"></div>
                 <div class="card"><img src="img2/17.jpg" loading="lazy"></div>
                 <div class="card"><img src="img2/18.jpg" loading="lazy"></div>
@@ -365,7 +304,6 @@
                 <div class="card"><img src="img2/28.jpg" loading="lazy"></div>
                 <div class="card"><img src="img2/29.jpg" loading="lazy"></div>
                 <div class="card"><img src="img2/30.jpg" loading="lazy"></div>
-                <!-- img3 -->
                 <div class="card"><img src="img3/31.jpg" loading="lazy"></div>
                 <div class="card"><img src="img3/32.jpg" loading="lazy"></div>
                 <div class="card"><img src="img3/33.jpg" loading="lazy"></div>
@@ -386,11 +324,10 @@
             </div>
         </section>
 
-        <!-- 关于我 -->
-        <section class="section" id="about">
+        <section class="section reveal" id="about">
             <h2 class="section-title">关于我</h2>
             <p style="font-size:15px; color:var(--wabi-text); max-width:640px; line-height: 2; letter-spacing: 0.5px;">
-                专注视觉设计、平面海报与动态视频创作。在设计中，我倾向于克制与留白，解构繁琐，寻找材质本真的肌理与温度。坚持侘寂美学理念——于不完美中探寻完整，用心捏造每一份带有呼吸感的视觉作品。
+                以视觉为语，融极简意境，于方寸之间雕琢设计本心。
             </p>
         </section>
 
@@ -399,13 +336,12 @@
         </div>
     </div>
 
-    <!-- 弹窗部分 -->
     <div class="img-popup" id="imgPopup">
         <img src="" id="bigImg" alt="作品放大预览">
     </div>
 
     <script>
-        // 1. 移动端菜单切换与自动收起
+        // 1. 移动端菜单逻辑
         const menuBtn = document.getElementById('menuBtn');
         const sidebar = document.getElementById('sidebar');
         const navLinks = document.querySelectorAll('.nav a');
@@ -414,8 +350,6 @@
             sidebar.classList.toggle('show');
             e.stopPropagation();
         });
-
-        // 点击页面其他地方或点击链接后自动收起
         document.addEventListener('click', () => sidebar.classList.remove('show'));
         navLinks.forEach(link => {
             link.addEventListener('click', () => sidebar.classList.remove('show'));
@@ -432,7 +366,7 @@
             });
         });
 
-        // 3. 丝滑图片放大
+        // 3. 磨砂玻璃放大弹窗
         const cards = document.querySelectorAll('.card img');
         const popup = document.getElementById('imgPopup');
         const bigImg = document.getElementById('bigImg');
@@ -445,23 +379,21 @@
                 e.stopPropagation();
             });
         });
-
         popup.addEventListener('click', () => {
             popup.classList.remove('active');
             document.body.style.overflow = '';
         });
 
-        // 4. 智能滚动监听 (Scrollspy) -> 高效低耗能
-        const sections = document.querySelectorAll('.section');
-        const observerOptions = {
-            root: null,
-            rootMargin: '-30% 0px -60% 0px', // 精准锁定当前视口核心区域的Section
-            threshold: 0
-        };
-
-        const observer = new IntersectionObserver((entries) => {
+        // 4. 双重智能监听：流体显现动画 (Reveal) + 菜单智能高亮 (Scrollspy)
+        const reveals = document.querySelectorAll('.reveal');
+        
+        const globalObserver = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
+                // 触发淡入动画
                 if (entry.isIntersecting) {
+                    entry.target.classList.add('reveal-active');
+                    
+                    // 同步高亮左侧导航
                     const id = entry.target.getAttribute('id');
                     navLinks.forEach(link => {
                         if (link.getAttribute('href') === `#${id}`) {
@@ -472,9 +404,13 @@
                     });
                 }
             });
-        }, observerOptions);
+        }, {
+            root: null,
+            rootMargin: '-20% 0px -40% 0px', // 当板块滚动进入中间黄金视口时触发
+            threshold: 0.05
+        });
 
-        sections.forEach(section => observer.observe(section));
+        reveals.forEach(el => globalObserver.observe(el));
     </script>
 </body>
 </html>

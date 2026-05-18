@@ -149,7 +149,7 @@
 
 
         /* ==========================================================================
-           【基建标准】平面海报：紧凑型 4 列自适应瀑布流网格
+           【基建基础】平面海报：紧凑型 4 列自适应瀑布流网格
            ========================================================================== */
         .filter-menu {
             display: flex;
@@ -180,7 +180,7 @@
             position: relative;
         }
         
-        .card {
+        .gallery .card {
             break-inside: avoid; 
             display: block; 
             width: 100%;
@@ -191,18 +191,18 @@
             border: none;
         }
         
-        .card.hide { display: none !important; }
+        .gallery .card.hide { display: none !important; }
 
-        .card::before, .card::after {
+        .gallery .card::before, .gallery .card::after {
             content: ''; position: absolute; width: 12px; height: 12px;
             transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
             opacity: 0.25; pointer-events: none;
             z-index: 3;
         }
-        .card::before { top: -5px; left: -5px; border-top: 1px solid var(--text-dark); border-left: 1px solid var(--text-dark); }
-        .card::after { bottom: -5px; right: -5px; border-bottom: 1px solid var(--text-dark); border-right: 1px solid var(--text-dark); }
+        .gallery .card::before { top: -5px; left: -5px; border-top: 1px solid var(--text-dark); border-left: 1px solid var(--text-dark); }
+        .gallery .card::after { bottom: -5px; right: -5px; border-bottom: 1px solid var(--text-dark); border-right: 1px solid var(--text-dark); }
 
-        .card-inner {
+        .gallery .card-inner {
             width: 100%; height: auto; display: flex; flex-direction: column;
             background: var(--bg-card); border: 1px solid var(--line-light);
             padding: 10px 10px 38px 10px; position: relative;
@@ -210,32 +210,32 @@
             transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
-        .card-img-wrapper { width: 100%; height: auto; display: block; }
+        .gallery .card-img-wrapper { width: 100%; height: auto; display: block; }
 
-        .card img {
+        .gallery .card img {
             width: 100%; height: auto; display: block;
             filter: grayscale(5%) sepia(3%) contrast(98%);
             opacity: 0;
             transition: opacity 0.4s ease, transform 0.5s cubic-bezier(0.16, 1, 0.3, 1), filter 0.5s cubic-bezier(0.16, 1, 0.3, 1);
         }
-        .card img.loaded { opacity: 1; }
+        .gallery .card img.loaded { opacity: 1; }
 
-        .card-meta {
+        .gallery .card-meta {
             position: absolute; bottom: 10px; left: 12px; right: 12px;
             display: flex; justify-content: space-between; align-items: center;
             font-family: monospace; font-size: 9px; letter-spacing: 1.5px;
             color: var(--text-muted); border-top: 1px solid rgba(50, 42, 34, 0.05);
             padding-top: 6px; text-transform: uppercase;
         }
-        .card-meta::before { content: '┼'; font-size: 8px; }
+        .gallery .card-meta::before { content: '┼'; font-size: 8px; }
 
-        .card:hover .card-inner { 
+        .gallery .card:hover .card-inner { 
             border-color: var(--text-dark); transform: translateY(-6px); 
             box-shadow: 0 20px 40px rgba(50, 42, 34, 0.06); 
         }
-        .card:hover::before { top: -10px; left: -10px; opacity: 1; }
-        .card:hover::after { bottom: -10px; right: -10px; opacity: 1; }
-        .card:hover img { filter: grayscale(0%) sepia(0%) contrast(100%); }
+        .gallery .card:hover::before { top: -10px; left: -10px; opacity: 1; }
+        .gallery .card:hover::after { bottom: -10px; right: -10px; opacity: 1; }
+        .gallery .card:hover img { filter: grayscale(0%) sepia(0%) contrast(100%); }
 
         .load-container { display: flex; justify-content: center; margin-top: 60px; }
         .load-more-btn {
@@ -247,32 +247,111 @@
 
 
         /* ==========================================================================
-           【全新顶级视觉】摄影图集：高级独立影展 · 12列非对称网格拼贴矩阵
+           【硬核高精重构】摄影图集：光学镜头组非对称矩阵（圆形透镜流 ＋ HUD Viewfinder 刻度）
            ========================================================================== */
         #photoGrid {
             display: grid;
-            grid-template-columns: repeat(12, 1fr); /* 核心：升级为 12 列底层控制轨 */
-            gap: 140px 40px; /* 纵向超开阔呼吸间距 */
-            column-count: auto; /* 覆盖清除原先的瀑布流配置 */
+            grid-template-columns: repeat(4, 1fr); /* 完美的 4 列光学排版主轴 */
+            gap: 70px 50px; 
+            column-count: auto; /* 清除瀑布流 */
         }
         
         #photoGrid .card {
+            aspect-ratio: 1 / 1; /* 强制容器为绝对正方形，保障内部圆环的完美比例 */
             margin-bottom: 0;
             break-inside: auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
         }
 
-        /* 🎬 运用黄金非对称韵律：精准编排32张图的跨度与对齐位置 */
-        #photoGrid .card:nth-child(8n+1) { grid-column: 1 / span 5; }  /* 左侧沉稳主力块 */
-        #photoGrid .card:nth-child(8n+2) { grid-column: 7 / span 6; margin-top: 100px; } /* 右侧大幅延展块并下移 */
-        #photoGrid .card:nth-child(8n+3) { grid-column: 2 / span 4; margin-top: -40px; }  /* 孤立紧凑缩进块 */
-        #photoGrid .card:nth-child(8n+4) { grid-column: 7 / span 5; }  /* 右侧精细块 */
-        #photoGrid .card:nth-child(8n+5) { grid-column: 1 / span 7; padding-right: 6%; } /* 宽幅横展片 */
-        #photoGrid .card:nth-child(8n+6) { grid-column: 9 / span 4; margin-top: -80px; }  /* 右侧悬空挑起块 */
-        #photoGrid .card:nth-child(8n+7) { grid-column: 3 / span 6; margin-top: 40px; }   /* 核心居中视觉块 */
-        #photoGrid .card:nth-child(8n+8) { grid-column: 10 / span 3; align-self: end; }   /* 右下角悬挂句点 */
+        /* 🪐 运用行星轨道组物理缩放与不规则偏移，制造多层落差的高级感 */
+        #photoGrid .card:nth-child(4n+1) { transform: scale(1.0); margin-top: 0px; }
+        #photoGrid .card:nth-child(4n+2) { transform: scale(0.85); margin-top: 50px; }
+        #photoGrid .card:nth-child(4n+3) { transform: scale(0.95); margin-top: -30px; }
+        #photoGrid .card:nth-child(4n+4) { transform: scale(0.78); margin-top: 70px; }
+
+        /* 升级为双重防差物理内嵌圆环 */
+        #photoGrid .card-inner {
+            width: 100%; height: 100%;
+            border-radius: 50%; /* 绝对纯圆矩阵 */
+            padding: 8px; /* 极具格调的镜头外壁环形缓冲缝隙 */
+            background: var(--bg-card);
+            border: 1px solid var(--line-light);
+            overflow: hidden;
+            position: relative;
+            box-shadow: 0 10px 35px rgba(50, 42, 34, 0.03);
+            transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        #photoGrid .card-img-wrapper {
+            width: 100%; height: 100%;
+            border-radius: 50%; /* 内衬圆环 */
+            overflow: hidden;
+            position: relative;
+        }
+
+        #photoGrid .card img {
+            width: 100%; height: 100%;
+            object-fit: cover; /* 完美、纯粹的圆形构图画面捕捉 */
+            filter: grayscale(8%) sepia(3%) contrast(97%);
+            opacity: 0;
+            transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        #photoGrid .card img.loaded { opacity: 1; }
+
+        /* 🛠️ 重构： Viewfinder 相机测光表 HUD 悬停动态浮雕 */
+        #photoGrid .card-meta {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background: rgba(50, 42, 34, 0); /* 隐藏 */
+            color: #FAF6EE;
+            font-family: monospace;
+            font-size: 10px;
+            letter-spacing: 1.5px;
+            border-top: none;
+            padding-top: 0;
+            opacity: 0;
+            pointer-events: none;
+            z-index: 5;
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        /* 取消之前的侧边细线 */
+        #photoGrid .card-meta::before { display: none; }
+        #photoGrid .card-meta span { 
+            margin: 3px 0; 
+            transform: translateY(12px); 
+            transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1); 
+        }
+
+        /* 🛸 顶奢画廊镜头交互：内壁悬空扩张 ＋ HUD 极速唤醒 */
+        #photoGrid .card:hover .card-inner {
+            border-color: var(--text-dark);
+            transform: scale(1.04); /* 圆环向外微扩张 */
+            box-shadow: 0 25px 50px rgba(50, 42, 34, 0.12);
+        }
+        #photoGrid .card:hover img {
+            transform: scale(1.08); /* 图片产生微微向镜头内嵌透视的推镜头效果 */
+            filter: grayscale(0%) sepia(0%) contrast(100%);
+        }
+        #photoGrid .card:hover .card-meta {
+            background: rgba(50, 42, 34, 0.68); /* 沉降一层高级暗调滤镜，确保参数极易辨识 */
+            opacity: 1;
+        }
+        #photoGrid .card:hover .card-meta span {
+            transform: translateY(0);
+        }
+
+        /* 隐藏四角 L 型线条标（圆形矩阵不需要刚性直角，保持纯圆形美学） */
+        #photoGrid .card::before, #photoGrid .card::after { display: none !important; }
 
 
-        /* --- 磨砂玻璃放大弹窗 --- */
+        /* --- 磨砂卡纸放大弹窗 --- */
         .img-popup{
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: rgba(42, 38, 34, 0.93); backdrop-filter: blur(12px);
@@ -281,7 +360,7 @@
             cursor: zoom-out;
         }
         .img-popup img{
-            max-width: 92%; max-height: 92%; object-fit: contain;
+            max-width: 92%; max-height: 92%; object-fit: contain; /* 核心：点击放大时，依然 100% 还原展示完整的长方形/正方形原图，不漏掉任何构图细节 */
             border: 1px solid rgba(255, 255, 255, 0.15); box-shadow: 0 30px 70px rgba(0,0,0,0.3);
             transform: scale(0.95); transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
         }
@@ -294,18 +373,17 @@
             border-top: 1px dashed var(--text-dark); text-transform: uppercase;
         }
 
-        /* --- 响应式降维：保护中小屏幕下的极限排版 --- */
+        /* --- 响应式降维：保护中小屏幕下的圆形矩阵比例 --- */
         @media (max-width:1400px) { 
-            #photoGrid { grid-template-columns: repeat(3, 1fr); gap: 60px 30px; } 
-            #photoGrid .card:nth-child(n) { grid-column: auto !important; margin-top: 0 !important; padding: 0 !important; }
-            #photoGrid .card:nth-child(3n+2) { margin-top: 40px !important; }
+            .gallery { column-count: 3; gap: 24px; } 
+            #photoGrid { grid-template-columns: repeat(3, 1fr); gap: 40px; }
+            #photoGrid .card:nth-child(n) { transform: scale(1) !important; margin-top: 0 !important; }
         }
         @media (max-width:1100px) {
             .sidebar{ width: 240px; padding: 40px 20px; }
             .content{ margin-left: 240px; padding: 80px 30px; }
-            #photoGrid { grid-template-columns: repeat(2, 1fr); gap: 50px 24px; }
-            #photoGrid .card:nth-child(n) { margin-top: 0 !important; }
-            #photoGrid .card:nth-child(even) { margin-top: 35px !important; }
+            .gallery { column-count: 2; gap: 20px; }
+            #photoGrid { grid-template-columns: repeat(2, 1fr); gap: 30px; }
         }
         @media (max-width:768px) {
             .menu-btn{ display:flex; }
@@ -315,9 +393,8 @@
             .video-main{ height:260px; }
             .reveal { margin-bottom: 80px; }
             .gallery { column-count: 1; gap: 24px; }
-            /* 手机端抹平一切偏移，回归单列绝对清晰流 */
-            #photoGrid { grid-template-columns: 1fr; gap: 40px; }
-            #photoGrid .card:nth-child(n) { margin-top: 0 !important; }
+            /* 手机端平铺 */
+            #photoGrid { grid-template-columns: 1fr; gap: 30px; }
         }
     </style>
 </head>
@@ -511,7 +588,7 @@
             });
         });
 
-        // 3. 画廊全局弹窗放大预览控制面板
+        // 3. 画廊全局弹窗放大预览控制面板（圆图放大时，依然 100% 还原展现高清长方形原貌）
         const popup = document.getElementById('imgPopup');
         const bigImg = document.getElementById('bigImg');
         document.querySelectorAll('.card').forEach(card => {

@@ -145,12 +145,10 @@
         .video-thumb:hover { border-color: var(--wabi-accent); color: var(--wabi-dark); transform: translateY(-2px); }
         .video-thumb.active{ background: var(--wabi-dark); color: var(--wabi-card); border-color: var(--wabi-dark); }
 
-        /* ==========================================================================
-           【重构核心】平面海报板块：高级杂志奢华独立排版（去网格、去外壳、大留白）
-           ========================================================================== */
+        /* --- 平面海报板块：高级杂志奢华独立排版 --- */
         .gallery { 
-            column-count: 2;     /* 降为极具高级感的 2 列流动，绝不拥挤 */
-            column-gap: 80px;    /* 极宽的列间距，形成天然的呼吸盲区 */
+            column-count: 2;     
+            column-gap: 80px;    
             padding-top: 20px;
         }
         
@@ -158,11 +156,11 @@
             break-inside: avoid; 
             display: block; 
             width: 100%;
-            margin-bottom: 110px; /* 极深的纵向空隙，让视线一次只聚焦在一张大作上 */
+            margin-bottom: 110px; 
             position: relative;
             cursor: pointer;
-            background: none;     /* 彻底砍掉多余的白盒子底色 */
-            padding: 0;           /* 砍掉繁琐的内部装裱 */
+            background: none;     
+            padding: 0;           
             border-radius: 0;
             border: none;
             box-shadow: none;
@@ -170,14 +168,10 @@
 
         .card img {
             width: 100%;
-            height: auto;        /* 100% 完整原比例显示 */
+            height: auto;        
             display: block;
-            border-radius: 2px;  /* 极其轻微的边缘钝化 */
-            
-            /* 如烟丝般化开的微弱、宽幅扩散阴影，模拟纸张悬浮在墙面上的自然光晕 */
+            border-radius: 2px;  
             box-shadow: 0 30px 70px rgba(54, 53, 48, 0.05); 
-            
-            /* 侘寂融色：静止时带轻微低饱和，使其柔和地长在宣纸网页里，不刺眼 */
             filter: grayscale(12%) contrast(96%);
             
             transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1),
@@ -185,15 +179,11 @@
                         box-shadow 0.8s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
-        /* 触碰交互：褪去灰度，作品悄然唤醒 */
         .card:hover img {
             transform: translateY(-6px) scale(1.015); 
             filter: grayscale(0%) contrast(100%);
-            box-shadow: 0 45px 90px rgba(54, 53, 48, 0.1); /* 投影拉长加深 */
+            box-shadow: 0 45px 90px rgba(54, 53, 48, 0.1); 
         }
-
-        /* 移除多余的装饰性伪元素 */
-        .card::after { display: none; }
 
         /* --- 磨砂玻璃放大弹窗 --- */
         .img-popup{
@@ -231,8 +221,6 @@
             .content{ margin-left: 0; padding: 80px 24px 40px; }
             .video-main{ height:260px; }
             .reveal { margin-bottom: 80px; }
-            
-            /* 移动端降为最舒适的单列大图 */
             .gallery { column-count: 1; column-gap: 0; }
             .card { margin-bottom: 50px; }
         }
@@ -279,7 +267,7 @@
             </div>
         </section>
 
-        <!-- 平面海报板块（极致纯粹瀑布流） -->
+        <!-- 平面海报板块 -->
         <section class="section reveal" id="poster">
             <h2 class="section-title">平面设计作品</h2>
             <div class="gallery">
@@ -339,11 +327,11 @@
         <!-- 关于我 -->
         <section class="section reveal" id="about">
             <h2 class="section-title">关于我</h2>
-            <p style="font-size:16px; font-weight:500; color:var(--wabi-dark); margin-bottom:15px; letter-spacing: 1px;">
+            <p style="font-size:18px; font-weight:500; color:var(--wabi-dark); margin-bottom:15px; letter-spacing: 1.5px; line-height: 1.6;">
                 以视觉为语，融极简意境，于方寸之间雕琢设计本心。
             </p>
-            <p style="font-size:15px; color:var(--wabi-text); max-width:640px; line-height: 2; letter-spacing: 0.5px;">
-                专注视觉设计、平面海报与动态视频创作。在设计中，我倾向于克制与留白，解构繁琐，寻找材质本真的肌理与温度。坚持侘寂美学理念——于不完美中探寻完整，用心捏造每一份带有呼吸感的视觉作品。
+            <p style="font-size:14px; color:var(--wabi-accent); max-width:640px; line-height: 2; letter-spacing: 1px;">
+                专注视觉设计 · 平面海报 · 动态视频创作
             </p>
         </section>
 

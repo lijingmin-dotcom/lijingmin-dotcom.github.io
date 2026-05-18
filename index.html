@@ -9,7 +9,7 @@
         @font-face {
             font-family: 'Noto Serif SC';
             src: local('Source Han Serif CN'), local('Noto Serif CJK SC');
-            font-display: swap; /* 文字无延迟即刻渲染，杜绝大字体包下载期间的隐形闪烁 (FOIT) */
+            font-display: swap; 
         }
 
         /* --- 基础重置与轻奢砂岩包豪斯变量 --- */
@@ -24,6 +24,9 @@
             --line-solid: #322A22;    /* 刚性结构线 */
             --line-light: #D6CDBF;    /* 墙面测绘辅助线 */
             --line-grid: rgba(50, 42, 34, 0.04); /* 隐约的全局工程网格 */
+            
+            /* 🚀 本版重构核心：引入工业级高定级缓动曲线，前半段极其敏锐，后半段细腻柔和平滑 */
+            --cb-gallery: cubic-bezier(0.16, 1, 0.3, 1);
         }
 
         body{
@@ -41,21 +44,19 @@
 
         /* --- 核心显影防护与GPU硬加速一体化 --- */
         .content img {
-            will-change: transform, opacity, filter; /* 激活 GPU 加速硬件图层，防止手机端滚动掉帧 */
+            will-change: transform, opacity, filter; /* 激活 GPU 硬件渲染管线，杜绝由于动效引起的手机滑动掉帧 */
         }
         .content img.loaded { 
-            opacity: 1 !important; /* 核心修复：加重状态权重，确保图片100%显影 */
+            opacity: 1 !important; 
         }
 
-        /* ==========================================================================
-           【🎨 核心安全防护重构】全站图片高级防盗与物理防下载锁定
-           ========================================================================== */
+        /* --- 全站图片高级物理防盗隔离 --- */
         .content img, 
         #bigImg {
-            pointer-events: none;         /* 核心防盗：让图片对鼠标交互“隐形”，直接免疫右键点击与左键拖拽 */
-            -webkit-touch-callout: none;  /* 移动端锁死：全线禁用 iOS/Android 手机端长按弹出“保存图片”系统菜单 */
-            -webkit-user-select: none;    /* 禁用系统手势选中图片框 */
-            user-select: none;            /* 禁止任何形式的物理选定 */
+            pointer-events: none;         /* 让图片对鼠标右键、左键拖拽物理级失效 */
+            -webkit-touch-callout: none;  /* 强行锁死智能手机端长按弹出保存菜单的系统底层行为 */
+            -webkit-user-select: none;    
+            user-select: none;            
         }
 
         /* --- 移动端汉堡按钮 --- */
@@ -71,7 +72,7 @@
             position: fixed; top: 0; left: 0; width: 280px; height: 100vh;
             background: var(--bg-card); border-right: 1px solid var(--line-light);
             padding: 80px 40px; z-index: 999;
-            transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+            transition: transform 0.6s var(--cb-gallery);
         }
         .sidebar::after {
             content: ''; position: absolute; top: 0; right: 5px; width: 1px; height: 100%;
@@ -86,21 +87,29 @@
         .nav a{
             padding: 14px 20px; text-decoration: none; color: var(--text-muted);
             font-size: 13px; text-align: left; letter-spacing: 3px; font-weight: 500; position: relative;
-            transition: color 0.4s cubic-bezier(0.16, 1, 0.3, 1), padding-left 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            transition: color 0.4s var(--cb-gallery), padding-left 0.4s var(--cb-gallery);
         }
         .nav a:hover{ color: var(--text-dark); padding-left: 26px; }
-        .nav a.active{ color: var(--text-dark); font-weight: 700; background: var(--bg-canvas); }
-        .nav a.active::before {
-            content: ''; position: absolute; left: 0; top: 0; width: 2px; height: 100%;
+        
+        /* 🚀 亮点动效一：侧边栏导航线实现“刚性线条生长”动效 */
+        .nav a::before {
+            content: ''; position: absolute; left: 0; top: 0; width: 2px; height: 0; /* 初始高度为0 */
             background: var(--line-solid);
+            transition: height 0.4s var(--cb-gallery); /* 线性刚性向下生长 */
+        }
+        .nav a.active{ color: var(--text-dark); font-weight: 700; background: var(--bg-canvas); }
+        .nav a:hover::before,
+        .nav a.active::before {
+            height: 100%; /* 触发条件生长锁定 */
         }
 
         /* --- 右侧主观内容区 --- */
         .content{ margin-left: 280px; padding: 100px 60px; min-height: 100vh; }
         
+        /* 🚀 亮点动效二：页面向下滚动时，内容板块如建筑般平稳滑行沉降落成 */
         .reveal {
-            opacity: 0; transform: translateY(20px); margin-bottom: 140px; 
-            transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+            opacity: 0; transform: translateY(30px); margin-bottom: 140px; 
+            transition: opacity 1s var(--cb-gallery), transform 1s var(--cb-gallery);
         }
         .reveal.reveal-active { opacity: 1; transform: translateY(0); }
 
@@ -148,9 +157,10 @@
         .gallery .card { break-inside: avoid; display: block; width: 100%; margin-bottom: 35px; position: relative; cursor: pointer; }
         .gallery .card.hide { display: none !important; }
 
+        /* 🚀 亮点动效三：测绘线框在悬停时实现“机械咬合、咬紧”物理动效（海报与摄影通用） */
         .card::before, .card::after {
             content: ''; position: absolute; width: 12px; height: 12px; opacity: 0.25; pointer-events: none; z-index: 3;
-            transition: top 0.4s ease, left 0.4s ease, right 0.4s ease, bottom 0.4s ease, opacity 0.4s ease;
+            transition: top 0.4s var(--cb-gallery), left 0.4s var(--cb-gallery), right 0.4s var(--cb-gallery), bottom 0.4s var(--cb-gallery), opacity 0.4s var(--cb-gallery);
         }
         .card::before { top: -5px; left: -5px; border-top: 1px solid var(--text-dark); border-left: 1px solid var(--text-dark); }
         .card::after { bottom: -5px; right: -5px; border-bottom: 1px solid var(--text-dark); border-right: 1px solid var(--text-dark); }
@@ -160,23 +170,19 @@
             background: var(--bg-card); border: 1px solid var(--line-light);
             padding: 10px 10px 38px 10px; position: relative;
             box-shadow: 0 6px 20px rgba(50, 42, 34, 0.02), 0 1px 2px rgba(50, 42, 34, 0.01);
-            transition: border-color 0.5s ease, transform 0.5s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.5s ease;
+            transition: border-color 0.4s ease, transform 0.5s var(--cb-gallery), box-shadow 0.5s ease;
             will-change: transform, box-shadow;
         }
-
-        /* 🛠️ 核心修改：全面开启双轴弹性对齐，让图片在任何分辨率下横竖绝对居中 */
+        
         .card-img-wrapper { 
             width: 100%; min-height: 120px; position: relative; background: rgba(50, 42, 34, 0.02); 
-            display: flex;          /* 开启 Flexbox */
-            align-items: center;    /* 垂直方向绝对居中 */
-            justify-content: center;/* 水平方向绝对居中 */
-            overflow: hidden;
+            display: flex; align-items: center; justify-content: center; overflow: hidden;
         }
 
         .card img {
             max-width: 100%; height: auto; display: block; margin: 0 auto;
             filter: grayscale(5%) sepia(3%) contrast(98%); opacity: 0;
-            transition: opacity 0.4s ease, transform 0.5s cubic-bezier(0.16, 1, 0.3, 1), filter 0.5s ease;
+            transition: opacity 0.4s ease, transform 0.5s var(--cb-gallery), filter 0.5s ease;
         }
 
         .gallery .card-meta {
@@ -188,9 +194,10 @@
         }
         .gallery .card-meta::before { content: '┼'; font-size: 8px; }
 
+        /* 触发机械向内咬合收缩状态线 */
         .gallery .card:hover .card-inner { border-color: var(--text-dark); transform: translateY(-6px); box-shadow: 0 20px 40px rgba(50, 42, 34, 0.06); }
-        .gallery .card:hover::before { top: -10px; left: -10px; opacity: 1; }
-        .gallery .card:hover::after { bottom: -10px; right: -10px; opacity: 1; }
+        .gallery .card:hover::before { top: 1px; left: 1px; opacity: 1; }   /* 从边界-5px向内咬合紧缩至1px */
+        .gallery .card:hover::after { bottom: 1px; right: 1px; opacity: 1; } /* 从边界-5px向内咬合紧缩至1px */
         .gallery .card:hover img { filter: grayscale(0%) sepia(0%) contrast(100%); }
 
 
@@ -200,9 +207,10 @@
         .photo-gallery-masonry { column-count: 3; column-gap: 40px; position: relative; }
         .photo-gallery-masonry .card { break-inside: avoid; display: block; width: 100%; margin-bottom: 40px; position: relative; cursor: pointer; }
 
+        /* 摄影栏目同样继承咬合对框标记线 */
         .photo-gallery-masonry .card::before, .photo-gallery-masonry .card::after {
             content: ''; position: absolute; width: 12px; height: 12px; opacity: 0.25; pointer-events: none; z-index: 3;
-            transition: top 0.4s ease, left 0.4s ease, right 0.4s ease, bottom 0.4s ease, opacity 0.4s ease;
+            transition: top 0.4s var(--cb-gallery), left 0.4s var(--cb-gallery), right 0.4s var(--cb-gallery), bottom 0.4s var(--cb-gallery), opacity 0.4s var(--cb-gallery);
         }
         .photo-gallery-masonry .card::before { top: -5px; left: -5px; border-top: 1px solid var(--text-dark); border-left: 1px solid var(--text-dark); }
         .photo-gallery-masonry .card::after { bottom: -5px; right: -5px; border-bottom: 1px solid var(--text-dark); border-right: 1px solid var(--text-dark); }
@@ -210,11 +218,10 @@
         .photo-gallery-masonry .card-inner {
             width: 100%; height: auto; background: var(--bg-card); border: 1px solid var(--line-light); padding: 12px; position: relative;
             box-shadow: 0 6px 25px rgba(50, 42, 34, 0.02); overflow: hidden;
-            transition: border-color 0.5s ease, transform 0.5s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.5s ease;
+            transition: border-color 0.4s ease, transform 0.5s var(--cb-gallery), box-shadow 0.5s ease;
             will-change: transform, box-shadow;
         }
 
-        /* 🛠️ 摄影图集容器同样开启横竖双轴心中央定位 */
         .photo-gallery-masonry .card-img-wrapper {
             width: 100%; position: relative;
             display: flex; align-items: center; justify-content: center; overflow: hidden;
@@ -223,7 +230,7 @@
         .photo-gallery-masonry .card img {
             max-width: 100%; height: auto; display: block; margin: 0 auto;
             filter: grayscale(6%) sepia(2%) contrast(97%); opacity: 0;
-            transition: opacity 0.4s ease, transform 0.6s cubic-bezier(0.16, 1, 0.3, 1), filter 0.6s ease;
+            transition: opacity 0.4s ease, transform 0.6s var(--cb-gallery), filter 0.6s ease;
         }
 
         /* 内嵌式 Hud 参数流 */
@@ -233,13 +240,13 @@
             font-family: monospace; font-size: 10px; letter-spacing: 1px; color: #FAF6EE;
             background: linear-gradient(to top, rgba(50, 42, 34, 0.8), rgba(50, 42, 34, 0));
             padding: 30px 20px 15px 20px; opacity: 0; transform: translateY(8px); pointer-events: none; z-index: 4; border-top: none;
-            transition: opacity 0.4s cubic-bezier(0.16, 1, 0.3, 1), transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            transition: opacity 0.4s var(--cb-gallery), transform 0.4s var(--cb-gallery);
         }
         .photo-gallery-masonry .card-meta::before { display: none; }
 
         .photo-gallery-masonry .card:hover .card-inner { border-color: var(--text-dark); transform: translateY(-6px); box-shadow: 0 25px 45px rgba(50, 42, 34, 0.08); }
-        .photo-gallery-masonry .card:hover::before { top: -10px; left: -10px; opacity: 1; }
-        .photo-gallery-masonry .card:hover::after { bottom: -10px; right: -10px; opacity: 1; }
+        .photo-gallery-masonry .card:hover::before { top: 1px; left: 1px; opacity: 1; }   /* 紧缩咬合 */
+        .photo-gallery-masonry .card:hover::after { bottom: 1px; right: 1px; opacity: 1; } /* 紧缩咬合 */
         .photo-gallery-masonry .card:hover img { filter: grayscale(0%) sepia(0%) contrast(100%); transform: scale(1.03); }
         .photo-gallery-masonry .card:hover .card-meta { opacity: 1; transform: translateY(0); }
 
@@ -254,25 +261,33 @@
         .load-more-btn:hover { background: var(--text-dark); color: var(--bg-card); }
 
         /* ==========================================================================
-           【磨砂卡纸大图弹窗方案】—— 强效防盗 ＋ 极致大图横竖绝对居中
+           【🚀 亮点动效四：高定暗房推镜大图弹窗】—— 实现景深和视距变化的电影感过渡
            ========================================================================= */
         .img-popup{
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(42, 38, 34, 0.93); backdrop-filter: blur(12px); z-index: 99999;
-            padding: 40px; opacity: 0; visibility: hidden; cursor: zoom-out;
-            display: flex;          /* 强制开启弹性盒模型 */
-            align-items: center;    /* 垂直绝对居中 */
-            justify-content: center;/* 水平绝对居中 */
-            transition: opacity 0.4s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            background: rgba(42, 38, 34, 0.0); /* 初始透明 */
+            backdrop-filter: blur(0px);          /* 初始无模糊 */
+            z-index: 99999; padding: 40px; opacity: 0; visibility: hidden; cursor: zoom-out;
+            display: flex; align-items: center; justify-content: center;
+            transition: opacity 0.5s var(--cb-gallery), visibility 0.5s var(--cb-gallery), backdrop-filter 0.5s var(--cb-gallery);
         }
         .img-popup img{
             max-width: 92%; max-height: 92%; object-fit: contain; border: 1px solid rgba(255, 255, 255, 0.15); box-shadow: 0 30px 70px rgba(0,0,0,0.3);
-            transform: scale(0.95); transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-            margin: auto;           /* 锁死正中央 */
+            transform: scale(0.9); /* 初始缩紧，制造自远向近的推镜视觉落差 */
+            margin: auto;           
+            transition: transform 0.5s var(--cb-gallery);
             background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 100 100"><circle cx="50" cy="50" r="40" stroke="%23FAF6EE" stroke-width="4" fill="none" stroke-dasharray="150 100"><animateTransform attributeName="transform" type="rotate" from="0 50 50" to="360 50 50" dur="0.8s" repeatCount="indefinite"/></circle></svg>') center no-repeat;
         }
-        .img-popup.active{ opacity: 1; visibility: visible; }
-        .img-popup.active img { transform: scale(1); }
+        
+        /* 弹窗唤醒激活状态线 */
+        .img-popup.active{ 
+            opacity: 1; visibility: visible; 
+            background: rgba(42, 38, 34, 0.93); 
+            backdrop-filter: blur(12px); /* 磨砂卡纸质感平滑向外晕染 */
+        }
+        .img-popup.active img { 
+            transform: scale(1); /* 完美平滑舒展至100%原构图 */
+        }
 
         .footer{ text-align:center; padding:100px 0 40px; color:var(--text-muted); font-size:11px; letter-spacing: 3px; border-top: 1px dashed var(--text-dark); text-transform: uppercase; }
 
@@ -283,7 +298,7 @@
             .gallery { column-count: 2; gap: 20px; } .photo-gallery-masonry { column-count: 2; gap: 24px; }
         }
         
-        /* 针对 768px 以下手机端进行双列卡片无边框压缩排版 */
+        /* 针对手机端进行双列卡片无边框压缩排版 */
         @media (max-width:768px) {
             .menu-btn{ display:flex; } .sidebar{ transform: translateX(-100%); width: 260px; box-shadow: 15px 0 40px rgba(42,38,34,0.04); }
             .sidebar.show{ transform: translateX(0); } 
@@ -301,6 +316,10 @@
             .photo-gallery-masonry .card-inner { padding: 6px; }
             .photo-gallery-masonry .card-meta { padding: 20px 8px 6px 8px; font-size: 8px; letter-spacing: 0.5px; }
             
+            /* 手机卡片取消咬合变动，规避移动端触控抖动 */
+            .gallery .card:hover::before, .photo-gallery-masonry .card:hover::before { top: -5px; left: -5px; }
+            .gallery .card:hover::after, .photo-gallery-masonry .card:hover::after { bottom: -5px; right: -5px; }
+
             .load-container { margin-top: 30px; }
             .load-more-btn { width: 100%; text-align: center; padding: 12px 0; }
         }
@@ -648,17 +667,17 @@
         }
 
         /* ==========================================================================
-           【🚀 JS防盗加强层】全面拦截右键、保存长按和拖拽，将偷图成本提高到最大
+           【JS防盗加强层】全面拦截右键、保存长按和拖拽
            ========================================================================== */
         document.addEventListener('contextmenu', function(e) {
             if (e.target.tagName === 'IMG') {
-                e.preventDefault(); // 强行拦截并扼杀右键保存弹出菜单
+                e.preventDefault(); 
             }
         });
 
         document.addEventListener('dragstart', function(e) {
             if (e.target.tagName === 'IMG') {
-                e.preventDefault(); // 强行锁死直接用鼠标左键拖拽图片的越权行为
+                e.preventDefault(); 
             }
         });
     </script>

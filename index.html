@@ -5,27 +5,27 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>DESIGN WORKS | 李静敏设计集</title>
     <style>
-        /* --- 基础重置与暖系包豪斯变量 --- */
+        /* --- 基础重置与轻奢砂岩包豪斯变量 --- */
         *{margin:0;padding:0;box-sizing:border-box;}
         html{scroll-behavior:smooth;}
 
         :root {
-            --bg-canvas: #F4F1EB;     /* 核心：极具材质温度的浅陶黏土色 */
-            --bg-sidebar: #FAF9F6;    /* 核心：温润素胚宣纸白 */
-            --text-dark: #2A2622;     /* 核心：深烟熏炭黑（告别纯黑死板） */
-            --text-muted: #8A7E73;    /* 枯木缝隙灰 */
-            --line-solid: #2A2622;    /* 结构实体线 */
-            --line-light: #E5E1D8;    /* 细腻的泥土色测绘线 */
-            --line-grid: rgba(42, 38, 34, 0.035); /* 隐约的大地交错网格 */
+            --bg-canvas: #E6DFD4;     /* 核心：高级画廊暖砂岩墙面色 */
+            --bg-card: #FAF6EE;       /* 核心：温润手工卡纸白 */
+            --text-dark: #322A22;     /* 核心：深烧炭褐黑 */
+            --text-muted: #8C7B6B;    /* 建筑测绘铜灰 */
+            --line-solid: #322A22;    /* 刚性结构线 */
+            --line-light: #D6CDBF;    /* 墙面测绘辅助线 */
+            --line-grid: rgba(50, 42, 34, 0.04); /* 隐约的全局工程网格 */
         }
 
         body{
             background: var(--bg-canvas);
-            /* 精密大地色建筑网格底 */
+            /* 标尺级物理网格底 */
             background-image: 
                 linear-gradient(to right, var(--line-grid) 1px, transparent 1px),
                 linear-gradient(to bottom, var(--line-grid) 1px, transparent 1px);
-            background-size: 60px 60px; 
+            background-size: 50px 50px; 
             font-family: "PingFang SC", "-apple-system", sans-serif;
             color: var(--text-dark);
             line-height: 1.8;
@@ -40,7 +40,7 @@
             right: 25px;
             width: 44px;
             height: 44px;
-            background: var(--bg-sidebar);
+            background: var(--bg-card);
             border: 1px solid var(--text-dark);
             border-radius: 0; 
             display: none;
@@ -52,17 +52,16 @@
             cursor: pointer;
         }
 
-        /* --- 左侧直角宣纸侧边栏 --- */
+        /* --- 左侧宣纸直角侧边栏 --- */
         .sidebar{
             position: fixed;
             top: 0; left: 0; width: 280px; height: 100vh;
-            background: var(--bg-sidebar);
+            background: var(--bg-card);
             border-right: 1px solid var(--line-light);
             padding: 80px 40px;
             z-index: 999;
             transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
         }
-        /* 双轨结构线装饰 */
         .sidebar::after {
             content: ''; position: absolute; top: 0; right: 5px; width: 1px; height: 100%;
             background: var(--line-grid);
@@ -96,33 +95,33 @@
             background: var(--line-solid);
         }
 
-        /* --- 右侧内容观展区 --- */
+        /* --- 右侧主观内容区 --- */
         .content{ margin-left: 280px; padding: 100px 60px; min-height: 100vh; }
         
         .reveal {
             opacity: 0;
             transform: translateY(20px);
             transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
-            margin-bottom: 120px; 
+            margin-bottom: 140px; 
         }
         .reveal.reveal-active { opacity: 1; transform: translateY(0); }
 
-        /* 高级工字标尺线标题 */
+        /* 建筑标尺标题 */
         .section-title{
             font-family: "Noto Serif SC", "Source Han Serif CN", serif;
             font-size: 18px;
             font-weight: 700;
             color: var(--text-dark);
-            margin-bottom: 45px;
+            margin-bottom: 50px;
             letter-spacing: 3px;
             display: flex;
             align-items: center;
             gap: 20px;
         }
-        .section-title::before { content: '┠'; font-family: monospace; color: var(--text-dark); font-weight: normal; }
+        .section-title::before { content: '┠'; font-family: monospace; color: var(--text-dark); }
         .section-title::after { content: ''; flex: 1; height: 1px; background: var(--line-solid); }
 
-        /* --- 动态视频板块（R2播放器样式优化） --- */
+        /* --- 动态视频板块 --- */
         .video-show{ margin-bottom:30px; }
         .video-main{
             width:100%;
@@ -136,7 +135,7 @@
         .video-thumbs{ display: flex; gap: 8px; flex-wrap: wrap; }
         .video-thumb{
             padding: 10px 24px;
-            background: var(--bg-sidebar);
+            background: var(--bg-card);
             border: 1px solid var(--line-light);
             cursor: pointer;
             font-size: 12px;
@@ -146,18 +145,18 @@
             transition: all 0.3s ease;
         }
         .video-thumb:hover { border-color: var(--text-dark); color: var(--text-dark); }
-        .video-thumb.active{ background: var(--text-dark); color: var(--bg-sidebar); border-color: var(--text-dark); }
+        .video-thumb.active{ background: var(--text-dark); color: var(--bg-card); border-color: var(--text-dark); }
 
 
         /* ==========================================================================
-           【重构核心】大图叙事线构矩阵：黄金3列 ＋ 纵向吊线 ＋ L型直角标
+           【视觉重构】非对称杂志级线构轴（黄金3列 ＋ 错落律动 ＋ 艺术衬板）
            ========================================================================== */
         
         /* 标尺切换导轨 */
         .filter-menu {
             display: flex;
             gap: 10px;
-            margin-bottom: 45px;
+            margin-bottom: 55px;
             border-top: 1px solid var(--text-dark);
             border-bottom: 1px dashed var(--line-light);
             padding: 15px 0;
@@ -175,83 +174,114 @@
             transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
         }
         .filter-btn:hover { border-color: var(--text-dark); color: var(--text-dark); }
-        .filter-btn.active { background: var(--text-dark); color: var(--bg-sidebar); border-color: var(--text-dark); }
+        .filter-btn.active { background: var(--text-dark); color: var(--bg-card); border-color: var(--text-dark); }
 
-        /* 升级为舒展、大气的 3 列布局，给画面绝对的聚焦深度 */
+        /* 杂志级3列高能网格 */
         .gallery { 
             display: grid;
             grid-template-columns: repeat(3, 1fr); 
-            gap: 65px 45px; /* 极宽的间距，形成纸张的呼吸盲区 */
+            gap: 40px 50px; 
             position: relative;
-            
-            /* 背景物理线强化：注入3条穿透卡片的纵向艺术挂轴吊线 */
-            background-image: 
-                linear-gradient(to right, var(--line-light) 1px, transparent 1px),
-                linear-gradient(to right, var(--line-light) 1px, transparent 1px),
-                linear-gradient(to right, var(--line-light) 1px, transparent 1px);
-            background-position: 16.66% 0, 50% 0, 83.33% 0; /* 穿透三列正中心 */
-            background-size: 100% 100%;
-            background-repeat: no-repeat;
         }
+        
+        /* 【核心高级特效：利用 CSS 结构选择器创造非对称纵向错落韵律】 */
+        .card:nth-child(3n+1) { margin-top: 0px; }
+        .card:nth-child(3n+2) { margin-top: 50px; }
+        .card:nth-child(3n)   { margin-top: 100px; }
         
         .card {
             display: block; 
             width: 100%;
-            aspect-ratio: 3 / 4.1;  /* 艺术画册标准纵向画幅 */
+            aspect-ratio: 3 / 4.3;  /* 预留底部艺术标签高度 */
             position: relative;
             cursor: pointer;
             padding: 0;
             background: none;
             border: none;
-            box-shadow: none;
         }
         
         .card.hide { display: none !important; }
 
-        /* 角落极细的刚性 L 型物理对焦标 */
+        /* 四角艺术测绘L型标 */
         .card::before, .card::after {
-            content: ''; position: absolute; width: 12px; height: 12px;
+            content: ''; position: absolute; width: 14px; height: 14px;
             transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
-            opacity: 0.35; pointer-events: none;
+            opacity: 0.25; pointer-events: none;
             z-index: 3;
         }
         .card::before { top: -6px; left: -6px; border-top: 1px solid var(--text-dark); border-left: 1px solid var(--text-dark); }
         .card::after { bottom: -6px; right: -6px; border-bottom: 1px solid var(--text-dark); border-right: 1px solid var(--text-dark); }
 
+        /* 实体高档艺术衬板 (Matting Board) */
         .card-inner {
             width: 100%; height: 100%;
-            display: flex; align-items: center; justify-content: center;
-            overflow: hidden;
-            position: relative;
-            background: var(--bg-sidebar); /* 垫底暖卡纸白 */
+            display: flex; 
+            flex-direction: column;
+            background: var(--bg-card); 
             border: 1px solid var(--line-light);
-            padding: 10px;
+            padding: 16px 16px 45px 16px; /* 底部留白用于放置排版标签 */
+            position: relative;
+            
+            /* 模拟高级展览卡纸的微弱环境沉降阴影 */
+            box-shadow: 
+                0 10px 30px rgba(50, 42, 34, 0.03),
+                0 1px 3px rgba(50, 42, 34, 0.02);
             transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        /* 衬板内嵌的图片容器 */
+        .card-img-wrapper {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            background: rgba(50, 42, 34, 0.01);
         }
 
         .card img {
             max-width: 100%;
             max-height: 100%;
-            object-fit: contain; /* 100% 完整原图，绝不裁剪 */
-            filter: grayscale(6%) sepia(3%) contrast(97%);
+            object-fit: contain; 
+            filter: grayscale(5%) sepia(3%) contrast(98%);
             opacity: 0;
             transition: opacity 0.4s ease, transform 0.6s cubic-bezier(0.16, 1, 0.3, 1), filter 0.6s cubic-bezier(0.16, 1, 0.3, 1);
         }
         .card img.loaded { opacity: 1; }
 
-        /* 高级动态交互：从“导轨”上垂直拔出悬空，拉开落差微阴影 */
+        /* 【盲雕细线标签】 */
+        .card-meta {
+            position: absolute;
+            bottom: 14px; left: 16px; right: 16px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-family: monospace;
+            font-size: 10px;
+            letter-spacing: 2px;
+            color: var(--text-muted);
+            border-top: 1px solid rgba(50, 42, 34, 0.06);
+            padding-top: 8px;
+            text-transform: uppercase;
+        }
+        .card-meta::before { content: '┼'; font-size: 8px; }
+
+        /* 【悬停交互：大牌画廊物理悬空抬升】 */
         .card:hover .card-inner { 
             border-color: var(--text-dark); 
-            transform: translateY(-8px); /* 向上抬升 */
-            box-shadow: 0 25px 50px rgba(42, 38, 34, 0.07); 
+            transform: translateY(-10px); /* 垂直挺拔拉起 */
+            /* 模拟阳光直射下，卡纸悬空后投射出的深邃宽幅软阴影 */
+            box-shadow: 0 30px 60px rgba(50, 42, 34, 0.08); 
         }
-        /* 四角 L 型对焦轨线向外呈放射状扩充，机械细节拉满 */
-        .card:hover::before { top: -12px; left: -12px; opacity: 1; }
-        .card:hover::after { bottom: -12px; right: -12px; opacity: 1; }
+        /* 四角规线向外弹性炸开 */
+        .card:hover::before { top: -14px; left: -14px; opacity: 1; }
+        .card:hover::after { bottom: -14px; right: -14px; opacity: 1; }
         .card:hover img { transform: scale(1.02); filter: grayscale(0%) sepia(0%) contrast(100%); }
 
-        /* 追加加载按钮 */
-        .load-container { display: flex; justify-content: center; margin-top: 60px; }
+
+        /* --- 追加加载控制台 --- */
+        .load-container { display: flex; justify-content: center; margin-top: 80px; }
         .load-more-btn {
             background: transparent;
             border: 1px solid var(--text-dark);
@@ -264,13 +294,13 @@
             text-transform: uppercase;
             transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
         }
-        .load-more-btn:hover { background: var(--text-dark); color: var(--bg-sidebar); }
+        .load-more-btn:hover { background: var(--text-dark); color: var(--bg-card); }
 
-        /* --- 磨砂玻璃放大弹窗 --- */
+        /* --- 磨砂卡纸放大弹窗 --- */
         .img-popup{
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(42, 38, 34, 0.92); 
+            background: rgba(42, 38, 34, 0.93); 
             backdrop-filter: blur(12px);
             z-index: 99999;
             display: flex; align-items: center; justify-content: center; padding: 40px;
@@ -296,22 +326,27 @@
             text-transform: uppercase;
         }
 
-        /* --- 响应式布局自动分栏降维 --- */
-        @media (max-width:1300px){ 
-            .gallery { grid-template-columns: repeat(2, 1fr); background-image: none; } 
+        /* --- 响应式降维与非对称对齐复位 --- */
+        @media (max-width:1300px) { 
+            .gallery { grid-template-columns: repeat(2, 1fr); gap: 40px 30px; } 
+            /* 2列模式下重新排布非对称错落，保障视觉平衡 */
+            .card:nth-child(even) { margin-top: 40px; }
+            .card:nth-child(odd) { margin-top: 0px; }
         }
-        @media (max-width:1100px){
+        @media (max-width:1100px) {
             .sidebar{ width: 240px; padding: 40px 20px; }
             .content{ margin-left: 240px; padding: 80px 30px; }
         }
-        @media (max-width:768px){
+        @media (max-width:768px) {
             .menu-btn{ display:flex; }
             .sidebar{ transform: translateX(-100%); width: 260px; box-shadow: 15px 0 40px rgba(42,38,34,0.04); }
             .sidebar.show{ transform: translateX(0); }
             .content{ margin-left: 0; padding: 100px 20px 40px; }
             .video-main{ height:260px; }
             .reveal { margin-bottom: 80px; }
+            /* 手机端彻底抹平所有非对称位移，回归最严谨的刚性单列单屏流 */
             .gallery { grid-template-columns: 1fr; gap: 40px; }
+            .card:nth-child(n) { margin-top: 0px !important; }
         }
     </style>
 </head>
@@ -366,55 +401,55 @@
             </div>
 
             <div class="gallery" id="galleryGrid">
-                <div class="card" data-cat="img1"><div class="card-inner"><img src="img1/1.jpg" loading="lazy"></div></div>
-                <div class="card" data-cat="img1"><div class="card-inner"><img src="img1/2.jpg" loading="lazy"></div></div>
-                <div class="card" data-cat="img1"><div class="card-inner"><img src="img1/3.jpg" loading="lazy"></div></div>
-                <div class="card" data-cat="img1"><div class="card-inner"><img src="img1/4.jpg" loading="lazy"></div></div>
-                <div class="card" data-cat="img1"><div class="card-inner"><img src="img1/5.jpg" loading="lazy"></div></div>
-                <div class="card" data-cat="img1"><div class="card-inner"><img src="img1/6.jpg" loading="lazy"></div></div>
-                <div class="card" data-cat="img1"><div class="card-inner"><img src="img1/7.jpg" loading="lazy"></div></div>
-                <div class="card" data-cat="img1"><div class="card-inner"><img src="img1/8.jpg" loading="lazy"></div></div>
-                <div class="card" data-cat="img1"><div class="card-inner"><img src="img1/9.jpg" loading="lazy"></div></div>
-                <div class="card" data-cat="img1"><div class="card-inner"><img src="img1/10.jpg" loading="lazy"></div></div>
-                <div class="card" data-cat="img1"><div class="card-inner"><img src="img1/11.jpg" loading="lazy"></div></div>
-                <div class="card" data-cat="img1"><div class="card-inner"><img src="img1/12.jpg" loading="lazy"></div></div>
-                <div class="card" data-cat="img1"><div class="card-inner"><img src="img1/13.jpg" loading="lazy"></div></div>
-                <div class="card" data-cat="img1"><div class="card-inner"><img src="img1/14.jpg" loading="lazy"></div></div>
-                <div class="card" data-cat="img1"><div class="card-inner"><img src="img1/15.jpg" loading="lazy"></div></div>
+                <div class="card" data-cat="img1"><div class="card-inner"><div class="card-img-wrapper"><img src="img1/1.jpg" loading="lazy"></div><div class="card-meta"><span>img-01</span><span>selected</span></div></div></div>
+                <div class="card" data-cat="img1"><div class="card-inner"><div class="card-img-wrapper"><img src="img1/2.jpg" loading="lazy"></div><div class="card-meta"><span>img-02</span><span>selected</span></div></div></div>
+                <div class="card" data-cat="img1"><div class="card-inner"><div class="card-img-wrapper"><img src="img1/3.jpg" loading="lazy"></div><div class="card-meta"><span>img-03</span><span>selected</span></div></div></div>
+                <div class="card" data-cat="img1"><div class="card-inner"><div class="card-img-wrapper"><img src="img1/4.jpg" loading="lazy"></div><div class="card-meta"><span>img-04</span><span>selected</span></div></div></div>
+                <div class="card" data-cat="img1"><div class="card-inner"><div class="card-img-wrapper"><img src="img1/5.jpg" loading="lazy"></div><div class="card-meta"><span>img-05</span><span>selected</span></div></div></div>
+                <div class="card" data-cat="img1"><div class="card-inner"><div class="card-img-wrapper"><img src="img1/6.jpg" loading="lazy"></div><div class="card-meta"><span>img-06</span><span>selected</span></div></div></div>
+                <div class="card" data-cat="img1"><div class="card-inner"><div class="card-img-wrapper"><img src="img1/7.jpg" loading="lazy"></div><div class="card-meta"><span>img-07</span><span>selected</span></div></div></div>
+                <div class="card" data-cat="img1"><div class="card-inner"><div class="card-img-wrapper"><img src="img1/8.jpg" loading="lazy"></div><div class="card-meta"><span>img-08</span><span>selected</span></div></div></div>
+                <div class="card" data-cat="img1"><div class="card-inner"><div class="card-img-wrapper"><img src="img1/9.jpg" loading="lazy"></div><div class="card-meta"><span>img-09</span><span>selected</span></div></div></div>
+                <div class="card" data-cat="img1"><div class="card-inner"><div class="card-img-wrapper"><img src="img1/10.jpg" loading="lazy"></div><div class="card-meta"><span>img-10</span><span>selected</span></div></div></div>
+                <div class="card" data-cat="img1"><div class="card-inner"><div class="card-img-wrapper"><img src="img1/11.jpg" loading="lazy"></div><div class="card-meta"><span>img-11</span><span>selected</span></div></div></div>
+                <div class="card" data-cat="img1"><div class="card-inner"><div class="card-img-wrapper"><img src="img1/12.jpg" loading="lazy"></div><div class="card-meta"><span>img-12</span><span>selected</span></div></div></div>
+                <div class="card" data-cat="img1"><div class="card-inner"><div class="card-img-wrapper"><img src="img1/13.jpg" loading="lazy"></div><div class="card-meta"><span>img-13</span><span>selected</span></div></div></div>
+                <div class="card" data-cat="img1"><div class="card-inner"><div class="card-img-wrapper"><img src="img1/14.jpg" loading="lazy"></div><div class="card-meta"><span>img-14</span><span>selected</span></div></div></div>
+                <div class="card" data-cat="img1"><div class="card-inner"><div class="card-img-wrapper"><img src="img1/15.jpg" loading="lazy"></div><div class="card-meta"><span>img-15</span><span>selected</span></div></div></div>
                 
-                <div class="card" data-cat="img2"><div class="card-inner"><img src="img2/16.jpg" loading="lazy"></div></div>
-                <div class="card" data-cat="img2"><div class="card-inner"><img src="img2/17.jpg" loading="lazy"></div></div>
-                <div class="card" data-cat="img2"><div class="card-inner"><img src="img2/18.jpg" loading="lazy"></div></div>
-                <div class="card" data-cat="img2"><div class="card-inner"><img src="img2/19.jpg" loading="lazy"></div></div>
-                <div class="card" data-cat="img2"><div class="card-inner"><img src="img2/20.jpg" loading="lazy"></div></div>
-                <div class="card" data-cat="img2"><div class="card-inner"><img src="img2/21.jpg" loading="lazy"></div></div>
-                <div class="card" data-cat="img2"><div class="card-inner"><img src="img2/22.jpg" loading="lazy"></div></div>
-                <div class="card" data-cat="img2"><div class="card-inner"><img src="img2/23.jpg" loading="lazy"></div></div>
-                <div class="card" data-cat="img2"><div class="card-inner"><img src="img2/24.jpg" loading="lazy"></div></div>
-                <div class="card" data-cat="img2"><div class="card-inner"><img src="img2/25.jpg" loading="lazy"></div></div>
-                <div class="card" data-cat="img2"><div class="card-inner"><img src="img2/26.jpg" loading="lazy"></div></div>
-                <div class="card" data-cat="img2"><div class="card-inner"><img src="img2/27.jpg" loading="lazy"></div></div>
-                <div class="card" data-cat="img2"><div class="card-inner"><img src="img2/28.jpg" loading="lazy"></div></div>
-                <div class="card" data-cat="img2"><div class="card-inner"><img src="img2/29.jpg" loading="lazy"></div></div>
-                <div class="card" data-cat="img2"><div class="card-inner"><img src="img2/30.jpg" loading="lazy"></div></div>
+                <div class="card" data-cat="img2"><div class="card-inner"><div class="card-img-wrapper"><img src="img2/16.jpg" loading="lazy"></div><div class="card-meta"><span>img-16</span><span>selected</span></div></div></div>
+                <div class="card" data-cat="img2"><div class="card-inner"><div class="card-img-wrapper"><img src="img2/17.jpg" loading="lazy"></div><div class="card-meta"><span>img-17</span><span>selected</span></div></div></div>
+                <div class="card" data-cat="img2"><div class="card-inner"><div class="card-img-wrapper"><img src="img2/18.jpg" loading="lazy"></div><div class="card-meta"><span>img-18</span><span>selected</span></div></div></div>
+                <div class="card" data-cat="img2"><div class="card-inner"><div class="card-img-wrapper"><img src="img2/19.jpg" loading="lazy"></div><div class="card-meta"><span>img-19</span><span>selected</span></div></div></div>
+                <div class="card" data-cat="img2"><div class="card-inner"><div class="card-img-wrapper"><img src="img2/20.jpg" loading="lazy"></div><div class="card-meta"><span>img-20</span><span>selected</span></div></div></div>
+                <div class="card" data-cat="img2"><div class="card-inner"><div class="card-img-wrapper"><img src="img2/21.jpg" loading="lazy"></div><div class="card-meta"><span>img-21</span><span>selected</span></div></div></div>
+                <div class="card" data-cat="img2"><div class="card-inner"><div class="card-img-wrapper"><img src="img2/22.jpg" loading="lazy"></div><div class="card-meta"><span>img-22</span><span>selected</span></div></div></div>
+                <div class="card" data-cat="img2"><div class="card-inner"><div class="card-img-wrapper"><img src="img2/23.jpg" loading="lazy"></div><div class="card-meta"><span>img-23</span><span>selected</span></div></div></div>
+                <div class="card" data-cat="img2"><div class="card-inner"><div class="card-img-wrapper"><img src="img2/24.jpg" loading="lazy"></div><div class="card-meta"><span>img-24</span><span>selected</span></div></div></div>
+                <div class="card" data-cat="img2"><div class="card-inner"><div class="card-img-wrapper"><img src="img2/25.jpg" loading="lazy"></div><div class="card-meta"><span>img-25</span><span>selected</span></div></div></div>
+                <div class="card" data-cat="img2"><div class="card-inner"><div class="card-img-wrapper"><img src="img2/26.jpg" loading="lazy"></div><div class="card-meta"><span>img-26</span><span>selected</span></div></div></div>
+                <div class="card" data-cat="img2"><div class="card-inner"><div class="card-img-wrapper"><img src="img2/27.jpg" loading="lazy"></div><div class="card-meta"><span>img-27</span><span>selected</span></div></div></div>
+                <div class="card" data-cat="img2"><div class="card-inner"><div class="card-img-wrapper"><img src="img2/28.jpg" loading="lazy"></div><div class="card-meta"><span>img-28</span><span>selected</span></div></div></div>
+                <div class="card" data-cat="img2"><div class="card-inner"><div class="card-img-wrapper"><img src="img2/29.jpg" loading="lazy"></div><div class="card-meta"><span>img-29</span><span>selected</span></div></div></div>
+                <div class="card" data-cat="img2"><div class="card-inner"><div class="card-img-wrapper"><img src="img2/30.jpg" loading="lazy"></div><div class="card-meta"><span>img-30</span><span>selected</span></div></div></div>
                 
-                <div class="card" data-cat="img3"><div class="card-inner"><img src="img3/31.jpg" loading="lazy"></div></div>
-                <div class="card" data-cat="img3"><div class="card-inner"><img src="img3/32.jpg" loading="lazy"></div></div>
-                <div class="card" data-cat="img3"><div class="card-inner"><img src="img3/33.jpg" loading="lazy"></div></div>
-                <div class="card" data-cat="img3"><div class="card-inner"><img src="img3/34.jpg" loading="lazy"></div></div>
-                <div class="card" data-cat="img3"><div class="card-inner"><img src="img3/35.jpg" loading="lazy"></div></div>
-                <div class="card" data-cat="img3"><div class="card-inner"><img src="img3/36.jpg" loading="lazy"></div></div>
-                <div class="card" data-cat="img3"><div class="card-inner"><img src="img3/37.jpg" loading="lazy"></div></div>
-                <div class="card" data-cat="img3"><div class="card-inner"><img src="img3/38.jpg" loading="lazy"></div></div>
-                <div class="card" data-cat="img3"><div class="card-inner"><img src="img3/39.jpg" loading="lazy"></div></div>
-                <div class="card" data-cat="img3"><div class="card-inner"><img src="img3/40.jpg" loading="lazy"></div></div>
-                <div class="card" data-cat="img3"><div class="card-inner"><img src="img3/41.jpg" loading="lazy"></div></div>
-                <div class="card" data-cat="img3"><div class="card-inner"><img src="img3/42.jpg" loading="lazy"></div></div>
-                <div class="card" data-cat="img3"><div class="card-inner"><img src="img3/43.jpg" loading="lazy"></div></div>
+                <div class="card" data-cat="img3"><div class="card-inner"><div class="card-img-wrapper"><img src="img3/31.jpg" loading="lazy"></div><div class="card-meta"><span>img-31</span><span>selected</span></div></div></div>
+                <div class="card" data-cat="img3"><div class="card-inner"><div class="card-img-wrapper"><img src="img3/32.jpg" loading="lazy"></div><div class="card-meta"><span>img-32</span><span>selected</span></div></div></div>
+                <div class="card" data-cat="img3"><div class="card-inner"><div class="card-img-wrapper"><img src="img3/33.jpg" loading="lazy"></div><div class="card-meta"><span>img-33</span><span>selected</span></div></div></div>
+                <div class="card" data-cat="img3"><div class="card-inner"><div class="card-img-wrapper"><img src="img3/34.jpg" loading="lazy"></div><div class="card-meta"><span>img-34</span><span>selected</span></div></div></div>
+                <div class="card" data-cat="img3"><div class="card-inner"><div class="card-img-wrapper"><img src="img3/35.jpg" loading="lazy"></div><div class="card-meta"><span>img-35</span><span>selected</span></div></div></div>
+                <div class="card" data-cat="img3"><div class="card-inner"><div class="card-img-wrapper"><img src="img3/36.jpg" loading="lazy"></div><div class="card-meta"><span>img-36</span><span>selected</span></div></div></div>
+                <div class="card" data-cat="img3"><div class="card-inner"><div class="card-img-wrapper"><img src="img3/37.jpg" loading="lazy"></div><div class="card-meta"><span>img-37</span><span>selected</span></div></div></div>
+                <div class="card" data-cat="img3"><div class="card-inner"><div class="card-img-wrapper"><img src="img3/38.jpg" loading="lazy"></div><div class="card-meta"><span>img-38</span><span>selected</span></div></div></div>
+                <div class="card" data-cat="img3"><div class="card-inner"><div class="card-img-wrapper"><img src="img3/39.jpg" loading="lazy"></div><div class="card-meta"><span>img-39</span><span>selected</span></div></div></div>
+                <div class="card" data-cat="img3"><div class="card-inner"><div class="card-img-wrapper"><img src="img3/40.jpg" loading="lazy"></div><div class="card-meta"><span>img-40</span><span>selected</span></div></div></div>
+                <div class="card" data-cat="img3"><div class="card-inner"><div class="card-img-wrapper"><img src="img3/41.jpg" loading="lazy"></div><div class="card-meta"><span>img-41</span><span>selected</span></div></div></div>
+                <div class="card" data-cat="img3"><div class="card-inner"><div class="card-img-wrapper"><img src="img3/42.jpg" loading="lazy"></div><div class="card-meta"><span>img-42</span><span>selected</span></div></div></div>
+                <div class="card" data-cat="img3"><div class="card-inner"><div class="card-img-wrapper"><img src="img3/43.jpg" loading="lazy"></div><div class="card-meta"><span>img-43</span><span>selected</span></div></div></div>
                 <div class="card" data-cat="img3"><div class="card-inner"><img src="img3/44.jpg" loading="lazy"></div></div>
-                <div class="card" data-cat="img3"><div class="card-inner"><img src="img3/45.jpg" loading="lazy"></div></div>
-                <div class="card" data-cat="img3"><div class="card-inner"><img src="img3/46.jpg" loading="lazy"></div></div>
-                <div class="card" data-cat="img3"><div class="card-inner"><img src="img3/47.jpg" loading="lazy"></div></div>
+                <div class="card" data-cat="img3"><div class="card-inner"><div class="card-img-wrapper"><img src="img3/45.jpg" loading="lazy"></div><div class="card-meta"><span>img-45</span><span>selected</span></div></div></div>
+                <div class="card" data-cat="img3"><div class="card-inner"><div class="card-img-wrapper"><img src="img3/46.jpg" loading="lazy"></div><div class="card-meta"><span>img-46</span><span>selected</span></div></div></div>
+                <div class="card" data-cat="img3"><div class="card-inner"><div class="card-img-wrapper"><img src="img3/47.jpg" loading="lazy"></div><div class="card-meta"><span>img-47</span><span>selected</span></div></div></div>
             </div>
 
             <div class="load-container" id="loadContainer">
@@ -453,7 +488,7 @@
             link.addEventListener('click', () => sidebar.classList.remove('show'));
         });
 
-        // 2. 原生流媒体大视频硬件加速切换调度
+        // 2. 原生大体积视频流硬件加速切换调度
         const thumbs = document.querySelectorAll('.video-thumb');
         const mainVideo = document.getElementById('mainVideo');
         thumbs.forEach(thumb => {
@@ -487,7 +522,7 @@
             document.body.style.overflow = '';
         });
 
-        // 4. 高性能分批流控 ＋ 分类检索
+        // 4. 高性能分批流控 ＋ 分类检索调度
         const filterBtns = document.querySelectorAll('.filter-menu .filter-btn');
         const galleryCards = document.querySelectorAll('#galleryGrid .card');
         const loadMoreBtn = document.getElementById('loadMoreBtn');
@@ -556,9 +591,7 @@
             }
         });
 
-        // ==========================================================================
-        // 5. 智能监控 (Scrollspy) + 升级版触底自动激活“关于我”高亮
-        // ==========================================================================
+        // 5. 智能监控 (Scrollspy) + 触底自动激活关于我高亮
         const reveals = document.querySelectorAll('.reveal');
 
         const globalObserver = new IntersectionObserver((entries) => {
@@ -573,7 +606,6 @@
 
         reveals.forEach(el => globalObserver.observe(el));
 
-        // 抽离统一高亮调度函数
         function updateNav(id) {
             navLinks.forEach(link => {
                 if (link.getAttribute('href') === `#${id}`) {
@@ -584,7 +616,6 @@
             });
         }
 
-        // 核心修正：实时监听整个窗口，一旦物理触底，强行激活最后一项“关于我”
         window.addEventListener('scroll', () => {
             if ((window.innerHeight + window.scrollY) >= document.documentElement.scrollHeight - 50) {
                 updateNav('about');

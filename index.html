@@ -5,35 +5,34 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>DESIGN WORKS | 李静敏设计集</title>
     <style>
-        /* --- 基础重置与包豪斯几何变量 --- */
+        /* --- 基础重置与暖系包豪斯变量 --- */
         *{margin:0;padding:0;box-sizing:border-box;}
         html{scroll-behavior:smooth;}
 
         :root {
-            --bg-canvas: #F4F4F1;     /* 艺术卡纸冷白 / 经典包豪斯底色 */
-            --bg-sidebar: #FFFFFF;    /* 纯白结构面板 */
-            --text-dark: #111111;     /* 曜石硬核黑 */
-            --text-muted: #7A7E82;    /* 工业测绘灰 */
-            --line-grid: rgba(17, 17, 17, 0.04);  /* 全屏精密底网格线 */
-            --line-solid: #111111;    /* 结构实体线 */
-            --line-light: #D5D8DC;    /* 测绘辅助线 */
+            --bg-canvas: #F4F1EB;     /* 核心：极具材质温度的浅陶黏土色 */
+            --bg-sidebar: #FAF9F6;    /* 核心：温润素胚宣纸白 */
+            --text-dark: #2A2622;     /* 核心：深烟熏炭黑 */
+            --text-muted: #8A7E73;    /* 枯木缝隙灰 */
+            --line-solid: #2A2622;    /* 结构实体线 */
+            --line-light: #E5E1D8;    /* 细腻的泥土色测绘线 */
+            --line-grid: rgba(42, 38, 34, 0.035); /* 隐约的大地交错网格 */
         }
 
         body{
             background: var(--bg-canvas);
-            /* 【线构强化：建筑蓝图式双重交错网格底】 */
             background-image: 
                 linear-gradient(to right, var(--line-grid) 1px, transparent 1px),
                 linear-gradient(to bottom, var(--line-grid) 1px, transparent 1px);
             background-size: 60px 60px; 
-            font-family: "Helvetica Neue", Helvetica, "PingFang SC", sans-serif;
+            font-family: "PingFang SC", "-apple-system", sans-serif;
             color: var(--text-dark);
-            line-height: 1.7;
+            line-height: 1.8;
             -webkit-font-smoothing: antialiased;
             position: relative;
         }
 
-        /* --- 移动端汉堡按钮（纯刚性几何线条） --- */
+        /* --- 移动端汉堡按钮 --- */
         .menu-btn{
             position: fixed;
             top: 25px;
@@ -46,14 +45,13 @@
             display: none;
             align-items: center;
             justify-content: center;
-            font-size: 15px;
+            font-size: 14px;
             color: var(--text-dark);
             z-index: 9999;
             cursor: pointer;
         }
-        .menu-btn:hover { background: var(--text-dark); color: #fff; }
 
-        /* --- 左侧直角侧边栏 --- */
+        /* --- 左侧直角宣纸侧边栏 --- */
         .sidebar{
             position: fixed;
             top: 0; left: 0; width: 280px; height: 100vh;
@@ -63,16 +61,16 @@
             z-index: 999;
             transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
         }
-        /* 侧边栏双轨辅助线 */
         .sidebar::after {
-            content: ''; position: absolute; top: 0; right: 6px; width: 1px; height: 100%;
+            content: ''; position: absolute; top: 0; right: 5px; width: 1px; height: 100%;
             background: var(--line-grid);
         }
         .sidebar .logo{
-            font-size: 15px;
+            font-family: "Noto Serif SC", "Georgia", serif;
+            font-size: 16px;
             font-weight: 700;
             color: var(--text-dark);
-            letter-spacing: 6px;
+            letter-spacing: 5px;
             margin-bottom: 80px;
             text-align: center;
             text-transform: uppercase;
@@ -96,10 +94,9 @@
             background: var(--line-solid);
         }
 
-        /* --- 右侧内容区 --- */
+        /* --- 右侧主观观展区 --- */
         .content{ margin-left: 280px; padding: 100px 60px; min-height: 100vh; }
         
-        /* 几何段落过渡 */
         .reveal {
             opacity: 0;
             transform: translateY(20px);
@@ -108,22 +105,22 @@
         }
         .reveal.reveal-active { opacity: 1; transform: translateY(0); }
 
-        /* 测绘仪器十字线分割标题 */
+        /* 高级工字标尺线标题 */
         .section-title{
-            font-size: 15px;
+            font-family: "Noto Serif SC", "Source Han Serif CN", serif;
+            font-size: 18px;
             font-weight: 700;
             color: var(--text-dark);
             margin-bottom: 45px;
-            letter-spacing: 4px;
+            letter-spacing: 3px;
             display: flex;
             align-items: center;
             gap: 20px;
-            text-transform: uppercase;
         }
-        .section-title::before { content: '└┘'; font-family: monospace; font-size: 12px; color: var(--text-dark); }
+        .section-title::before { content: '┠'; font-family: monospace; color: var(--text-dark); font-weight: normal; }
         .section-title::after { content: ''; flex: 1; height: 1px; background: var(--line-solid); }
 
-        /* --- 视频板块 --- */
+        /* --- 动态视频板块 --- */
         .video-show{ margin-bottom:30px; }
         .video-main{
             width:100%;
@@ -147,18 +144,18 @@
             transition: all 0.3s ease;
         }
         .video-thumb:hover { border-color: var(--text-dark); color: var(--text-dark); }
-        .video-thumb.active{ background: var(--text-dark); color: #fff; border-color: var(--text-dark); }
+        .video-thumb.active{ background: var(--text-dark); color: var(--bg-sidebar); border-color: var(--text-dark); }
 
 
         /* ==========================================================================
-           【包豪斯高密矩阵】一行 4 个 ＋ 多重十字交叉线 ＋ 高能异步载入调度
+           【重构核心】大图叙事线构矩阵：黄金3列 ＋ 纵向吊线 ＋ L型直角标
            ========================================================================== */
         
-        /* 图纸刻度筛选导轨 */
+        /* 标尺切换导轨 */
         .filter-menu {
             display: flex;
             gap: 10px;
-            margin-bottom: 35px;
+            margin-bottom: 45px;
             border-top: 1px solid var(--text-dark);
             border-bottom: 1px dashed var(--line-light);
             padding: 15px 0;
@@ -176,71 +173,84 @@
             transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
         }
         .filter-btn:hover { border-color: var(--text-dark); color: var(--text-dark); }
-        .filter-btn.active { background: var(--text-dark); color: #FFFFFF; border-color: var(--text-dark); }
+        .filter-btn.active { background: var(--text-dark); color: var(--bg-sidebar); border-color: var(--text-dark); }
 
-        /* 极致紧凑的 4 列直角网格（一行4个），彻底压缩页面体量 */
+        /* 升级为舒展、大气的 3 列布局，给画面绝对的聚焦深度 */
         .gallery { 
             display: grid;
-            grid-template-columns: repeat(4, 1fr); 
-            gap: 28px; 
+            grid-template-columns: repeat(3, 1fr); 
+            gap: 65px 45px; /* 极宽的间距，形成纸张的呼吸盲区 */
+            position: relative;
+            
+            /* 【线构强化一：背景注入3条穿透卡片的纵向艺术挂轴吊线】 */
+            background-image: 
+                linear-gradient(to right, var(--line-light) 1px, transparent 1px),
+                linear-gradient(to right, var(--line-light) 1px, transparent 1px),
+                linear-gradient(to right, var(--line-light) 1px, transparent 1px);
+            background-position: 16.66% 0, 50% 0, 83.33% 0; /* 穿透三列正中心 */
+            background-size: 100% 100%;
+            background-repeat: no-repeat;
         }
         
         .card {
             display: block; 
             width: 100%;
-            aspect-ratio: 3 / 4;   /* 强制锁定完美对齐的工程标准画幅视窗 */
-            background: #FFFFFF;   /* 纯净底色作为天然的载入占位骨骼块 */
-            border: 1px solid var(--line-light); 
-            padding: 12px;         
+            aspect-ratio: 3 / 4.1;  /* 艺术画册标准纵向画幅 */
             position: relative;
             cursor: pointer;
-            transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+            padding: 0;
+            background: none;
+            border: none;
+            box-shadow: none;
         }
         
-        /* 隐藏逻辑统一交由高能调度 JS 控制 */
         .card.hide { display: none !important; }
 
-        /* 【多线条细节：四个角落的交叉十字制图线】 */
+        /* 【线构强化二：四角极细的刚性 L 型物理对焦标】 */
         .card::before, .card::after {
-            content: ''; position: absolute; width: 10px; height: 10px;
-            transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
-            opacity: 0.4; pointer-events: none;
+            content: ''; position: absolute; width: 12px; height: 12px;
+            transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+            opacity: 0.35; pointer-events: none;
+            z-index: 3;
         }
-        .card::before { top: -4px; left: -4px; border-top: 1px solid var(--text-dark); border-left: 1px solid var(--text-dark); }
-        .card::after { bottom: -4px; right: -4px; border-bottom: 1px solid var(--text-dark); border-right: 1px solid var(--text-dark); }
+        .card::before { top: -6px; left: -6px; border-top: 1px solid var(--text-dark); border-left: 1px solid var(--text-dark); }
+        .card::after { bottom: -6px; right: -6px; border-bottom: 1px solid var(--text-dark); border-right: 1px solid var(--text-dark); }
 
         .card-inner {
             width: 100%; height: 100%;
             display: flex; align-items: center; justify-content: center;
             overflow: hidden;
             position: relative;
+            background: var(--bg-sidebar); /* 垫底暖卡纸白 */
+            border: 1px solid var(--line-light);
+            padding: 10px;
+            transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
         .card img {
             max-width: 100%;
             max-height: 100%;
-            object-fit: contain; /* 严格完整显示海报，绝对不切边裁剪 */
-            filter: grayscale(8%) contrast(98%);
-            
-            /* 【加载加速核心：图片完全下载完前保持透明，剔除异步白闪烁】 */
+            object-fit: contain; /* 100% 完整原图，绝不裁剪 */
+            filter: grayscale(6%) sepia(3%) contrast(97%);
             opacity: 0;
-            transition: opacity 0.4s ease, transform 0.5s cubic-bezier(0.16, 1, 0.3, 1), filter 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+            transition: opacity 0.4s ease, transform 0.6s cubic-bezier(0.16, 1, 0.3, 1), filter 0.6s cubic-bezier(0.16, 1, 0.3, 1);
         }
-        /* 加载成功后触发 */
         .card img.loaded { opacity: 1; }
 
-        /* 悬停线框互动 */
-        .card:hover { border-color: var(--text-dark); transform: scale(1.02); }
-        .card:hover::before { top: -8px; left: -8px; opacity: 1; }
-        .card:hover::after { bottom: -8px; right: -8px; opacity: 1; }
-        .card:hover img { transform: scale(1.04); filter: grayscale(0%) contrast(100%); }
-
-        /* 分帧加载触发底座 */
-        .load-container {
-            display: flex;
-            justify-content: center;
-            margin-top: 50px;
+        /* 【高级动态交互：从“导轨”上垂直拔出悬空，拉开落差微阴影】 */
+        .card:hover .card-inner { 
+            border-color: var(--text-dark); 
+            transform: translateY(-8px); /* 向上抬升 */
+            /* 投射出温润拉长的大地色空气虚影 */
+            box-shadow: 0 25px 50px rgba(42, 38, 34, 0.07); 
         }
+        /* 四角 L 型对焦轨线向外呈放射状扩充，机械细节拉满 */
+        .card:hover::before { top: -12px; left: -12px; opacity: 1; }
+        .card:hover::after { bottom: -12px; right: -12px; opacity: 1; }
+        .card:hover img { transform: scale(1.02); filter: grayscale(0%) sepia(0%) contrast(100%); }
+
+        /* 追加加载按钮 */
+        .load-container { display: flex; justify-content: center; margin-top: 60px; }
         .load-more-btn {
             background: transparent;
             border: 1px solid var(--text-dark);
@@ -253,13 +263,13 @@
             text-transform: uppercase;
             transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
         }
-        .load-more-btn:hover { background: var(--text-dark); color: #FFFFFF; }
+        .load-more-btn:hover { background: var(--text-dark); color: var(--bg-sidebar); }
 
         /* --- 磨砂玻璃放大弹窗 --- */
         .img-popup{
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(17, 17, 17, 0.93); 
+            background: rgba(42, 38, 34, 0.92); 
             backdrop-filter: blur(12px);
             z-index: 99999;
             display: flex; align-items: center; justify-content: center; padding: 40px;
@@ -270,35 +280,37 @@
         .img-popup img{
             max-width: 92%; max-height: 92%; object-fit: contain;
             border-radius: 0; 
-            border: 1px solid rgba(255, 255, 255, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            box-shadow: 0 30px 70px rgba(0,0,0,0.3);
             transform: scale(0.95);
             transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
         }
         .img-popup.active{ opacity: 1; visibility: visible; }
         .img-popup.active img { transform: scale(1); }
 
+        /* 底栏 */
         .footer{ 
             text-align:center; padding:100px 0 40px; color:var(--text-muted); font-size:11px; letter-spacing: 3px;
-            border-top: 1px dashed var(--line-solid);
+            border-top: 1px dashed var(--text-dark);
             text-transform: uppercase;
         }
 
-        /* --- 响应式矩阵降维 --- */
-        @media (max-width:1400px){ .gallery { grid-template-columns: repeat(3, 1fr); } }
-        @media (max-width:1024px){
+        /* --- 响应式矩阵平滑缩减 --- */
+        @media (max-width:1300px){ 
+            .gallery { grid-template-columns: repeat(2, 1fr); background-image: none; } /* 降维后取消中央轴线避免干扰 */
+        }
+        @media (max-width:1100px){
             .sidebar{ width: 240px; padding: 40px 20px; }
             .content{ margin-left: 240px; padding: 80px 30px; }
-            .gallery { grid-template-columns: repeat(2, 1fr); gap: 20px; }
         }
         @media (max-width:768px){
             .menu-btn{ display:flex; }
-            .sidebar{ transform: translateX(-100%); width: 260px; box-shadow: 15px 0 40px rgba(0,0,0,0.05); }
+            .sidebar{ transform: translateX(-100%); width: 260px; box-shadow: 15px 0 40px rgba(42,38,34,0.04); }
             .sidebar.show{ transform: translateX(0); }
             .content{ margin-left: 0; padding: 100px 20px 40px; }
             .video-main{ height:260px; }
             .reveal { margin-bottom: 80px; }
-            .gallery { grid-template-columns: 1fr; gap: 24px; }
-            .card:hover::before { transform: translate(6px, 6px); } 
+            .gallery { grid-template-columns: 1fr; gap: 40px; }
         }
     </style>
 </head>
@@ -320,11 +332,11 @@
     <div class="content">
         <!-- 首页板块 -->
         <section class="section reveal" id="home" style="min-height: 40vh; display: flex; flex-direction: column; justify-content: center; border-left: 1px solid var(--text-dark); padding-left: 40px;">
-            <h1 style="font-size:38px; font-weight:700; color:var(--text-dark); margin-bottom:15px; letter-spacing: 5px; text-transform: uppercase;">
+            <h1 style="font-family: 'Noto Serif SC', serif; font-size:40px; font-weight:700; color:var(--text-dark); margin-bottom:15px; letter-spacing: 4px;">
                 李静敏设计集
             </h1>
-            <p style="color:var(--text-muted); font-size:12px; letter-spacing: 5px; text-transform: uppercase; font-family: monospace;">
-                Structural Geometry & Fine Compilation
+            <p style="color:var(--text-muted); font-size:11px; letter-spacing: 5px; text-transform: uppercase; font-family: monospace;">
+                Structural Geometry & Organic Compilations
             </p>
         </section>
 
@@ -347,7 +359,7 @@
         <section class="section reveal" id="poster">
             <h2 class="section-title">平面设计作品</h2>
             
-            <!-- 分类菜单 -->
+            <!-- 导轨分类菜单 -->
             <div class="filter-menu">
                 <button class="filter-btn active" data-target="all">INDEX / 全部</button>
                 <button class="filter-btn" data-target="img1">PART 01 / 系列壹</button>
@@ -410,7 +422,7 @@
                 <div class="card" data-cat="img3"><div class="card-inner"><img src="img3/47.jpg" loading="lazy"></div></div>
             </div>
 
-            <!-- 分批载入触发底座 -->
+            <!-- 动态异步流控制台 -->
             <div class="load-container" id="loadContainer">
                 <button class="load-more-btn" id="loadMoreBtn">[ LOAD MORE / 載入更多 ]</button>
             </div>
@@ -419,7 +431,7 @@
         <!-- 关于我 -->
         <section class="section reveal" id="about">
             <h2 class="section-title">关于我</h2>
-            <p style="font-size:18px; font-weight:700; color:var(--text-dark); letter-spacing: 2px; line-height: 1.6; border-left: 3px solid var(--line-solid); padding-left: 24px;">
+            <p style="font-family: 'Noto Serif SC', serif; font-size:18px; font-weight:700; color:var(--text-dark); letter-spacing: 2px; line-height: 1.6; border-left: 3px solid var(--line-solid); padding-left: 24px;">
                 以视觉为语，融极简意境，于方寸之间雕琢设计本心。
             </p>
         </section>
@@ -460,7 +472,7 @@
             });
         });
 
-        // 3. 磨砂玻璃放大弹窗
+        // 3. 磨砂纸弹窗放大
         const popup = document.getElementById('imgPopup');
         const bigImg = document.getElementById('bigImg');
         
@@ -480,7 +492,7 @@
             document.body.style.overflow = '';
         });
 
-        // 4. 动态分页分批加载 ＋ 分类检索调度
+        // 4. 异步加载控制台 + 分类检索
         const filterBtns = document.querySelectorAll('.filter-menu .filter-btn');
         const galleryCards = document.querySelectorAll('#galleryGrid .card');
         const loadMoreBtn = document.getElementById('loadMoreBtn');
@@ -539,7 +551,7 @@
 
         renderGallery();
 
-        // 渐进式素描加载监听
+        // 渐进式渲染
         const allImgs = document.querySelectorAll('#galleryGrid img');
         allImgs.forEach(img => {
             if (img.complete) {
@@ -549,7 +561,7 @@
             }
         });
 
-        // 5. 智能高亮监控 (Scrollspy)
+        // 5. 智能监控 (Scrollspy)
         const reveals = document.querySelectorAll('.reveal');
         const globalObserver = new IntersectionObserver((entries) => {
             entries.forEach(entry => {

@@ -4,12 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>DESIGN & PHOTOGRAPHY | 李静敏作品集</title>
-
-    <meta property="og:title" content="李静敏作品集 | DESIGN & PHOTOGRAPHY">
-    <meta property="og:description" content="以视觉为语，融极简意境，于方寸之间雕琢设计本心。">
-    <meta property="og:image" content="img1/1.jpg"> 
-    <meta property="og:type" content="website">
-
     <style>
         /* --- 基础重置与轻奢砂岩包豪斯变量 --- */
         *{margin:0;padding:0;box-sizing:border-box;}
@@ -40,17 +34,31 @@
 
         /* --- 移动端汉堡按钮 --- */
         .menu-btn{
-            position: fixed; top: 25px; right: 25px; width: 44px; height: 44px;
-            background: var(--bg-card); border: 1px solid var(--text-dark);
-            display: none; align-items: center; justify-content: center;
-            font-size: 14px; color: var(--text-dark); z-index: 9999; cursor: pointer;
+            position: fixed;
+            top: 25px;
+            right: 25px;
+            width: 44px;
+            height: 44px;
+            background: var(--bg-card);
+            border: 1px solid var(--text-dark);
+            border-radius: 0; 
+            display: none;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            color: var(--text-dark);
+            z-index: 9999;
+            cursor: pointer;
         }
 
         /* --- 左侧宣纸直角侧边栏 --- */
         .sidebar{
-            position: fixed; top: 0; left: 0; width: 280px; height: 100vh;
-            background: var(--bg-card); border-right: 1px solid var(--line-light);
-            padding: 80px 40px; z-index: 999;
+            position: fixed;
+            top: 0; left: 0; width: 280px; height: 100vh;
+            background: var(--bg-card);
+            border-right: 1px solid var(--line-light);
+            padding: 80px 40px;
+            z-index: 999;
             transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
         }
         .sidebar::after {
@@ -58,14 +66,26 @@
             background: var(--line-grid);
         }
         .sidebar .logo{
-            font-family: "Noto Serif SC", "Georgia", serif; font-size: 16px; font-weight: 700;
-            color: var(--text-dark); letter-spacing: 5px; margin-bottom: 80px;
-            text-align: center; text-transform: uppercase;
+            font-family: "Noto Serif SC", "Georgia", serif;
+            font-size: 16px;
+            font-weight: 700;
+            color: var(--text-dark);
+            letter-spacing: 5px;
+            margin-bottom: 80px;
+            text-align: center;
+            text-transform: uppercase;
         }
         .nav{ display: flex; flex-direction: column; gap: 4px; }
         .nav a{
-            padding: 14px 20px; text-decoration: none; color: var(--text-muted);
-            transition: all 0.3s ease; font-size: 13px; text-align: left; letter-spacing: 3px; font-weight: 500;
+            padding: 14px 20px;
+            text-decoration: none;
+            color: var(--text-muted);
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            font-size: 13px;
+            text-align: left;
+            letter-spacing: 3px;
+            font-weight: 500;
+            position: relative;
         }
         .nav a:hover{ color: var(--text-dark); padding-left: 26px; }
         .nav a.active{ color: var(--text-dark); font-weight: 700; background: var(--bg-canvas); }
@@ -74,20 +94,28 @@
             background: var(--line-solid);
         }
 
-        /* --- 右侧内容主展区 --- */
+        /* --- 右侧内容观展区 --- */
         .content{ margin-left: 280px; padding: 100px 60px; min-height: 100vh; }
         
         .reveal {
-            opacity: 0; transform: translateY(10px);
-            transition: opacity 0.5s ease, transform 0.5s ease;
+            opacity: 0;
+            transform: translateY(15px);
+            transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1), transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
             margin-bottom: 140px; 
         }
-        .reveal.reveal-active { opacity: 1 !important; transform: translateY(0); }
+        .reveal.reveal-active { opacity: 1; transform: translateY(0); }
 
+        /* 建筑标尺标题 */
         .section-title{
-            font-family: "Noto Serif SC", "Source Han Serif CN", serif; font-size: 18px; font-weight: 700;
-            color: var(--text-dark); margin-bottom: 50px; letter-spacing: 3px;
-            display: flex; align-items: center; gap: 20px;
+            font-family: "Noto Serif SC", "Source Han Serif CN", serif;
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--text-dark);
+            margin-bottom: 50px;
+            letter-spacing: 3px;
+            display: flex;
+            align-items: center;
+            gap: 20px;
         }
         .section-title::before { content: '┠'; font-family: monospace; color: var(--text-dark); }
         .section-title::after { content: ''; flex: 1; height: 1px; background: var(--line-solid); }
@@ -95,50 +123,80 @@
         /* --- 动态视频板块 --- */
         .video-show{ margin-bottom:30px; }
         .video-main{
-            width:100%; height:500px; overflow:hidden; margin-bottom:25px;
-            background: #000; border: 1px solid var(--text-dark);
+            width:100%;
+            height:500px;
+            overflow:hidden;
+            margin-bottom:25px;
+            background: #000;
+            border: 1px solid var(--text-dark);
         }
         .video-main video{ width:100%; height:100%; object-fit: contain; }
         .video-thumbs{ display: flex; gap: 8px; flex-wrap: wrap; }
         .video-thumb{
-            padding: 10px 24px; background: var(--bg-card); border: 1px solid var(--line-light);
-            cursor: pointer; font-size: 12px; font-weight: 600; color: var(--text-muted);
-            letter-spacing: 2px; transition: all 0.2s ease;
+            padding: 10px 24px;
+            background: var(--bg-card);
+            border: 1px solid var(--line-light);
+            cursor: pointer;
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--text-muted);
+            letter-spacing: 2px;
+            transition: all 0.3s ease;
         }
         .video-thumb:hover { border-color: var(--text-dark); color: var(--text-dark); }
         .video-thumb.active{ background: var(--text-dark); color: var(--bg-card); border-color: var(--text-dark); }
 
 
         /* ==========================================================================
-           【平面海报展示区布局】
+           【基建基础】平面海报：紧凑型 4 列自适应瀑布流网格
            ========================================================================== */
         .filter-menu {
-            display: flex; gap: 10px; margin-bottom: 45px;
-            border-top: 1px solid var(--text-dark); border-bottom: 1px dashed var(--line-light);
-            padding: 15px 0; flex-wrap: wrap;
+            display: flex;
+            gap: 10px;
+            margin-bottom: 45px;
+            border-top: 1px solid var(--text-dark);
+            border-bottom: 1px dashed var(--line-light);
+            padding: 15px 0;
+            flex-wrap: wrap;
         }
         .filter-btn {
-            background: transparent; border: 1px dashed var(--line-light); padding: 8px 22px;
-            font-size: 11px; letter-spacing: 2px; color: var(--text-muted); cursor: pointer;
-            font-weight: 600; transition: all 0.2s ease;
+            background: transparent;
+            border: 1px dashed var(--line-light);
+            padding: 8px 22px;
+            font-size: 11px;
+            letter-spacing: 2px;
+            color: var(--text-muted);
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
         }
         .filter-btn:hover { border-color: var(--text-dark); color: var(--text-dark); }
         .filter-btn.active { background: var(--text-dark); color: var(--bg-card); border-color: var(--text-dark); }
 
         .gallery { 
-            column-count: 4; column-gap: 32px; position: relative;
+            column-count: 4;     
+            column-gap: 32px;    
+            position: relative;
         }
         
         .card {
-            break-inside: avoid; display: block; width: 100%; margin-bottom: 35px; 
-            position: relative; cursor: pointer; background: none; border: none;
+            break-inside: avoid; 
+            display: block; 
+            width: 100%;
+            margin-bottom: 35px; 
+            position: relative;
+            cursor: pointer;
+            background: none;
+            border: none;
         }
+        
         .card.hide { display: none !important; }
 
         .card::before, .card::after {
             content: ''; position: absolute; width: 12px; height: 12px;
-            opacity: 0.25; pointer-events: none; z-index: 3;
-            transition: border-color 0.3s ease;
+            transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+            opacity: 0.25; pointer-events: none;
+            z-index: 3;
         }
         .card::before { top: -5px; left: -5px; border-top: 1px solid var(--text-dark); border-left: 1px solid var(--text-dark); }
         .card::after { bottom: -5px; right: -5px; border-bottom: 1px solid var(--text-dark); border-right: 1px solid var(--text-dark); }
@@ -147,16 +205,17 @@
             width: 100%; height: auto; display: flex; flex-direction: column;
             background: var(--bg-card); border: 1px solid var(--line-light);
             padding: 10px 10px 38px 10px; position: relative;
-            box-shadow: 0 4px 15px rgba(50, 42, 34, 0.02);
-            transition: border-color 0.25s ease, transform 0.25s ease, box-shadow 0.25s ease;
+            box-shadow: 0 6px 20px rgba(50, 42, 34, 0.02), 0 1px 2px rgba(50, 42, 34, 0.01);
+            transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
         }
+
         .card-img-wrapper { width: 100%; height: auto; display: block; }
 
-        /* 核心级：强制硬件加速渐进淡入样式 */
+        /* 统一的惰性图片淡入样式 */
         .card img {
             width: 100%; height: auto; display: block;
             filter: grayscale(5%) sepia(3%) contrast(98%);
-            opacity: 0; will-change: opacity;
+            opacity: 0;
             transition: opacity 0.5s cubic-bezier(0.16, 1, 0.3, 1);
         }
         .card img.loaded { opacity: 1 !important; }
@@ -170,26 +229,28 @@
         }
         .card-meta::before { content: '┼'; font-size: 8px; }
 
-        .card:hover .card-inner { 
-            border-color: var(--text-dark); transform: translateY(-4px); 
-            box-shadow: 0 12px 25px rgba(50, 42, 34, 0.05); 
+        .gallery .card:hover .card-inner { 
+            border-color: var(--text-dark); transform: translateY(-6px); 
+            box-shadow: 0 20px 40px rgba(50, 42, 34, 0.06); 
         }
-        .card:hover img { filter: grayscale(0%) sepia(0%) contrast(100%); }
+        .gallery .card:hover::before { top: -10px; left: -10px; opacity: 1; }
+        .gallery .card:hover::after { bottom: -10px; right: -10px; opacity: 1; }
 
 
         /* ==========================================================================
-           【摄影图集展示区布局】12列高级不规则流体大河
+           【全新顶级视觉】摄影图集：12列不规则“蜿蜒大河”编排（突破常规，极度舒展高级）
            ========================================================================== */
         #photoGrid {
             display: grid;
-            grid-template-columns: repeat(12, 1fr); 
-            gap: 0px 32px; 
+            grid-template-columns: repeat(12, 1fr); /* 核心：12列主河道控制轴 */
+            gap: 0px 32px; /* 消除原生高间距，改由物理负外边距控制错落流动 */
             position: relative;
             column-count: auto; 
         }
         
         #photoGrid .card { margin-bottom: 0; break-inside: auto; }
 
+        /* 🌊 大河非对称控制网：让 32 张照片如河流般在空间中曲折错落流动 */
         #photoGrid .card:nth-child(6n+1) { grid-column: 1 / span 5; margin-top: 60px; margin-bottom: 80px; }   
         #photoGrid .card:nth-child(6n+2) { grid-column: 5 / span 5; margin-top: -30px; margin-bottom: 120px; } 
         #photoGrid .card:nth-child(6n+3) { grid-column: 8 / span 4; margin-top: 40px; margin-bottom: 90px; }   
@@ -197,19 +258,27 @@
         #photoGrid .card:nth-child(6n+5) { grid-column: 2 / span 4; margin-top: 20px; margin-bottom: 100px; }  
         #photoGrid .card:nth-child(6n+6) { grid-column: 7 / span 5; margin-top: -40px; margin-bottom: 15px; }  
 
+        #photoGrid .card:hover .card-inner {
+            border-color: var(--text-dark); transform: translateY(-8px);
+            box-shadow: 0 30px 60px rgba(50, 42, 34, 0.09);
+        }
+        #photoGrid .card:hover::before { top: -10px; left: -10px; opacity: 1; }
+        #photoGrid .card:hover::after { bottom: -10px; right: -10px; opacity: 1; }
+        #photoGrid .card:hover img { filter: grayscale(0%) sepia(0%) contrast(100%); }
 
-        /* --- 磨砂纸弹窗 --- */
+
+        /* --- 磨砂卡纸放大弹窗 --- */
         .img-popup{
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: rgba(42, 38, 34, 0.93); backdrop-filter: blur(12px);
             z-index: 99999; display: flex; align-items: center; justify-content: center; padding: 40px;
-            opacity: 0; visibility: hidden; transition: opacity 0.4s ease, visibility 0.4s ease;
+            opacity: 0; visibility: hidden; transition: opacity 0.5s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.5s cubic-bezier(0.16, 1, 0.3, 1);
             cursor: zoom-out;
         }
         .img-popup img{
-            max-width: 92%; max-height: 92%; object-fit: contain;
+            max-width: 92%; max-height: 92%; object-fit: contain; 
             border: 1px solid rgba(255, 255, 255, 0.15); box-shadow: 0 30px 70px rgba(0,0,0,0.3);
-            transform: scale(0.97); transition: transform 0.4s ease;
+            transform: scale(0.95); transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
         }
         .img-popup.active{ opacity: 1; visibility: visible; }
         .img-popup.active img { transform: scale(1); }
@@ -220,7 +289,7 @@
             border-top: 1px dashed var(--text-dark); text-transform: uppercase;
         }
 
-        /* --- 响应式布局自适应调节 --- */
+        /* --- 响应式降维：保护中小屏幕下的极限排版 --- */
         @media (max-width:1400px) { 
             .gallery { column-count: 3; gap: 24px; } 
             #photoGrid { grid-template-columns: repeat(2, 1fr); gap: 40px 24px; }
@@ -240,6 +309,7 @@
             .video-main{ height:260px; }
             .reveal { margin-bottom: 80px; }
             .gallery { column-count: 1; gap: 24px; }
+            /* 手机端平铺回归单列深度大河生态流 */
             #photoGrid { grid-template-columns: 1fr; gap: 35px; }
             #photoGrid .card:nth-child(n) { margin-top: 0 !important; margin-bottom: 0 !important; }
         }
@@ -261,7 +331,7 @@
         </div>
     </div>
 
-    <div class="content" id="viewCanvas">
+    <div class="content">
         <section class="section reveal" id="home" style="min-height: 40vh; display: flex; flex-direction: column; justify-content: center; border-left: 1px solid var(--text-dark); padding-left: 40px;">
             <h1 style="font-family: 'Noto Serif SC', serif; font-size:40px; font-weight:700; color:var(--text-dark); margin-bottom:15px; letter-spacing: 4px;">
                 李静敏设计集
@@ -367,7 +437,7 @@
                 <div class="card"><div class="card-inner"><div class="card-img-wrapper"><img data-src="photo1/10.jpg" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"></div><div class="card-meta"><span>ISO 1600</span><span>f/2.8 1/30s</span></div></div></div>
                 <div class="card"><div class="card-inner"><div class="card-img-wrapper"><img data-src="photo1/11.jpg" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"></div><div class="card-meta"><span>ISO 100</span><span>f/2.0 1/1000s</span></div></div></div>
                 <div class="card"><div class="card-inner"><div class="card-img-wrapper"><img data-src="photo1/12.jpg" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"></div><div class="card-meta"><span>ISO 100</span><span>f/2.8 1/160s</span></div></div></div>
-                <div class="card"><div class="card-inner"><div class="card-img-wrapper"><img data-src="photo2/29.jpg" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"></div><div class="card-meta"><span>ISO 200</span><span>f/4.0 1/160s</span></div></div></div>
+                <div class="card"><div class="card-inner"><div class="card-img-wrapper"><img data-src="photo1/13.jpg" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"></div><div class="card-meta"><span>ISO 200</span><span>f/4.0 1/500s</span></div></div></div>
                 <div class="card"><div class="card-inner"><div class="card-img-wrapper"><img data-src="photo1/14.jpg" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"></div><div class="card-meta"><span>ISO 100</span><span>f/1.4 1/400s</span></div></div></div>
                 <div class="card"><div class="card-inner"><div class="card-img-wrapper"><img data-src="photo1/15.jpg" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"></div><div class="card-meta"><span>ISO 400</span><span>f/2.8 1/125s</span></div></div></div>
                 <div class="card"><div class="card-inner"><div class="card-img-wrapper"><img data-src="photo1/16.jpg" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"></div><div class="card-meta"><span>ISO 100</span><span>f/8.0 1/250s</span></div></div></div>
@@ -384,7 +454,7 @@
                 <div class="card"><div class="card-inner"><div class="card-img-wrapper"><img data-src="photo2/26.jpg" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"></div><div class="card-meta"><span>ISO 800</span><span>f/2.8 1/60s</span></div></div></div>
                 <div class="card"><div class="card-inner"><div class="card-img-wrapper"><img data-src="photo2/27.jpg" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"></div><div class="card-meta"><span>ISO 100</span><span>f/2.0 1/400s</span></div></div></div>
                 <div class="card"><div class="card-inner"><div class="card-img-wrapper"><img data-src="photo2/28.jpg" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"></div><div class="card-meta"><span>ISO 100</span><span>f/8.0 1/200s</span></div></div></div>
-                <div class="card"><div class="card-inner"><div class="card-img-wrapper"><img data-src="photo1/13.jpg" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"></div><div class="card-meta"><span>ISO 200</span><span>f/4.0 1/500s</span></div></div></div>
+                <div class="card"><div class="card-inner"><div class="card-img-wrapper"><img data-src="photo2/29.jpg" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"></div><div class="card-meta"><span>ISO 200</span><span>f/4.0 1/160s</span></div></div></div>
                 <div class="card"><div class="card-inner"><div class="card-img-wrapper"><img data-src="photo2/30.jpg" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"></div><div class="card-meta"><span>ISO 100</span><span>f/2.8 1/250s</span></div></div></div>
                 <div class="card"><div class="card-inner"><div class="card-img-wrapper"><img data-src="photo2/31.jpg" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"></div><div class="card-meta"><span>ISO 100</span><span>f/1.4 1/800s</span></div></div></div>
                 <div class="card"><div class="card-inner"><div class="card-img-wrapper"><img data-src="photo2/32.jpg" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"></div><div class="card-meta"><span>ISO 400</span><span>f/2.8 1/200s</span></div></div></div>
@@ -403,6 +473,10 @@
         </div>
     </div>
 
+    <div class="img-popup" id="imgPopup">
+        <img src="" id="bigImg" alt="作品放大预览">
+    </div>
+
     <script>
         // 1. 移动端菜单逻辑
         const menuBtn = document.getElementById('menuBtn');
@@ -418,20 +492,21 @@
             link.addEventListener('click', () => sidebar.classList.remove('show'));
         });
 
-        // 2. 原生视频切源流调度
+        // 2. 原生大视频流硬件加速切换调度
         const thumbs = document.querySelectorAll('.video-thumb');
         const mainVideo = document.getElementById('mainVideo');
         thumbs.forEach(thumb => {
             thumb.addEventListener('click', () => {
                 thumbs.forEach(t => t.classList.remove('active'));
                 thumb.classList.add('active');
+                
                 mainVideo.src = thumb.dataset.src;
                 mainVideo.load();
                 mainVideo.play();
             });
         });
 
-        // 3. 全局弹窗预览面板
+        // 3. 画廊全局弹窗放大预览控制面板
         const popup = document.getElementById('imgPopup');
         const bigImg = document.getElementById('bigImg');
         
@@ -439,6 +514,7 @@
             card.addEventListener('click', (e) => {
                 const img = card.querySelector('img');
                 if(img) {
+                    // 弹窗时提取真正的 data-src 高清原画资源
                     bigImg.src = img.dataset.src || img.src;
                     popup.classList.add('active');
                     document.body.style.overflow = 'hidden';
@@ -462,8 +538,10 @@
 
         function renderGallery() {
             let visibleIndex = 0; 
+
             galleryCards.forEach(card => {
                 const matchesCategory = currentFilter === 'all' || card.dataset.cat === currentFilter;
+                
                 if (matchesCategory) {
                     if (currentFilter === 'all') {
                         if (visibleIndex < initialLimit) {
@@ -486,6 +564,8 @@
             } else {
                 loadContainer.style.display = 'none';
             }
+            
+            // 每次平面海报切换类别或点击更多，重新初始化该范围内的懒加载监听
             triggerLazyLoadCheck();
         }
 
@@ -498,32 +578,38 @@
             btn.addEventListener('click', () => {
                 filterBtns.forEach(b => b.classList.remove('active'));
                 btn.classList.add('active');
+                
                 currentFilter = btn.dataset.target;
-                if (currentFilter === 'all') initialLimit = 12; 
+                if (currentFilter === 'all') {
+                    initialLimit = 12; 
+                }
                 renderGallery();
             });
         });
 
+        renderGallery();
+
+
         // ==========================================================================
-        // 5. 【核心修复】：解决异步竞态与缓存错乱的真实懒加载加载机制
+        // 5. 【极限速度救星】：核心 IntersectionObserver 真实惰性懒加载控制机制
         // ==========================================================================
         let lazyObserver;
         
         function initLazyLoad() {
             const allLazyImages = document.querySelectorAll('img[data-src]');
-            let rootMarginMargin = window.innerWidth > 768 ? "0px 0px 200px 0px" : "0px 0px 300px 0px";
+            // 移动端安全触发线放宽至 150 像素，在触及视窗前提前后台载入，保障丝滑
+            let rootMarginMargin = window.innerWidth > 768 ? "0px 0px 80px 0px" : "0px 0px 150px 0px";
 
             if ('IntersectionObserver' in window) {
                 lazyObserver = new IntersectionObserver((entries, observer) => {
                     entries.forEach(entry => {
                         if (entry.isIntersecting) {
                             const img = entry.target;
+                            img.src = img.dataset.src; // 读取真实物理资源，按需下载
                             
-                            // 🔥 【关键修正点】：必须先绑定加载事件，再注入 src 路径，彻底干掉本地缓存造成的速度竞争问题！
                             img.addEventListener('load', () => img.classList.add('loaded'));
-                            img.addEventListener('error', () => img.classList.add('loaded')); // 容错边界机制
+                            img.addEventListener('error', () => img.classList.add('loaded')); // 容错边界
                             
-                            img.src = img.dataset.src; 
                             observer.unobserve(img);
                         }
                     });
@@ -531,7 +617,7 @@
 
                 allLazyImages.forEach(img => lazyObserver.observe(img));
             } else {
-                // 回退直出
+                // 极老旧浏览器直接直出
                 allLazyImages.forEach(img => {
                     img.src = img.dataset.src;
                     img.classList.add('loaded');
@@ -544,26 +630,9 @@
             initLazyLoad();
         }
 
-        // 首次初始化首屏控制
-        renderGallery();
 
-        // 6. 智能监控 (Scrollspy) + 板块展示边界放宽
-        const progressRail = document.getElementById('progressRail');
-        const viewCanvas = document.getElementById('viewCanvas');
-
-        window.addEventListener('scroll', () => {
-            const totalScroll = document.documentElement.scrollHeight - window.innerHeight;
-            if (totalScroll > 0) {
-                const scrolledFraction = window.scrollY / totalScroll;
-                progressRail.style.transform = `scaleX(${scrolledFraction})`;
-            }
-            if ((window.innerHeight + window.scrollY) >= document.documentElement.scrollHeight - 50) {
-                updateNav('about');
-            }
-        });
-
-        // 🔥 【触发线放宽优化】：从 -20%/-40% 放宽至 0px/-10%，防止板块因为高度未撑开而被隐形锁定
-        let mobileMargin = window.innerWidth > 768 ? '0px 0px -15% 0px' : '0px 0px -10% 0px';
+        // 6. 智能监控 (Scrollspy) + 触底自动激活关于我高亮
+        let mobileMargin = window.innerWidth > 768 ? '-20% 0px -40% 0px' : '0px 0px -10% 0px';
         const reveals = document.querySelectorAll('.reveal');
 
         const globalObserver = new IntersectionObserver((entries) => {
@@ -574,7 +643,7 @@
                     updateNav(id);
                 }
             });
-        }, { root: null, rootMargin: mobileMargin, threshold: 0.01 });
+        }, { root: null, rootMargin: mobileMargin, threshold: 0.02 });
 
         reveals.forEach(el => globalObserver.observe(el));
 
@@ -587,6 +656,12 @@
                 }
             });
         }
+
+        window.addEventListener('scroll', () => {
+            if ((window.innerHeight + window.scrollY) >= document.documentElement.scrollHeight - 50) {
+                updateNav('about');
+            }
+        });
     </script>
 </body>
 </html>

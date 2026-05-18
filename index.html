@@ -149,7 +149,7 @@
 
 
         /* ==========================================================================
-           【核心重构】紧凑型 4 列自适应画布流瀑布流（横竖图严丝合缝）
+           【基建标准】平面海报：紧凑型 4 列自适应瀑布流网格
            ========================================================================== */
         .filter-menu {
             display: flex;
@@ -174,7 +174,6 @@
         .filter-btn:hover { border-color: var(--text-dark); color: var(--text-dark); }
         .filter-btn.active { background: var(--text-dark); color: var(--bg-card); border-color: var(--text-dark); }
 
-        /* 4 列纯 CSS 瀑布流 */
         .gallery { 
             column-count: 4;     
             column-gap: 32px;    
@@ -194,7 +193,6 @@
         
         .card.hide { display: none !important; }
 
-        /* 四角测绘标 */
         .card::before, .card::after {
             content: ''; position: absolute; width: 12px; height: 12px;
             transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
@@ -204,98 +202,88 @@
         .card::before { top: -5px; left: -5px; border-top: 1px solid var(--text-dark); border-left: 1px solid var(--text-dark); }
         .card::after { bottom: -5px; right: -5px; border-bottom: 1px solid var(--text-dark); border-right: 1px solid var(--text-dark); }
 
-        /* 衬板自适应高度机制 */
         .card-inner {
-            width: 100%; 
-            height: auto; 
-            display: flex; 
-            flex-direction: column;
-            background: var(--bg-card); 
-            border: 1px solid var(--line-light);
-            padding: 10px 10px 38px 10px; 
-            position: relative;
+            width: 100%; height: auto; display: flex; flex-direction: column;
+            background: var(--bg-card); border: 1px solid var(--line-light);
+            padding: 10px 10px 38px 10px; position: relative;
             box-shadow: 0 6px 20px rgba(50, 42, 34, 0.02), 0 1px 2px rgba(50, 42, 34, 0.01);
             transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
-        .card-img-wrapper {
-            width: 100%;
-            height: auto;
-            display: block;
-        }
+        .card-img-wrapper { width: 100%; height: auto; display: block; }
 
         .card img {
-            width: 100%;
-            height: auto; 
-            display: block;
+            width: 100%; height: auto; display: block;
             filter: grayscale(5%) sepia(3%) contrast(98%);
             opacity: 0;
             transition: opacity 0.4s ease, transform 0.5s cubic-bezier(0.16, 1, 0.3, 1), filter 0.5s cubic-bezier(0.16, 1, 0.3, 1);
         }
         .card img.loaded { opacity: 1; }
 
-        /* 盲雕细线标签 */
         .card-meta {
-            position: absolute;
-            bottom: 10px; left: 12px; right: 12px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            font-family: monospace;
-            font-size: 9px;
-            letter-spacing: 1.5px;
-            color: var(--text-muted);
-            border-top: 1px solid rgba(50, 42, 34, 0.05);
-            padding-top: 6px;
-            text-transform: uppercase;
+            position: absolute; bottom: 10px; left: 12px; right: 12px;
+            display: flex; justify-content: space-between; align-items: center;
+            font-family: monospace; font-size: 9px; letter-spacing: 1.5px;
+            color: var(--text-muted); border-top: 1px solid rgba(50, 42, 34, 0.05);
+            padding-top: 6px; text-transform: uppercase;
         }
         .card-meta::before { content: '┼'; font-size: 8px; }
 
-        /* 悬停互动 */
         .card:hover .card-inner { 
-            border-color: var(--text-dark); 
-            transform: translateY(-6px); 
+            border-color: var(--text-dark); transform: translateY(-6px); 
             box-shadow: 0 20px 40px rgba(50, 42, 34, 0.06); 
         }
         .card:hover::before { top: -10px; left: -10px; opacity: 1; }
         .card:hover::after { bottom: -10px; right: -10px; opacity: 1; }
         .card:hover img { filter: grayscale(0%) sepia(0%) contrast(100%); }
 
-
-        /* --- 追加加载控制台 --- */
         .load-container { display: flex; justify-content: center; margin-top: 60px; }
         .load-more-btn {
-            background: transparent;
-            border: 1px solid var(--text-dark);
-            padding: 14px 45px;
-            font-size: 11px;
-            letter-spacing: 4px;
-            font-weight: 700;
-            color: var(--text-dark);
-            cursor: pointer;
-            text-transform: uppercase;
-            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            background: transparent; border: 1px solid var(--text-dark); padding: 14px 45px;
+            font-size: 11px; letter-spacing: 4px; font-weight: 700; color: var(--text-dark);
+            cursor: pointer; text-transform: uppercase; transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
         }
         .load-more-btn:hover { background: var(--text-dark); color: var(--bg-card); }
 
-        /* --- 磨砂卡纸弹窗 --- */
+
+        /* ==========================================================================
+           【全新顶级视觉】摄影图集：高级独立影展 · 12列非对称网格拼贴矩阵
+           ========================================================================== */
+        #photoGrid {
+            display: grid;
+            grid-template-columns: repeat(12, 1fr); /* 核心：升级为 12 列底层控制轨 */
+            gap: 140px 40px; /* 纵向超开阔呼吸间距 */
+            column-count: auto; /* 覆盖清除原先的瀑布流配置 */
+        }
+        
+        #photoGrid .card {
+            margin-bottom: 0;
+            break-inside: auto;
+        }
+
+        /* 🎬 运用黄金非对称韵律：精准编排32张图的跨度与对齐位置 */
+        #photoGrid .card:nth-child(8n+1) { grid-column: 1 / span 5; }  /* 左侧沉稳主力块 */
+        #photoGrid .card:nth-child(8n+2) { grid-column: 7 / span 6; margin-top: 100px; } /* 右侧大幅延展块并下移 */
+        #photoGrid .card:nth-child(8n+3) { grid-column: 2 / span 4; margin-top: -40px; }  /* 孤立紧凑缩进块 */
+        #photoGrid .card:nth-child(8n+4) { grid-column: 7 / span 5; }  /* 右侧精细块 */
+        #photoGrid .card:nth-child(8n+5) { grid-column: 1 / span 7; padding-right: 6%; } /* 宽幅横展片 */
+        #photoGrid .card:nth-child(8n+6) { grid-column: 9 / span 4; margin-top: -80px; }  /* 右侧悬空挑起块 */
+        #photoGrid .card:nth-child(8n+7) { grid-column: 3 / span 6; margin-top: 40px; }   /* 核心居中视觉块 */
+        #photoGrid .card:nth-child(8n+8) { grid-column: 10 / span 3; align-self: end; }   /* 右下角悬挂句点 */
+
+
+        /* --- 磨砂玻璃放大弹窗 --- */
         .img-popup{
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(42, 38, 34, 0.93); 
-            backdrop-filter: blur(12px);
-            z-index: 99999;
-            display: flex; align-items: center; justify-content: center; padding: 40px;
-            opacity: 0; visibility: hidden;
-            transition: opacity 0.5s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(42, 38, 34, 0.93); backdrop-filter: blur(12px);
+            z-index: 99999; display: flex; align-items: center; justify-content: center; padding: 40px;
+            opacity: 0; visibility: hidden; transition: opacity 0.5s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.5s cubic-bezier(0.16, 1, 0.3, 1);
             cursor: zoom-out;
         }
         .img-popup img{
             max-width: 92%; max-height: 92%; object-fit: contain;
-            border: 1px solid rgba(255, 255, 255, 0.15);
-            box-shadow: 0 30px 70px rgba(0,0,0,0.3);
-            transform: scale(0.95);
-            transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+            border: 1px solid rgba(255, 255, 255, 0.15); box-shadow: 0 30px 70px rgba(0,0,0,0.3);
+            transform: scale(0.95); transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
         }
         .img-popup.active{ opacity: 1; visibility: visible; }
         .img-popup.active img { transform: scale(1); }
@@ -303,18 +291,21 @@
         /* 底栏 */
         .footer{ 
             text-align:center; padding:100px 0 40px; color:var(--text-muted); font-size:11px; letter-spacing: 3px;
-            border-top: 1px dashed var(--text-dark);
-            text-transform: uppercase;
+            border-top: 1px dashed var(--text-dark); text-transform: uppercase;
         }
 
-        /* --- 响应式降维 --- */
+        /* --- 响应式降维：保护中小屏幕下的极限排版 --- */
         @media (max-width:1400px) { 
-            .gallery { column-count: 3; gap: 24px; } 
+            #photoGrid { grid-template-columns: repeat(3, 1fr); gap: 60px 30px; } 
+            #photoGrid .card:nth-child(n) { grid-column: auto !important; margin-top: 0 !important; padding: 0 !important; }
+            #photoGrid .card:nth-child(3n+2) { margin-top: 40px !important; }
         }
         @media (max-width:1100px) {
             .sidebar{ width: 240px; padding: 40px 20px; }
             .content{ margin-left: 240px; padding: 80px 30px; }
-            .gallery { column-count: 2; gap: 20px; }
+            #photoGrid { grid-template-columns: repeat(2, 1fr); gap: 50px 24px; }
+            #photoGrid .card:nth-child(n) { margin-top: 0 !important; }
+            #photoGrid .card:nth-child(even) { margin-top: 35px !important; }
         }
         @media (max-width:768px) {
             .menu-btn{ display:flex; }
@@ -324,6 +315,9 @@
             .video-main{ height:260px; }
             .reveal { margin-bottom: 80px; }
             .gallery { column-count: 1; gap: 24px; }
+            /* 手机端抹平一切偏移，回归单列绝对清晰流 */
+            #photoGrid { grid-template-columns: 1fr; gap: 40px; }
+            #photoGrid .card:nth-child(n) { margin-top: 0 !important; }
         }
     </style>
 </head>
@@ -370,7 +364,6 @@
 
         <section class="section reveal" id="poster">
             <h2 class="section-title">平面设计作品</h2>
-            
             <div class="filter-menu">
                 <button class="filter-btn active" data-target="all">INDEX / 全部</button>
                 <button class="filter-btn" data-target="img1">PART 01 / 系列壹</button>
@@ -491,7 +484,7 @@
     </div>
 
     <script>
-        // 1. 移动端菜单逻辑
+        // 1. 移动端汉堡菜单逻辑
         const menuBtn = document.getElementById('menuBtn');
         const sidebar = document.getElementById('sidebar');
         const navLinks = document.querySelectorAll('.nav a');
@@ -505,24 +498,22 @@
             link.addEventListener('click', () => sidebar.classList.remove('show'));
         });
 
-        // 2. 原生大体积视频流硬件加速切换调度
+        // 2. 原生大视频流切源与硬件解码加速调度
         const thumbs = document.querySelectorAll('.video-thumb');
         const mainVideo = document.getElementById('mainVideo');
         thumbs.forEach(thumb => {
             thumb.addEventListener('click', () => {
                 thumbs.forEach(t => t.classList.remove('active'));
                 thumb.classList.add('active');
-                
                 mainVideo.src = thumb.dataset.src;
                 mainVideo.load();
                 mainVideo.play();
             });
         });
 
-        // 3. 弹窗放大（全面兼容海报和摄影卡片）
+        // 3. 画廊全局弹窗放大预览控制面板
         const popup = document.getElementById('imgPopup');
         const bigImg = document.getElementById('bigImg');
-        
         document.querySelectorAll('.card').forEach(card => {
             card.addEventListener('click', (e) => {
                 const img = card.querySelector('img');
@@ -550,10 +541,8 @@
 
         function renderGallery() {
             let visibleIndex = 0; 
-
             galleryCards.forEach(card => {
                 const matchesCategory = currentFilter === 'all' || card.dataset.cat === currentFilter;
-                
                 if (matchesCategory) {
                     if (currentFilter === 'all') {
                         if (visibleIndex < initialLimit) {
@@ -570,7 +559,6 @@
                     card.classList.add('hide');
                 }
             });
-
             if (currentFilter === 'all' && initialLimit < galleryCards.length) {
                 loadContainer.style.display = 'flex';
             } else {
@@ -587,18 +575,14 @@
             btn.addEventListener('click', () => {
                 filterBtns.forEach(b => b.classList.remove('active'));
                 btn.classList.add('active');
-                
                 currentFilter = btn.dataset.target;
-                if (currentFilter === 'all') {
-                    initialLimit = 12; 
-                }
+                if (currentFilter === 'all') initialLimit = 12; 
                 renderGallery();
             });
         });
-
         renderGallery();
 
-        // 5. 瀑布流图片渐进式加载监听
+        // 5. 图片渐进式冷启动加载监听
         const allImgs = document.querySelectorAll('.gallery img');
         allImgs.forEach(img => {
             if (img.complete) {
@@ -608,9 +592,8 @@
             }
         });
 
-        // 6. 智能监控 (Scrollspy) + 触底自动激活关于我高亮
+        // 6. 智能监控 (Scrollspy) ＋ 触底秒出关于我高亮
         const reveals = document.querySelectorAll('.reveal');
-
         const globalObserver = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {

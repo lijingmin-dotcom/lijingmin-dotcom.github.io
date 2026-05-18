@@ -152,10 +152,18 @@
             transition: border-color 0.5s ease, transform 0.5s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.5s ease;
             will-change: transform, box-shadow;
         }
-        .card-img-wrapper { width: 100%; min-height: 100px; display: block; position: relative; background: rgba(50, 42, 34, 0.02); }
+        
+        /* 🛠️ 核心修改：全面开启弹性横竖绝对居中对齐机制 */
+        .card-img-wrapper { 
+            width: 100%; min-height: 120px; position: relative; background: rgba(50, 42, 34, 0.02); 
+            display: flex;          /* 开启 Flexbox 布局 */
+            align-items: center;    /* 垂直方向绝对居中 */
+            justify-content: center;/* 水平方向绝对居中 */
+            overflow: hidden;
+        }
 
         .card img {
-            width: 100%; height: auto; display: block;
+            width: 100%; height: auto; display: block; margin: 0 auto; /* 保证图片在流体状态下水平居中位移 */
             filter: grayscale(5%) sepia(3%) contrast(98%); opacity: 0;
             transition: opacity 0.4s ease, transform 0.5s cubic-bezier(0.16, 1, 0.3, 1), filter 0.5s ease;
         }
@@ -196,7 +204,7 @@
         }
 
         .photo-gallery-masonry .card img {
-            width: 100%; height: auto; display: block;
+            width: 100%; height: auto; display: block; margin: 0 auto; /* 保证摄影网格图水平居中对齐 */
             filter: grayscale(6%) sepia(2%) contrast(97%); opacity: 0;
             transition: opacity 0.4s ease, transform 0.6s cubic-bezier(0.16, 1, 0.3, 1), filter 0.6s ease;
         }
@@ -228,17 +236,22 @@
         }
         .load-more-btn:hover { background: var(--text-dark); color: var(--bg-card); }
 
-        /* --- 磨砂卡纸弹窗 --- */
+        /* ==========================================================================
+           【磨砂卡纸大图弹窗方案】—— 强制大图窗口实现完美的横竖双轴心中央定位
+           ========================================================================= */
         .img-popup{
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: rgba(42, 38, 34, 0.93); backdrop-filter: blur(12px); z-index: 99999;
-            display: flex; align-items: center; justify-content: center; padding: 40px;
-            opacity: 0; visibility: hidden; cursor: zoom-out;
+            padding: 40px; opacity: 0; visibility: hidden; cursor: zoom-out;
+            display: flex;          /* 强制开启弹性盒模型 */
+            align-items: center;    /* 垂直绝对居中 */
+            justify-content: center;/* 水平绝对居中 */
             transition: opacity 0.4s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.4s cubic-bezier(0.16, 1, 0.3, 1);
         }
         .img-popup img{
             max-width: 92%; max-height: 92%; object-fit: contain; border: 1px solid rgba(255, 255, 255, 0.15); box-shadow: 0 30px 70px rgba(0,0,0,0.3);
             transform: scale(0.95); transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            margin: auto;           /* 配合弹性对齐锁死中心位 */
             background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 100 100"><circle cx="50" cy="50" r="40" stroke="%23FAF6EE" stroke-width="4" fill="none" stroke-dasharray="150 100"><animateTransform attributeName="transform" type="rotate" from="0 50 50" to="360 50 50" dur="0.8s" repeatCount="indefinite"/></circle></svg>') center no-repeat;
         }
         .img-popup.active{ opacity: 1; visibility: visible; }
@@ -253,34 +266,24 @@
             .gallery { column-count: 2; gap: 20px; } .photo-gallery-masonry { column-count: 2; gap: 24px; }
         }
         
-        /* ==========================================================================
-           【🚀 终极便携改版】针对 768px 以下手机端进行双列卡片无边框压缩排版
-           ========================================================================= */
+        /* 针对 768px 以下手机端进行双列卡片无边框压缩排版 */
         @media (max-width:768px) {
-            .menu-btn{ display:flex; } 
-            .sidebar{ transform: translateX(-100%); width: 260px; box-shadow: 15px 0 40px rgba(42,38,34,0.04); }
+            .menu-btn{ display:flex; } .sidebar{ transform: translateX(-100%); width: 260px; box-shadow: 15px 0 40px rgba(42,38,34,0.04); }
             .sidebar.show{ transform: translateX(0); } 
             
-            /* 压缩手机端两侧留白，将空间完全让给图片 */
-            .content{ margin-left: 0; padding: 100px 16px 40px; } 
-            .video-main{ height:230px; } 
-            .reveal { margin-bottom: 70px; }
+            .content{ margin-left: 0; padding: 100px 16px 40px; } .video-main{ height:230px; } .reveal { margin-bottom: 70px; }
             .section-title { margin-bottom: 30px; }
 
-            /* 🌟 平面设计：手机升级为紧凑流畅双列瀑布流 */
             .gallery { column-count: 2; column-gap: 16px; } 
             .gallery .card { margin-bottom: 18px; }
             .gallery .card-inner { padding: 6px 6px 28px 6px; }
             .gallery .card-meta { bottom: 6px; left: 8px; right: 8px; font-size: 8px; letter-spacing: 0.5px; }
 
-            /* 🌟 摄影叙事：手机升级为双列独立先锋瀑布流 */
             .photo-gallery-masonry { column-count: 2; column-gap: 16px; }
             .photo-gallery-masonry .card { margin-bottom: 18px; }
             .photo-gallery-masonry .card-inner { padding: 6px; }
-            /* 缩减手机端Hud字体，防止换行错位 */
             .photo-gallery-masonry .card-meta { padding: 20px 8px 6px 8px; font-size: 8px; letter-spacing: 0.5px; }
             
-            /* 便携按钮：手机端升级为容易触控的通栏大按钮 */
             .load-container { margin-top: 30px; }
             .load-more-btn { width: 100%; text-align: center; padding: 12px 0; }
         }
@@ -349,10 +352,10 @@
                 <div class="card" data-cat="img1"><div class="card-inner"><div class="card-img-wrapper"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-src="img1/9.jpg" data-full="img1/9.jpg"></div><div class="card-meta"><span>img-09</span><span>archive</span></div></div></div>
                 <div class="card" data-cat="img1"><div class="card-inner"><div class="card-img-wrapper"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-src="img1/10.jpg" data-full="img1/10.jpg"></div><div class="card-meta"><span>img-10</span><span>archive</span></div></div></div>
                 <div class="card" data-cat="img1"><div class="card-inner"><div class="card-img-wrapper"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-src="img1/11.jpg" data-full="img1/11.jpg"></div><div class="card-meta"><span>img-11</span><span>archive</span></div></div></div>
-                <div class="card" data-cat="img1"><div class="card-inner"><div class="card-img-wrapper"><img src="img1/12.jpg" data-full="img1/12.jpg"></div><div class="card-meta"><span>img-12</span><span>archive</span></div></div></div>
-                <div class="card" data-cat="img1"><div class="card-inner"><div class="card-img-wrapper"><img src="img1/13.jpg" data-full="img1/13.jpg"></div><div class="card-meta"><span>img-13</span><span>archive</span></div></div></div>
-                <div class="card" data-cat="img1"><div class="card-inner"><div class="card-img-wrapper"><img src="img1/14.jpg" data-full="img1/14.jpg"></div><div class="card-meta"><span>img-14</span><span>archive</span></div></div></div>
-                <div class="card" data-cat="img1"><div class="card-inner"><div class="card-img-wrapper"><img src="img1/15.jpg" data-full="img1/15.jpg"></div><div class="card-meta"><span>img-15</span><span>archive</span></div></div></div>
+                <div class="card" data-cat="img1"><div class="card-inner"><div class="card-img-wrapper"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-src="img1/12.jpg" data-full="img1/12.jpg"></div><div class="card-meta"><span>img-12</span><span>archive</span></div></div></div>
+                <div class="card" data-cat="img1"><div class="card-inner"><div class="card-img-wrapper"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-src="img1/13.jpg" data-full="img1/13.jpg"></div><div class="card-meta"><span>img-13</span><span>archive</span></div></div></div>
+                <div class="card" data-cat="img1"><div class="card-inner"><div class="card-img-wrapper"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-src="img1/14.jpg" data-full="img1/14.jpg"></div><div class="card-meta"><span>img-14</span><span>archive</span></div></div></div>
+                <div class="card" data-cat="img1"><div class="card-inner"><div class="card-img-wrapper"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-src="img1/15.jpg" data-full="img1/15.jpg"></div><div class="card-meta"><span>img-15</span><span>archive</span></div></div></div>
                 
                 <div class="card" data-cat="img2"><div class="card-inner"><div class="card-img-wrapper"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-src="img2/16.jpg" data-full="img2/16.jpg"></div><div class="card-meta"><span>img-16</span><span>archive</span></div></div></div>
                 <div class="card" data-cat="img2"><div class="card-inner"><div class="card-img-wrapper"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-src="img2/17.jpg" data-full="img2/17.jpg"></div><div class="card-meta"><span>img-17</span><span>archive</span></div></div></div>
@@ -450,7 +453,7 @@
     </div>
 
     <script>
-        // 1. 移动端菜单逻辑
+        // 1. 移动端菜单控制
         const menuBtn = document.getElementById('menuBtn');
         const sidebar = document.getElementById('sidebar');
         const navLinks = document.querySelectorAll('.nav a');
@@ -464,7 +467,7 @@
             link.addEventListener('click', () => sidebar.classList.remove('show'), {passive: true});
         });
 
-        // 2. 原生大体积视频流硬件加速切换调度
+        // 2. 原生大体积视频流硬件加速切换
         const thumbs = document.querySelectorAll('.video-thumb');
         const mainVideo = document.getElementById('mainVideo');
         thumbs.forEach(thumb => {
@@ -560,7 +563,7 @@
             }, {passive: true});
         });
 
-        // 5. 【突破级流控】全自动化 JS 强力懒加载监听中心
+        // 5. 【工业级高级流控】全自动化 JS 强力懒加载监听中心
         const allLazyImgs = document.querySelectorAll('.content img[data-src]');
         
         const imgObserver = new IntersectionObserver((entries, observer) => {
@@ -587,7 +590,7 @@
             });
         }, { 
             root: null, 
-            rootMargin: '200px 0px 400px 0px', // 提前往下扩展观察视野，确保手机端下拉时无缝衔接
+            rootMargin: '200px 0px 400px 0px', 
             threshold: 0.01 
         });
 

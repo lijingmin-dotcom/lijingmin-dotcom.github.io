@@ -187,7 +187,7 @@
             position: relative;
         }
         
-        .card {
+        .gallery .card {
             break-inside: avoid; 
             display: block; 
             width: 100%;
@@ -198,18 +198,18 @@
             border: none;
         }
         
-        .card.hide { display: none !important; }
+        .gallery .card.hide { display: none !important; }
 
-        .card::before, .card::after {
+        .gallery .card::before, .gallery .card::after {
             content: ''; position: absolute; width: 12px; height: 12px;
             transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
             opacity: 0.25; pointer-events: none;
             z-index: 3;
         }
-        .card::before { top: -5px; left: -5px; border-top: 1px solid var(--text-dark); border-left: 1px solid var(--text-dark); }
-        .card::after { bottom: -5px; right: -5px; border-bottom: 1px solid var(--text-dark); border-right: 1px solid var(--text-dark); }
+        .gallery .card::before { top: -5px; left: -5px; border-top: 1px solid var(--text-dark); border-left: 1px solid var(--text-dark); }
+        .gallery .card::after { bottom: -5px; right: -5px; border-bottom: 1px solid var(--text-dark); border-right: 1px solid var(--text-dark); }
 
-        .card-inner {
+        .gallery .card-inner {
             width: 100%; height: auto; display: flex; flex-direction: column;
             background: var(--bg-card); border: 1px solid var(--line-light);
             padding: 10px 10px 38px 10px; position: relative;
@@ -217,66 +217,82 @@
             transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
-        .card-img-wrapper { width: 100%; height: auto; display: block; position: relative; background: rgba(50, 42, 34, 0.02); }
+        .gallery .card-img-wrapper { width: 100%; height: auto; display: block; position: relative; background: rgba(50, 42, 34, 0.02); }
 
-        .card img {
+        .gallery .card img {
             width: 100%; height: auto; display: block;
             filter: grayscale(5%) sepia(3%) contrast(98%);
             opacity: 0;
             transition: opacity 0.4s ease, transform 0.5s cubic-bezier(0.16, 1, 0.3, 1), filter 0.5s cubic-bezier(0.16, 1, 0.3, 1);
         }
-        .card img.loaded { opacity: 1; }
+        .gallery .card img.loaded { opacity: 1; }
 
-        .card-meta {
+        .gallery .card-meta {
             position: absolute; bottom: 10px; left: 12px; right: 12px;
             display: flex; justify-content: space-between; align-items: center;
             font-family: monospace; font-size: 9px; letter-spacing: 1.5px;
             color: var(--text-muted); border-top: 1px solid rgba(50, 42, 34, 0.05);
             padding-top: 6px; text-transform: uppercase;
         }
-        .card-meta::before { content: '┼'; font-size: 8px; }
+        .gallery .card-meta::before { content: '┼'; font-size: 8px; }
 
-        .card:hover .card-inner { 
+        .gallery .card:hover .card-inner { 
             border-color: var(--text-dark); transform: translateY(-6px); 
             box-shadow: 0 20px 40px rgba(50, 42, 34, 0.06); 
         }
-        .card:hover::before { top: -10px; left: -10px; opacity: 1; }
-        .card:hover::after { bottom: -10px; right: -10px; opacity: 1; }
-        .card:hover img { filter: grayscale(0%) sepia(0%) contrast(100%); }
-
-        .load-container { display: flex; justify-content: center; margin-top: 60px; }
-        .load-more-btn {
-            background: transparent; border: 1px solid var(--text-dark); padding: 14px 45px;
-            font-size: 11px; letter-spacing: 4px; font-weight: 700; color: var(--text-dark);
-            cursor: pointer; text-transform: uppercase; transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-        }
-        .load-more-btn:hover { background: var(--text-dark); color: var(--bg-card); }
+        .gallery .card:hover::before { top: -10px; left: -10px; opacity: 1; }
+        .gallery .card:hover::after { bottom: -10px; right: -10px; opacity: 1; }
+        .gallery .card:hover img { filter: grayscale(0%) sepia(0%) contrast(100%); }
 
 
         /* ==========================================================================
-           【全新顶级视觉】摄影图集：高级独立影展 · 12列非对称网格拼贴矩阵
+           【高定制精细重构】摄影图集：高级独立小幅影展 · 12列非对称紧凑拼贴网格
            ========================================================================== */
         #photoGrid {
             display: grid;
-            grid-template-columns: repeat(12, 1fr); /* 核心：升级为 12 列底层控制轨 */
-            gap: 140px 40px; /* 纵向超开阔呼吸间距 */
-            column-count: auto; /* 覆盖清除原先的瀑布流配置 */
+            grid-template-columns: repeat(12, 1fr); /* 保持顶奢 12 列底层控制轨 */
+            gap: 100px 30px; /* 适当缩减间距，配合精致小图 */
+            column-count: auto; 
         }
         
         #photoGrid .card {
             margin-bottom: 0;
             break-inside: auto;
+            width: 100%;
         }
 
-        /* 🎬 运用黄金非对称韵律：精准编排跨度与对齐位置 */
-        #photoGrid .card:nth-child(8n+1) { grid-column: 1 / span 5; }   /* 左侧沉稳主力块 */
-        #photoGrid .card:nth-child(8n+2) { grid-column: 7 / span 6; margin-top: 100px; } /* 右侧大幅延展块并下移 */
-        #photoGrid .card:nth-child(8n+3) { grid-column: 2 / span 4; margin-top: -40px; }  /* 孤立紧凑缩进块 */
-        #photoGrid .card:nth-child(8n+4) { grid-column: 7 / span 5; }  /* 右侧精细块 */
-        #photoGrid .card:nth-child(8n+5) { grid-column: 1 / span 7; padding-right: 6%; } /* 宽幅横展片 */
-        #photoGrid .card:nth-child(8n+6) { grid-column: 9 / span 4; margin-top: -80px; }  /* 右侧悬空挑起块 */
-        #photoGrid .card:nth-child(8n+7) { grid-column: 3 / span 6; margin-top: 40px; }   /* 核心居中视觉块 */
-        #photoGrid .card:nth-child(8n+8) { grid-column: 10 / span 3; align-self: end; }   /* 右下角悬挂句点 */
+        /* 调整内容物装裱：让外框更贴合小尺寸摄影作品 */
+        #photoGrid .card-inner {
+            padding: 10px 10px 34px 10px;
+        }
+
+        /* 🎬 极致尺寸缩减优化：单图限制在 3~4 列跨度（约25%~33%屏宽），通过左右留空列，形成富有节奏的画廊小品流 */
+        #photoGrid .card:nth-child(8n+1) { grid-column: 2 / span 3; }   /* 缩减至跨3列，靠左留白 */
+        #photoGrid .card:nth-child(8n+2) { grid-column: 7 / span 4; margin-top: 60px; }  /* 缩减至跨4列，靠右下移 */
+        #photoGrid .card:nth-child(8n+3) { grid-column: 3 / span 3; margin-top: -30px; } /* 紧凑小缩进块 */
+        #photoGrid .card:nth-child(8n+4) { grid-column: 8 / span 3; }   /* 右侧精致小方块 */
+        #photoGrid .card:nth-child(8n+5) { grid-column: 2 / span 4; }   /* 中等横片，限制跨4列 */
+        #photoGrid .card:nth-child(8n+6) { grid-column: 8 / span 3; margin-top: -50px; } /* 右侧精巧块 */
+        #photoGrid .card:nth-child(8n+7) { grid-column: 4 / span 4; margin-top: 30px; }  /* 核心中轴优雅块 */
+        #photoGrid .card:nth-child(8n+8) { grid-column: 9 / span 3; align-self: end; }   /* 边角句点 */
+
+        /* 统一覆盖摄影卡片四角 L 型线条，使小图布局依然保留包豪斯的建筑结构美感 */
+        #photoGrid .card::before, #photoGrid .card::after {
+            content: ''; position: absolute; width: 12px; height: 12px;
+            transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+            opacity: 0.25; pointer-events: none;
+            z-index: 3;
+        }
+        #photoGrid .card::before { top: -5px; left: -5px; border-top: 1px solid var(--text-dark); border-left: 1px solid var(--text-dark); }
+        #photoGrid .card::after { bottom: -5px; right: -5px; border-bottom: 1px solid var(--text-dark); border-right: 1px solid var(--text-dark); }
+
+        #photoGrid .card:hover .card-inner { 
+            border-color: var(--text-dark); transform: translateY(-6px); 
+            box-shadow: 0 20px 40px rgba(50, 42, 34, 0.06); 
+        }
+        #photoGrid .card:hover::before { top: -10px; left: -10px; opacity: 1; }
+        #photoGrid .card:hover::after { bottom: -10px; right: -10px; opacity: 1; }
+        #photoGrid .card:hover img { filter: grayscale(0%) sepia(0%) contrast(100%); }
 
 
         /* --- 磨砂玻璃放大弹窗 --- */
@@ -291,7 +307,6 @@
             max-width: 92%; max-height: 92%; object-fit: contain;
             border: 1px solid rgba(255, 255, 255, 0.15); box-shadow: 0 30px 70px rgba(0,0,0,0.3);
             transform: scale(0.95); transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
-            /* CSS原生无拦截轻量级Loading图层占位 */
             background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 100 100"><circle cx="50" cy="50" r="40" stroke="%23FAF6EE" stroke-width="4" fill="none" stroke-dasharray="150 100"><animateTransform attributeName="transform" type="rotate" from="0 50 50" to="360 50 50" dur="0.8s" repeatCount="indefinite"/></circle></svg>') center no-repeat;
         }
         .img-popup.active{ opacity: 1; visibility: visible; }
@@ -306,17 +321,17 @@
         /* --- 响应式降维：保护中小屏幕下的极限排版 --- */
         @media (max-width:1400px) { 
             .gallery { column-count: 3; gap: 24px; }
-            #photoGrid { grid-template-columns: repeat(3, 1fr); gap: 60px 30px; } 
+            #photoGrid { grid-template-columns: repeat(3, 1fr); gap: 50px 24px; } 
             #photoGrid .card:nth-child(n) { grid-column: auto !important; margin-top: 0 !important; padding: 0 !important; }
-            #photoGrid .card:nth-child(3n+2) { margin-top: 40px !important; }
+            #photoGrid .card:nth-child(3n+2) { margin-top: 30px !important; }
         }
         @media (max-width:1100px) {
             .sidebar{ width: 240px; padding: 40px 20px; }
             .content{ margin-left: 240px; padding: 80px 30px; }
             .gallery { column-count: 2; gap: 20px; }
-            #photoGrid { grid-template-columns: repeat(2, 1fr); gap: 50px 24px; }
+            #photoGrid { grid-template-columns: repeat(2, 1fr); gap: 40px 20px; }
             #photoGrid .card:nth-child(n) { margin-top: 0 !important; }
-            #photoGrid .card:nth-child(even) { margin-top: 35px !important; }
+            #photoGrid .card:nth-child(even) { margin-top: 30px !important; }
         }
         @media (max-width:768px) {
             .menu-btn{ display:flex; }
@@ -326,8 +341,8 @@
             .video-main{ height:260px; }
             .reveal { margin-bottom: 80px; }
             .gallery { column-count: 1; gap: 24px; }
-            /* 手机端抹平一切偏移，回归单列绝对清晰流 */
-            #photoGrid { grid-template-columns: 1fr; gap: 40px; }
+            /* 手机端平铺回归单列绝对清晰流 */
+            #photoGrid { grid-template-columns: 1fr; gap: 35px; }
             #photoGrid .card:nth-child(n) { margin-top: 0 !important; }
         }
     </style>
@@ -529,7 +544,6 @@
             card.addEventListener('click', (e) => {
                 const img = card.querySelector('img');
                 if(img) {
-                    // 支持双阶异步提取：优先拉取 data-full 4K原图，若未定义则无缝降级读取 src
                     bigImg.src = img.dataset.full ? img.dataset.full : img.src;
                     popup.classList.add('active');
                     document.body.style.overflow = 'hidden';
@@ -540,7 +554,7 @@
         popup.addEventListener('click', () => {
             popup.classList.remove('active');
             document.body.style.overflow = '';
-            setTimeout(() => { bigImg.src = ''; }, 400); // 彻底拆卸大图路径，释放内存，防止移动端白屏崩溃
+            setTimeout(() => { bigImg.src = ''; }, 400); 
         });
 
         // 4. 高性能分批流控 ＋ 平面海报分类检索调度
@@ -595,11 +609,9 @@
         });
         renderGallery();
 
-        // 5. 【Bug 修复核心】图片渐进式冷启动加载监听器
-        // 关键更正：将原来的选择器拓展为 '.content img' 或 'img'，从而让摄影板块图片也能完美淡入显影
+        // 5. 图片渐进式冷启动加载监听器（兼具 404 及断网降级防护机制）
         const allImgs = document.querySelectorAll('.content img');
         allImgs.forEach(img => {
-            // 安全阻断防护：若断网或图片路径 404，强行在 1.5 秒后卸载透明遮罩，保证骨架可正常显示
             const forceShowTimeout = setTimeout(() => {
                 img.classList.add('loaded');
             }, 1500);
@@ -614,7 +626,7 @@
                 };
                 img.onerror = () => {
                     clearTimeout(forceShowTimeout);
-                    img.classList.add('loaded'); // 触发报错占位显示，避免无限隐形
+                    img.classList.add('loaded'); 
                 };
             }
         });

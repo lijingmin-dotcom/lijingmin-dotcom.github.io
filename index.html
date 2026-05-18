@@ -5,7 +5,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>动态设计 | 侘寂风作品集</title>
 <style>
-/* 全局重置 */
 * {
   margin: 0;
   padding: 0;
@@ -22,28 +21,28 @@ body {
   min-height: 100vh;
 }
 
-/* 左侧导航 */
+/* ========== 左侧导航栏 ========== */
 .sidebar {
   width: 260px;
   background: #EAE3D9;
-  padding: 50px 20px;
   position: fixed;
   height: 100vh;
   top: 0;
   left: 0;
-  overflow-y: auto;
+  padding: 50px 20px;
   border-right: 1px solid #D9D2C7;
   z-index: 99;
+  transition: transform 0.3s ease;
 }
-.sidebar h2 {
+.sidebar-title {
   font-size: 18px;
   font-weight: 500;
   color: #6D665E;
-  margin-bottom: 40px;
   text-align: center;
+  margin-bottom: 40px;
   letter-spacing: 2px;
 }
-.nav-btn {
+.nav-item {
   display: block;
   width: 100%;
   padding: 14px 16px;
@@ -57,46 +56,41 @@ body {
   cursor: pointer;
   transition: 0.25s ease;
 }
-.nav-btn.active {
+.nav-item.active {
   background: #D9D2C7;
   color: #4A453F;
 }
 
-/* 手机端菜单按钮 */
-.menu-btn {
+/* 手机菜单按钮 */
+.menu-toggle {
   position: fixed;
   top: 20px;
   left: 20px;
-  width: 40px;
-  height: 40px;
+  width: 44px;
+  height: 44px;
   background: #EAE3D9;
   border-radius: 8px;
   display: none;
   align-items: center;
   justify-content: center;
   z-index: 100;
+  border: none;
+  font-size: 18px;
+  color: #5C5752;
 }
 
-/* 右侧主体 */
+/* ========== 右侧内容区 ========== */
 .content {
   flex: 1;
   margin-left: 260px;
   padding: 40px 50px;
 }
 
-/* 搜索栏 */
-.search-box {
+/* 搜索区域 */
+.search-bar {
   display: flex;
-  gap: 12px;
+  gap: 10px;
   margin-bottom: 50px;
-  align-items: center;
-}
-.search-engine {
-  padding: 12px 16px;
-  border-radius: 10px;
-  background: #EAE3D9;
-  border: none;
-  color: #5C5752;
 }
 .search-input {
   flex: 1;
@@ -104,14 +98,26 @@ body {
   border-radius: 10px;
   border: none;
   background: #ffffff;
+  font-size: 14px;
+}
+.search-btn {
+  padding: 12px 20px;
+  background: #D9D2C7;
+  border: none;
+  border-radius: 10px;
+  color: #4A453F;
+  cursor: pointer;
 }
 
-/* 区块标题 */
-.section-title {
+/* 内容区块 */
+.section {
+  margin-bottom: 80px;
+}
+.section-heading {
   font-size: 22px;
   font-weight: 500;
   color: #5C5752;
-  margin: 70px 0 20px;
+  margin-bottom: 20px;
 }
 
 /* 标签切换 */
@@ -126,31 +132,21 @@ body {
   border-radius: 8px;
   font-size: 14px;
   cursor: pointer;
+  transition: 0.2s;
 }
 .tab.active {
   background: #D9D2C7;
+  color: #4A453F;
 }
 
-/* 视频卡片 */
-.video-grid {
+/* 卡片网格 */
+.card-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 24px;
-  margin-bottom: 50px;
-}
-.video-card {
-  background: #ffffff;
-  border-radius: 14px;
-  overflow: hidden;
-  box-shadow: 0 2px 10px rgba(0,0,0,0.05);
-}
-.video-card iframe {
-  width: 100%;
-  height: 240px;
-  border: none;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 20px;
 }
 
-/* 导航卡片 */
+/* 卡片样式 */
 .card {
   background: #ffffff;
   border-radius: 14px;
@@ -159,22 +155,22 @@ body {
   align-items: center;
   gap: 16px;
   box-shadow: 0 2px 10px rgba(0,0,0,0.05);
-  transition: 0.2s ease;
+  transition: 0.25s ease;
+  text-decoration: none;
+  color: inherit;
 }
 .card:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 6px 16px rgba(0,0,0,0.08);
+  transform: translateY(-4px);
+  box-shadow: 0 8px 20px rgba(0,0,0,0.08);
 }
 .card-icon {
-  width: 40px;
-  height: 40px;
+  width: 42px;
+  height: 42px;
   background: #EAE3D9;
   border-radius: 10px;
   display: grid;
   place-items: center;
-}
-.card-text {
-  flex: 1;
+  font-size: 18px;
 }
 .card-title {
   font-size: 15px;
@@ -186,11 +182,10 @@ body {
   color: #948A80;
 }
 
-/* 手机适配 */
+/* ========== 移动端适配 ========== */
 @media (max-width: 900px) {
   .sidebar {
     transform: translateX(-100%);
-    transition: 0.3s ease;
   }
   .sidebar.show {
     transform: translateX(0);
@@ -199,11 +194,8 @@ body {
     margin-left: 0;
     padding: 20px;
   }
-  .menu-btn {
+  .menu-toggle {
     display: flex;
-  }
-  .video-grid {
-    grid-template-columns: 1fr;
   }
 }
 </style>
@@ -211,106 +203,133 @@ body {
 
 <body>
 
-<!-- 手机菜单按钮 -->
-<div class="menu-btn" id="menuBtn">☰</div>
+<!-- 手机汉堡按钮 -->
+<button class="menu-toggle" id="menuBtn">☰</button>
 
 <!-- 左侧导航 -->
 <div class="sidebar" id="sidebar">
-  <h2>DYNAMIC DESIGN</h2>
-  <button class="nav-btn active" data-target="#video">动态视频作品</button>
-  <button class="nav-btn" data-target="#works">平面设计作品</button>
-  <button class="nav-btn" data-target="#tools">常用工具导航</button>
+  <div class="sidebar-title">动态设计作品集</div>
+  <button class="nav-item active" data-target="#section1">动态视频</button>
+  <button class="nav-item" data-target="#section2">平面设计</button>
+  <button class="nav-item" data-target="#section3">常用工具</button>
+  <button class="nav-item" data-target="#section4">学习资源</button>
 </div>
 
 <!-- 右侧内容 -->
 <div class="content">
 
-  <!-- 搜索 -->
-  <div class="search-box">
-    <select class="search-engine">
-      <option>百度</option>
-      <option>谷歌</option>
-      <option>必应</option>
-    </select>
-    <input type="text" class="search-input" placeholder="搜索...">
+  <!-- 搜索栏 -->
+  <div class="search-bar">
+    <input type="text" class="search-input" placeholder="请输入搜索内容">
+    <button class="search-btn">搜索</button>
   </div>
 
-  <!-- 视频模块 -->
-  <div id="video" class="section">
-    <h2 class="section-title">动态视频作品</h2>
+  <!-- 区域1：动态视频 -->
+  <div id="section1" class="section">
+    <h2 class="section-heading">动态视频</h2>
     <div class="tabs">
       <div class="tab active">全部</div>
       <div class="tab">宣传片</div>
       <div class="tab">MG动画</div>
     </div>
-    <div class="video-grid">
-      <div class="video-card">
-        <iframe src="//player.bilibili.com/player.html?aid=116594084745275&bvid=BV1nBLF63EKB&cid=38419038865&p=1"></iframe>
-      </div>
-      <div class="video-card">
-        <iframe src="//player.bilibili.com/player.html?aid=116594084745275&bvid=BV1rBLF63EVK&cid=38419039962&p=1"></iframe>
-      </div>
-      <div class="video-card">
-        <iframe src="//player.bilibili.com/player.html?aid=116594084745275&bvid=BV1euLFf6cEff&cid=38419171789&p=1"></iframe>
-      </div>
+    <div class="card-grid">
+      <a href="#" target="_blank" class="card">
+        <div class="card-icon">🎬</div>
+        <div>
+          <div class="card-title">动态宣传片</div>
+          <div class="card-desc">创意视觉动态设计</div>
+        </div>
+      </a>
+      <a href="#" target="_blank" class="card">
+        <div class="card-icon">✨</div>
+        <div>
+          <div class="card-title">MG动画制作</div>
+          <div class="card-desc">扁平化动态图形设计</div>
+        </div>
+      </a>
     </div>
   </div>
 
-  <!-- 作品 -->
-  <div id="works" class="section">
-    <h2 class="section-title">平面设计作品</h2>
+  <!-- 区域2：平面设计 -->
+  <div id="section2" class="section">
+    <h2 class="section-heading">平面设计</h2>
     <div class="tabs">
       <div class="tab active">全部</div>
       <div class="tab">海报</div>
-      <div class="tab">视觉</div>
+      <div class="tab">品牌</div>
     </div>
-    <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:16px;">
-      <div class="card" onclick="window.open('#')">
+    <div class="card-grid">
+      <a href="#" target="_blank" class="card">
         <div class="card-icon">🎨</div>
-        <div class="card-text">
+        <div>
           <div class="card-title">海报设计</div>
-          <div class="card-desc">品牌视觉、活动主视觉、文创设计</div>
+          <div class="card-desc">视觉创意平面作品</div>
         </div>
-      </div>
-      <div class="card" onclick="window.open('#')">
+      </a>
+      <a href="#" target="_blank" class="card">
         <div class="card-icon">📁</div>
-        <div class="card-text">
+        <div>
           <div class="card-title">作品集</div>
-          <div class="card-desc">个人完整作品展示</div>
+          <div class="card-desc">完整个人设计展示</div>
         </div>
-      </div>
+      </a>
     </div>
   </div>
 
-  <!-- 工具 -->
-  <div id="tools" class="section">
-    <h2 class="section-title">常用工具导航</h2>
+  <!-- 区域3：常用工具 -->
+  <div id="section3" class="section">
+    <h2 class="section-heading">常用工具</h2>
     <div class="tabs">
       <div class="tab active">设计类</div>
       <div class="tab">效率类</div>
     </div>
-    <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:16px;">
-      <div class="card" onclick="window.open('https://www.baidu.com')">
+    <div class="card-grid">
+      <a href="https://www.baidu.com" target="_blank" class="card">
         <div class="card-icon">🔗</div>
-        <div class="card-text">
-          <div class="card-title">百度</div>
+        <div>
+          <div class="card-title">百度搜索</div>
           <div class="card-desc">https://www.baidu.com</div>
         </div>
-      </div>
-      <div class="card" onclick="window.open('https://www.bilibili.com')">
-        <div class="card-icon">🎬</div>
-        <div class="card-text">
-          <div class="card-title">B站</div>
-          <div class="card-desc">学习教程、作品参考</div>
+      </a>
+      <a href="https://www.bilibili.com" target="_blank" class="card">
+        <div class="card-icon">📺</div>
+        <div>
+          <div class="card-title">B站学习</div>
+          <div class="card-desc">设计教程与作品参考</div>
         </div>
-      </div>
+      </a>
+    </div>
+  </div>
+
+  <!-- 区域4：学习资源 -->
+  <div id="section4" class="section">
+    <h2 class="section-heading">学习资源</h2>
+    <div class="tabs">
+      <div class="tab active">教程</div>
+      <div class="tab">素材</div>
+    </div>
+    <div class="card-grid">
+      <a href="#" target="_blank" class="card">
+        <div class="card-icon">📚</div>
+        <div>
+          <div class="card-title">设计教程</div>
+          <div class="card-desc">系统学习动态设计</div>
+        </div>
+      </a>
+      <a href="#" target="_blank" class="card">
+        <div class="card-icon">🖼️</div>
+        <div>
+          <div class="card-title">素材网站</div>
+          <div class="card-desc">高清无版权设计素材</div>
+        </div>
+      </a>
     </div>
   </div>
 
 </div>
 
 <script>
-// 菜单开关
+// 手机菜单开关
 const menuBtn = document.getElementById('menuBtn');
 const sidebar = document.getElementById('sidebar');
 menuBtn.addEventListener('click', () => {
@@ -318,27 +337,31 @@ menuBtn.addEventListener('click', () => {
 });
 
 // 导航点击滚动
-const navBtns = document.querySelectorAll('.nav-btn');
-navBtns.forEach(btn => {
-  btn.addEventListener('click', () => {
-    const target = btn.dataset.target;
-    document.querySelector(target).scrollIntoView();
-    navBtns.forEach(b => b.classList.remove('active'));
-    btn.classList.add('active');
+const navItems = document.querySelectorAll('.nav-item');
+navItems.forEach(item => {
+  item.addEventListener('click', () => {
+    const target = document.querySelector(item.dataset.target);
+    target.scrollIntoView();
+    navItems.forEach(i => i.classList.remove('active'));
+    item.classList.add('active');
   });
 });
 
-// 滚动高亮
+// 滚动监听自动高亮
 const sections = document.querySelectorAll('.section');
 window.addEventListener('scroll', () => {
   let current = '';
   sections.forEach(sec => {
-    const top = sec.offsetTop - 100;
-    if (scrollY >= top) current = sec.id;
+    const top = sec.offsetTop - 150;
+    if (window.scrollY >= top) {
+      current = sec.id;
+    }
   });
-  navBtns.forEach(btn => {
-    btn.classList.remove('active');
-    if (btn.dataset.target.includes(current)) btn.classList.add('active');
+  navItems.forEach(item => {
+    item.classList.remove('active');
+    if (item.dataset.target === `#${current}`) {
+      item.classList.add('active');
+    }
   });
 });
 </script>

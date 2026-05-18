@@ -47,6 +47,17 @@
             opacity: 1 !important; /* 核心修复：加重状态权重，确保图片100%显影 */
         }
 
+        /* ==========================================================================
+           【🎨 核心安全防护重构】全站图片高级防盗与物理防下载锁定
+           ========================================================================== */
+        .content img, 
+        #bigImg {
+            pointer-events: none;         /* 核心防盗：让图片对鼠标交互“隐形”，直接免疫右键点击与左键拖拽 */
+            -webkit-touch-callout: none;  /* 移动端锁死：全线禁用 iOS/Android 手机端长按弹出“保存图片”系统菜单 */
+            -webkit-user-select: none;    /* 禁用系统手势选中图片框 */
+            user-select: none;            /* 禁止任何形式的物理选定 */
+        }
+
         /* --- 移动端汉堡按钮 --- */
         .menu-btn{
             position: fixed; top: 25px; right: 25px; width: 44px; height: 44px;
@@ -152,18 +163,18 @@
             transition: border-color 0.5s ease, transform 0.5s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.5s ease;
             will-change: transform, box-shadow;
         }
-        
-        /* 🛠️ 核心修改：全面开启弹性横竖绝对居中对齐机制 */
+
+        /* 🛠️ 核心修改：全面开启双轴弹性对齐，让图片在任何分辨率下横竖绝对居中 */
         .card-img-wrapper { 
             width: 100%; min-height: 120px; position: relative; background: rgba(50, 42, 34, 0.02); 
-            display: flex;          /* 开启 Flexbox 布局 */
+            display: flex;          /* 开启 Flexbox */
             align-items: center;    /* 垂直方向绝对居中 */
             justify-content: center;/* 水平方向绝对居中 */
             overflow: hidden;
         }
 
         .card img {
-            width: 100%; height: auto; display: block; margin: 0 auto; /* 保证图片在流体状态下水平居中位移 */
+            max-width: 100%; height: auto; display: block; margin: 0 auto;
             filter: grayscale(5%) sepia(3%) contrast(98%); opacity: 0;
             transition: opacity 0.4s ease, transform 0.5s cubic-bezier(0.16, 1, 0.3, 1), filter 0.5s ease;
         }
@@ -203,8 +214,14 @@
             will-change: transform, box-shadow;
         }
 
+        /* 🛠️ 摄影图集容器同样开启横竖双轴心中央定位 */
+        .photo-gallery-masonry .card-img-wrapper {
+            width: 100%; position: relative;
+            display: flex; align-items: center; justify-content: center; overflow: hidden;
+        }
+
         .photo-gallery-masonry .card img {
-            width: 100%; height: auto; display: block; margin: 0 auto; /* 保证摄影网格图水平居中对齐 */
+            max-width: 100%; height: auto; display: block; margin: 0 auto;
             filter: grayscale(6%) sepia(2%) contrast(97%); opacity: 0;
             transition: opacity 0.4s ease, transform 0.6s cubic-bezier(0.16, 1, 0.3, 1), filter 0.6s ease;
         }
@@ -237,7 +254,7 @@
         .load-more-btn:hover { background: var(--text-dark); color: var(--bg-card); }
 
         /* ==========================================================================
-           【磨砂卡纸大图弹窗方案】—— 强制大图窗口实现完美的横竖双轴心中央定位
+           【磨砂卡纸大图弹窗方案】—— 强效防盗 ＋ 极致大图横竖绝对居中
            ========================================================================= */
         .img-popup{
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
@@ -251,7 +268,7 @@
         .img-popup img{
             max-width: 92%; max-height: 92%; object-fit: contain; border: 1px solid rgba(255, 255, 255, 0.15); box-shadow: 0 30px 70px rgba(0,0,0,0.3);
             transform: scale(0.95); transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-            margin: auto;           /* 配合弹性对齐锁死中心位 */
+            margin: auto;           /* 锁死正中央 */
             background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 100 100"><circle cx="50" cy="50" r="40" stroke="%23FAF6EE" stroke-width="4" fill="none" stroke-dasharray="150 100"><animateTransform attributeName="transform" type="rotate" from="0 50 50" to="360 50 50" dur="0.8s" repeatCount="indefinite"/></circle></svg>') center no-repeat;
         }
         .img-popup.active{ opacity: 1; visibility: visible; }
@@ -563,7 +580,7 @@
             }, {passive: true});
         });
 
-        // 5. 【工业级高级流控】全自动化 JS 强力懒加载监听中心
+        // 5. 【工业级流控懒加载】全自动化 JS 视口观察监听中心
         const allLazyImgs = document.querySelectorAll('.content img[data-src]');
         
         const imgObserver = new IntersectionObserver((entries, observer) => {
@@ -629,6 +646,21 @@
                 }
             });
         }
+
+        /* ==========================================================================
+           【🚀 JS防盗加强层】全面拦截右键、保存长按和拖拽，将偷图成本提高到最大
+           ========================================================================== */
+        document.addEventListener('contextmenu', function(e) {
+            if (e.target.tagName === 'IMG') {
+                e.preventDefault(); // 强行拦截并扼杀右键保存弹出菜单
+            }
+        });
+
+        document.addEventListener('dragstart', function(e) {
+            if (e.target.tagName === 'IMG') {
+                e.preventDefault(); // 强行锁死直接用鼠标左键拖拽图片的越权行为
+            }
+        });
     </script>
 </body>
 </html>

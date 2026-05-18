@@ -17,13 +17,13 @@
         html{scroll-behavior:smooth;}
 
         :root {
-            --bg-canvas: #E6DFD4;     /* Advanced暖砂岩墙面色 */
-            --bg-card: #FAF6EE;       /* 温润手工卡纸白 */
-            --text-dark: #322A22;     /* 深烧炭褐黑 */
+            --bg-canvas: #E6DFD4;     /* 核心：高级画廊暖砂岩墙面色 */
+            --bg-card: #FAF6EE;       /* 核心：温润手工卡纸白 */
+            --text-dark: #322A22;     /* 核心：深烧炭褐黑 */
             --text-muted: #8C7B6B;    /* 建筑测绘铜灰 */
             --line-solid: #322A22;    /* 刚性结构线 */
             --line-light: #D6CDBF;    /* 墙面测绘辅助线 */
-            --line-grid: rgba(50, 42, 34, 0.04); /* 全局工程网格 */
+            --line-grid: rgba(50, 42, 34, 0.04); /* 隐约的全局工程网格 */
         }
 
         body{
@@ -41,10 +41,10 @@
 
         /* --- 核心显影防护与GPU硬加速一体化 --- */
         .content img {
-            will-change: transform, opacity, filter; /* 激活 GPU 加速硬件图层 */
+            will-change: transform, opacity, filter; /* 激活 GPU 加速硬件图层，防止手机端滚动掉帧 */
         }
         .content img.loaded { 
-            opacity: 1 !important; /* 强制破除CSS层叠覆盖 */
+            opacity: 1 !important; /* 核心修复：加重状态权重，确保图片100%显影 */
         }
 
         /* --- 移动端汉堡按钮 --- */
@@ -88,8 +88,7 @@
         .content{ margin-left: 280px; padding: 100px 60px; min-height: 100vh; }
         
         .reveal {
-            opacity: 0; transform: translateY(20px);
-            margin-bottom: 140px; 
+            opacity: 0; transform: translateY(20px); margin-bottom: 140px; 
             transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
         }
         .reveal.reveal-active { opacity: 1; transform: translateY(0); }
@@ -153,7 +152,7 @@
             transition: border-color 0.5s ease, transform 0.5s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.5s ease;
             will-change: transform, box-shadow;
         }
-        .card-img-wrapper { width: 100%; height: auto; display: block; position: relative; background: rgba(50, 42, 34, 0.02); }
+        .card-img-wrapper { width: 100%; min-height: 150px; display: block; position: relative; background: rgba(50, 42, 34, 0.02); }
 
         .card img {
             width: 100%; height: auto; display: block;
@@ -313,55 +312,55 @@
             </div>
 
             <div class="gallery" id="galleryGrid">
-                <div class="card" data-cat="img1"><div class="card-inner"><div class="card-img-wrapper"><img src="img1/1.jpg" data-full="img1/1.jpg" loading="lazy"></div><div class="card-meta"><span>img-01</span><span>archive</span></div></div></div>
-                <div class="card" data-cat="img1"><div class="card-inner"><div class="card-img-wrapper"><img src="img1/2.jpg" data-full="img1/2.jpg" loading="lazy"></div><div class="card-meta"><span>img-02</span><span>archive</span></div></div></div>
-                <div class="card" data-cat="img1"><div class="card-inner"><div class="card-img-wrapper"><img src="img1/3.jpg" data-full="img1/3.jpg" loading="lazy"></div><div class="card-meta"><span>img-03</span><span>archive</span></div></div></div>
-                <div class="card" data-cat="img1"><div class="card-inner"><div class="card-img-wrapper"><img src="img1/4.jpg" data-full="img1/4.jpg" loading="lazy"></div><div class="card-meta"><span>img-04</span><span>archive</span></div></div></div>
-                <div class="card" data-cat="img1"><div class="card-inner"><div class="card-img-wrapper"><img src="img1/5.jpg" data-full="img1/5.jpg" loading="lazy"></div><div class="card-meta"><span>img-05</span><span>archive</span></div></div></div>
-                <div class="card" data-cat="img1"><div class="card-inner"><div class="card-img-wrapper"><img src="img1/6.jpg" data-full="img1/6.jpg" loading="lazy"></div><div class="card-meta"><span>img-06</span><span>archive</span></div></div></div>
-                <div class="card" data-cat="img1"><div class="card-inner"><div class="card-img-wrapper"><img src="img1/7.jpg" data-full="img1/7.jpg" loading="lazy"></div><div class="card-meta"><span>img-07</span><span>archive</span></div></div></div>
-                <div class="card" data-cat="img1"><div class="card-inner"><div class="card-img-wrapper"><img src="img1/8.jpg" data-full="img1/8.jpg" loading="lazy"></div><div class="card-meta"><span>img-08</span><span>archive</span></div></div></div>
-                <div class="card" data-cat="img1"><div class="card-inner"><div class="card-img-wrapper"><img src="img1/9.jpg" data-full="img1/9.jpg" loading="lazy"></div><div class="card-meta"><span>img-09</span><span>archive</span></div></div></div>
-                <div class="card" data-cat="img1"><div class="card-inner"><div class="card-img-wrapper"><img src="img1/10.jpg" data-full="img1/10.jpg" loading="lazy"></div><div class="card-meta"><span>img-10</span><span>archive</span></div></div></div>
-                <div class="card" data-cat="img1"><div class="card-inner"><div class="card-img-wrapper"><img src="img1/11.jpg" data-full="img1/11.jpg" loading="lazy"></div><div class="card-meta"><span>img-11</span><span>archive</span></div></div></div>
-                <div class="card" data-cat="img1"><div class="card-inner"><div class="card-img-wrapper"><img src="img1/12.jpg" data-full="img1/12.jpg" loading="lazy"></div><div class="card-meta"><span>img-12</span><span>archive</span></div></div></div>
-                <div class="card" data-cat="img1"><div class="card-inner"><div class="card-img-wrapper"><img src="img1/13.jpg" data-full="img1/13.jpg" loading="lazy"></div><div class="card-meta"><span>img-13</span><span>archive</span></div></div></div>
-                <div class="card" data-cat="img1"><div class="card-inner"><div class="card-img-wrapper"><img src="img1/14.jpg" data-full="img1/14.jpg" loading="lazy"></div><div class="card-meta"><span>img-14</span><span>archive</span></div></div></div>
-                <div class="card" data-cat="img1"><div class="card-inner"><div class="card-img-wrapper"><img src="img1/15.jpg" data-full="img1/15.jpg" loading="lazy"></div><div class="card-meta"><span>img-15</span><span>archive</span></div></div></div>
+                <div class="card" data-cat="img1"><div class="card-inner"><div class="card-img-wrapper"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-src="img1/1.jpg" data-full="img1/1.jpg"></div><div class="card-meta"><span>img-01</span><span>archive</span></div></div></div>
+                <div class="card" data-cat="img1"><div class="card-inner"><div class="card-img-wrapper"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-src="img1/2.jpg" data-full="img1/2.jpg"></div><div class="card-meta"><span>img-02</span><span>archive</span></div></div></div>
+                <div class="card" data-cat="img1"><div class="card-inner"><div class="card-img-wrapper"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-src="img1/3.jpg" data-full="img1/3.jpg"></div><div class="card-meta"><span>img-03</span><span>archive</span></div></div></div>
+                <div class="card" data-cat="img1"><div class="card-inner"><div class="card-img-wrapper"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-src="img1/4.jpg" data-full="img1/4.jpg"></div><div class="card-meta"><span>img-04</span><span>archive</span></div></div></div>
+                <div class="card" data-cat="img1"><div class="card-inner"><div class="card-img-wrapper"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-src="img1/5.jpg" data-full="img1/5.jpg"></div><div class="card-meta"><span>img-05</span><span>archive</span></div></div></div>
+                <div class="card" data-cat="img1"><div class="card-inner"><div class="card-img-wrapper"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-src="img1/6.jpg" data-full="img1/6.jpg"></div><div class="card-meta"><span>img-06</span><span>archive</span></div></div></div>
+                <div class="card" data-cat="img1"><div class="card-inner"><div class="card-img-wrapper"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-src="img1/7.jpg" data-full="img1/7.jpg"></div><div class="card-meta"><span>img-07</span><span>archive</span></div></div></div>
+                <div class="card" data-cat="img1"><div class="card-inner"><div class="card-img-wrapper"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-src="img1/8.jpg" data-full="img1/8.jpg"></div><div class="card-meta"><span>img-08</span><span>archive</span></div></div></div>
+                <div class="card" data-cat="img1"><div class="card-inner"><div class="card-img-wrapper"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-src="img1/9.jpg" data-full="img1/9.jpg"></div><div class="card-meta"><span>img-09</span><span>archive</span></div></div></div>
+                <div class="card" data-cat="img1"><div class="card-inner"><div class="card-img-wrapper"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-src="img1/10.jpg" data-full="img1/10.jpg"></div><div class="card-meta"><span>img-10</span><span>archive</span></div></div></div>
+                <div class="card" data-cat="img1"><div class="card-inner"><div class="card-img-wrapper"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-src="img1/11.jpg" data-full="img1/11.jpg"></div><div class="card-meta"><span>img-11</span><span>archive</span></div></div></div>
+                <div class="card" data-cat="img1"><div class="card-inner"><div class="card-img-wrapper"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-src="img1/12.jpg" data-full="img1/12.jpg"></div><div class="card-meta"><span>img-12</span><span>archive</span></div></div></div>
+                <div class="card" data-cat="img1"><div class="card-inner"><div class="card-img-wrapper"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-src="img1/13.jpg" data-full="img1/13.jpg"></div><div class="card-meta"><span>img-13</span><span>archive</span></div></div></div>
+                <div class="card" data-cat="img1"><div class="card-inner"><div class="card-img-wrapper"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-src="img1/14.jpg" data-full="img1/14.jpg"></div><div class="card-meta"><span>img-14</span><span>archive</span></div></div></div>
+                <div class="card" data-cat="img1"><div class="card-inner"><div class="card-img-wrapper"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-src="img1/15.jpg" data-full="img1/15.jpg"></div><div class="card-meta"><span>img-15</span><span>archive</span></div></div></div>
                 
-                <div class="card" data-cat="img2"><div class="card-inner"><div class="card-img-wrapper"><img src="img2/16.jpg" data-full="img2/16.jpg" loading="lazy"></div><div class="card-meta"><span>img-16</span><span>archive</span></div></div></div>
-                <div class="card" data-cat="img2"><div class="card-inner"><div class="card-img-wrapper"><img src="img2/17.jpg" data-full="img2/17.jpg" loading="lazy"></div><div class="card-meta"><span>img-17</span><span>archive</span></div></div></div>
-                <div class="card" data-cat="img2"><div class="card-inner"><div class="card-img-wrapper"><img src="img2/18.jpg" data-full="img2/18.jpg" loading="lazy"></div><div class="card-meta"><span>img-18</span><span>archive</span></div></div></div>
-                <div class="card" data-cat="img2"><div class="card-inner"><div class="card-img-wrapper"><img src="img2/19.jpg" data-full="img2/19.jpg" loading="lazy"></div><div class="card-meta"><span>img-19</span><span>archive</span></div></div></div>
-                <div class="card" data-cat="img2"><div class="card-inner"><div class="card-img-wrapper"><img src="img2/20.jpg" data-full="img2/20.jpg" loading="lazy"></div><div class="card-meta"><span>img-20</span><span>archive</span></div></div></div>
-                <div class="card" data-cat="img2"><div class="card-inner"><div class="card-img-wrapper"><img src="img2/21.jpg" data-full="img2/21.jpg" loading="lazy"></div><div class="card-meta"><span>img-21</span><span>archive</span></div></div></div>
-                <div class="card" data-cat="img2"><div class="card-inner"><div class="card-img-wrapper"><img src="img2/22.jpg" data-full="img2/22.jpg" loading="lazy"></div><div class="card-meta"><span>img-22</span><span>archive</span></div></div></div>
-                <div class="card" data-cat="img2"><div class="card-inner"><div class="card-img-wrapper"><img src="img2/23.jpg" data-full="img2/23.jpg" loading="lazy"></div><div class="card-meta"><span>img-23</span><span>archive</span></div></div></div>
-                <div class="card" data-cat="img2"><div class="card-inner"><div class="card-img-wrapper"><img src="img2/24.jpg" data-full="img2/24.jpg" loading="lazy"></div><div class="card-meta"><span>img-24</span><span>archive</span></div></div></div>
-                <div class="card" data-cat="img2"><div class="card-inner"><div class="card-img-wrapper"><img src="img2/25.jpg" data-full="img2/25.jpg" loading="lazy"></div><div class="card-meta"><span>img-25</span><span>archive</span></div></div></div>
-                <div class="card" data-cat="img2"><div class="card-inner"><div class="card-img-wrapper"><img src="img2/26.jpg" data-full="img2/26.jpg" loading="lazy"></div><div class="card-meta"><span>img-26</span><span>archive</span></div></div></div>
-                <div class="card" data-cat="img2"><div class="card-inner"><div class="card-img-wrapper"><img src="img2/27.jpg" data-full="img2/27.jpg" loading="lazy"></div><div class="card-meta"><span>img-27</span><span>archive</span></div></div></div>
-                <div class="card" data-cat="img2"><div class="card-inner"><div class="card-img-wrapper"><img src="img2/28.jpg" data-full="img2/28.jpg" loading="lazy"></div><div class="card-meta"><span>img-28</span><span>archive</span></div></div></div>
-                <div class="card" data-cat="img2"><div class="card-inner"><div class="card-img-wrapper"><img src="img2/29.jpg" data-full="img2/29.jpg" loading="lazy"></div><div class="card-meta"><span>img-29</span><span>archive</span></div></div></div>
-                <div class="card" data-cat="img2"><div class="card-inner"><div class="card-img-wrapper"><img src="img2/30.jpg" loading="lazy"></div><div class="card-meta"><span>img-30</span><span>archive</span></div></div></div>
+                <div class="card" data-cat="img2"><div class="card-inner"><div class="card-img-wrapper"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-src="img2/16.jpg" data-full="img2/16.jpg"></div><div class="card-meta"><span>img-16</span><span>archive</span></div></div></div>
+                <div class="card" data-cat="img2"><div class="card-inner"><div class="card-img-wrapper"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-src="img2/17.jpg" data-full="img2/17.jpg"></div><div class="card-meta"><span>img-17</span><span>archive</span></div></div></div>
+                <div class="card" data-cat="img2"><div class="card-inner"><div class="card-img-wrapper"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-src="img2/18.jpg" data-full="img2/18.jpg"></div><div class="card-meta"><span>img-18</span><span>archive</span></div></div></div>
+                <div class="card" data-cat="img2"><div class="card-inner"><div class="card-img-wrapper"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-src="img2/19.jpg" data-full="img2/19.jpg"></div><div class="card-meta"><span>img-19</span><span>archive</span></div></div></div>
+                <div class="card" data-cat="img2"><div class="card-inner"><div class="card-img-wrapper"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-src="img2/20.jpg" data-full="img2/20.jpg"></div><div class="card-meta"><span>img-20</span><span>archive</span></div></div></div>
+                <div class="card" data-cat="img2"><div class="card-inner"><div class="card-img-wrapper"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-src="img2/21.jpg" data-full="img2/21.jpg"></div><div class="card-meta"><span>img-21</span><span>archive</span></div></div></div>
+                <div class="card" data-cat="img2"><div class="card-inner"><div class="card-img-wrapper"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-src="img2/22.jpg" data-full="img2/22.jpg"></div><div class="card-meta"><span>img-22</span><span>archive</span></div></div></div>
+                <div class="card" data-cat="img2"><div class="card-inner"><div class="card-img-wrapper"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-src="img2/23.jpg" data-full="img2/23.jpg"></div><div class="card-meta"><span>img-23</span><span>archive</span></div></div></div>
+                <div class="card" data-cat="img2"><div class="card-inner"><div class="card-img-wrapper"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-src="img2/24.jpg" data-full="img2/24.jpg"></div><div class="card-meta"><span>img-24</span><span>archive</span></div></div></div>
+                <div class="card" data-cat="img2"><div class="card-inner"><div class="card-img-wrapper"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-src="img2/25.jpg" data-full="img2/25.jpg"></div><div class="card-meta"><span>img-25</span><span>archive</span></div></div></div>
+                <div class="card" data-cat="img2"><div class="card-inner"><div class="card-img-wrapper"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-src="img2/26.jpg" data-full="img2/26.jpg"></div><div class="card-meta"><span>img-26</span><span>archive</span></div></div></div>
+                <div class="card" data-cat="img2"><div class="card-inner"><div class="card-img-wrapper"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-src="img2/27.jpg" data-full="img2/27.jpg"></div><div class="card-meta"><span>img-27</span><span>archive</span></div></div></div>
+                <div class="card" data-cat="img2"><div class="card-inner"><div class="card-img-wrapper"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-src="img2/28.jpg" data-full="img2/28.jpg"></div><div class="card-meta"><span>img-28</span><span>archive</span></div></div></div>
+                <div class="card" data-cat="img2"><div class="card-inner"><div class="card-img-wrapper"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-src="img2/29.jpg" data-full="img2/29.jpg"></div><div class="card-meta"><span>img-29</span><span>archive</span></div></div></div>
+                <div class="card" data-cat="img2"><div class="card-inner"><div class="card-img-wrapper"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-src="img2/30.jpg" data-full="img2/30.jpg"></div><div class="card-meta"><span>img-30</span><span>archive</span></div></div></div>
                 
-                <div class="card" data-cat="img3"><div class="card-inner"><div class="card-img-wrapper"><img src="img3/31.jpg" data-full="img3/31.jpg" loading="lazy"></div><div class="card-meta"><span>img-31</span><span>archive</span></div></div></div>
-                <div class="card" data-cat="img3"><div class="card-inner"><div class="card-img-wrapper"><img src="img3/32.jpg" data-full="img3/32.jpg" loading="lazy"></div><div class="card-meta"><span>img-32</span><span>archive</span></div></div></div>
-                <div class="card" data-cat="img3"><div class="card-inner"><div class="card-img-wrapper"><img src="img3/33.jpg" data-full="img3/33.jpg" loading="lazy"></div><div class="card-meta"><span>img-33</span><span>archive</span></div></div></div>
-                <div class="card" data-cat="img3"><div class="card-inner"><div class="card-img-wrapper"><img src="img3/34.jpg" data-full="img3/34.jpg" loading="lazy"></div><div class="card-meta"><span>img-34</span><span>archive</span></div></div></div>
-                <div class="card" data-cat="img3"><div class="card-inner"><div class="card-img-wrapper"><img src="img3/35.jpg" data-full="img3/35.jpg" loading="lazy"></div><div class="card-meta"><span>img-35</span><span>archive</span></div></div></div>
-                <div class="card" data-cat="img3"><div class="card-inner"><div class="card-img-wrapper"><img src="img3/36.jpg" data-full="img3/36.jpg" loading="lazy"></div><div class="card-meta"><span>img-36</span><span>archive</span></div></div></div>
-                <div class="card" data-cat="img3"><div class="card-inner"><div class="card-img-wrapper"><img src="img3/37.jpg" data-full="img3/37.jpg" loading="lazy"></div><div class="card-meta"><span>img-37</span><span>archive</span></div></div></div>
-                <div class="card" data-cat="img3"><div class="card-inner"><div class="card-img-wrapper"><img src="img3/38.jpg" data-full="img3/38.jpg" loading="lazy"></div><div class="card-meta"><span>img-38</span><span>archive</span></div></div></div>
-                <div class="card" data-cat="img3"><div class="card-inner"><div class="card-img-wrapper"><img src="img3/39.jpg" data-full="img3/39.jpg" loading="lazy"></div><div class="card-meta"><span>img-39</span><span>archive</span></div></div></div>
-                <div class="card" data-cat="img3"><div class="card-inner"><div class="card-img-wrapper"><img src="img3/40.jpg" data-full="img3/40.jpg" loading="lazy"></div><div class="card-meta"><span>img-40</span><span>archive</span></div></div></div>
-                <div class="card" data-cat="img3"><div class="card-inner"><div class="card-img-wrapper"><img src="img3/41.jpg" data-full="img3/41.jpg" loading="lazy"></div><div class="card-meta"><span>img-41</span><span>archive</span></div></div></div>
-                <div class="card" data-cat="img3"><div class="card-inner"><div class="card-img-wrapper"><img src="img3/42.jpg" data-full="img3/42.jpg" loading="lazy"></div><div class="card-meta"><span>img-42</span><span>archive</span></div></div></div>
-                <div class="card" data-cat="img3"><div class="card-inner"><div class="card-img-wrapper"><img src="img3/43.jpg" data-full="img3/43.jpg" loading="lazy"></div><div class="card-meta"><span>img-43</span><span>archive</span></div></div></div>
-                <div class="card" data-cat="img3"><div class="card-inner"><div class="card-img-wrapper"><img src="img3/44.jpg" data-full="img3/44.jpg" loading="lazy"></div><div class="card-meta"><span>img-44</span><span>archive</span></div></div></div>
-                <div class="card" data-cat="img3"><div class="card-inner"><div class="card-img-wrapper"><img src="img3/45.jpg" data-full="img3/45.jpg" loading="lazy"></div><div class="card-meta"><span>img-45</span><span>archive</span></div></div></div>
-                <div class="card" data-cat="img3"><div class="card-inner"><div class="card-img-wrapper"><img src="img3/46.jpg" data-full="img3/46.jpg" loading="lazy"></div><div class="card-meta"><span>img-46</span><span>archive</span></div></div></div>
-                <div class="card" data-cat="img3"><div class="card-inner"><div class="card-img-wrapper"><img src="img3/47.jpg" data-full="img3/47.jpg" loading="lazy"></div><div class="card-meta"><span>img-47</span><span>archive</span></div></div></div>
+                <div class="card" data-cat="img3"><div class="card-inner"><div class="card-img-wrapper"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-src="img3/31.jpg" data-full="img3/31.jpg"></div><div class="card-meta"><span>img-31</span><span>archive</span></div></div></div>
+                <div class="card" data-cat="img3"><div class="card-inner"><div class="card-img-wrapper"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-src="img3/32.jpg" data-full="img3/32.jpg"></div><div class="card-meta"><span>img-32</span><span>archive</span></div></div></div>
+                <div class="card" data-cat="img3"><div class="card-inner"><div class="card-img-wrapper"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-src="img3/33.jpg" data-full="img3/33.jpg"></div><div class="card-meta"><span>img-33</span><span>archive</span></div></div></div>
+                <div class="card" data-cat="img3"><div class="card-inner"><div class="card-img-wrapper"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-src="img3/34.jpg" data-full="img3/34.jpg"></div><div class="card-meta"><span>img-34</span><span>archive</span></div></div></div>
+                <div class="card" data-cat="img3"><div class="card-inner"><div class="card-img-wrapper"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-src="img3/35.jpg" data-full="img3/35.jpg"></div><div class="card-meta"><span>img-35</span><span>archive</span></div></div></div>
+                <div class="card" data-cat="img3"><div class="card-inner"><div class="card-img-wrapper"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-src="img3/36.jpg" data-full="img3/36.jpg"></div><div class="card-meta"><span>img-36</span><span>archive</span></div></div></div>
+                <div class="card" data-cat="img3"><div class="card-inner"><div class="card-img-wrapper"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-src="img3/37.jpg" data-full="img3/37.jpg"></div><div class="card-meta"><span>img-37</span><span>archive</span></div></div></div>
+                <div class="card" data-cat="img3"><div class="card-inner"><div class="card-img-wrapper"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-src="img3/38.jpg" data-full="img3/38.jpg"></div><div class="card-meta"><span>img-38</span><span>archive</span></div></div></div>
+                <div class="card" data-cat="img3"><div class="card-inner"><div class="card-img-wrapper"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-src="img3/39.jpg" data-full="img3/39.jpg"></div><div class="card-meta"><span>img-39</span><span>archive</span></div></div></div>
+                <div class="card" data-cat="img3"><div class="card-inner"><div class="card-img-wrapper"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-src="img3/40.jpg" data-full="img3/40.jpg"></div><div class="card-meta"><span>img-40</span><span>archive</span></div></div></div>
+                <div class="card" data-cat="img3"><div class="card-inner"><div class="card-img-wrapper"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-src="img3/41.jpg" data-full="img3/41.jpg"></div><div class="card-meta"><span>img-41</span><span>archive</span></div></div></div>
+                <div class="card" data-cat="img3"><div class="card-inner"><div class="card-img-wrapper"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-src="img3/42.jpg" data-full="img3/42.jpg"></div><div class="card-meta"><span>img-42</span><span>archive</span></div></div></div>
+                <div class="card" data-cat="img3"><div class="card-inner"><div class="card-img-wrapper"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-src="img3/43.jpg" data-full="img3/43.jpg"></div><div class="card-meta"><span>img-43</span><span>archive</span></div></div></div>
+                <div class="card" data-cat="img3"><div class="card-inner"><div class="card-img-wrapper"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-src="img3/44.jpg" data-full="img3/44.jpg"></div><div class="card-meta"><span>img-44</span><span>archive</span></div></div></div>
+                <div class="card" data-cat="img3"><div class="card-inner"><div class="card-img-wrapper"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-src="img3/45.jpg" data-full="img3/45.jpg"></div><div class="card-meta"><span>img-45</span><span>archive</span></div></div></div>
+                <div class="card" data-cat="img3"><div class="card-inner"><div class="card-img-wrapper"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-src="img3/46.jpg" data-full="img3/46.jpg"></div><div class="card-meta"><span>img-46</span><span>archive</span></div></div></div>
+                <div class="card" data-cat="img3"><div class="card-inner"><div class="card-img-wrapper"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-src="img3/47.jpg" data-full="img3/47.jpg"></div><div class="card-meta"><span>img-47</span><span>archive</span></div></div></div>
             </div>
 
             <div class="load-container" id="loadContainer">
@@ -372,39 +371,39 @@
         <section class="section reveal" id="photography">
             <h2 class="section-title">摄影镜头叙事</h2>
             <div class="photo-gallery-masonry" id="photoGrid">
-                <div class="card"><div class="card-inner"><div class="card-img-wrapper"><img src="photo1/1.jpg" data-full="photo1/1.jpg" loading="lazy"></div><div class="card-meta"><span>ISO 100</span><span>f/2.8 1/250s</span></div></div></div>
-                <div class="card"><div class="card-inner"><div class="card-img-wrapper"><img src="photo1/2.jpg" data-full="photo1/2.jpg" loading="lazy"></div><div class="card-meta"><span>ISO 200</span><span>f/4.0 1/160s</span></div></div></div>
-                <div class="card"><div class="card-inner"><div class="card-img-wrapper"><img src="photo1/3.jpg" data-full="photo1/3.jpg" loading="lazy"></div><div class="card-meta"><span>ISO 100</span><span>f/1.4 1/500s</span></div></div></div>
-                <div class="card"><div class="card-inner"><div class="card-img-wrapper"><img src="photo1/4.jpg" data-full="photo1/4.jpg" loading="lazy"></div><div class="card-meta"><span>ISO 400</span><span>f/2.0 1/125s</span></div></div></div>
-                <div class="card"><div class="card-inner"><div class="card-img-wrapper"><img src="photo1/5.jpg" data-full="photo1/5.jpg" loading="lazy"></div><div class="card-meta"><span>ISO 100</span><span>f/8.0 1/200s</span></div></div></div>
-                <div class="card"><div class="card-inner"><div class="card-img-wrapper"><img src="photo1/6.jpg" data-full="photo1/6.jpg" loading="lazy"></div><div class="card-meta"><span>ISO 800</span><span>f/2.8 1/60s</span></div></div></div>
-                <div class="card"><div class="card-inner"><div class="card-img-wrapper"><img src="photo1/7.jpg" data-full="photo1/7.jpg" loading="lazy"></div><div class="card-meta"><span>ISO 100</span><span>f/5.6 1/400s</span></div></div></div>
-                <div class="card"><div class="card-inner"><div class="card-img-wrapper"><img src="photo1/8.jpg" data-full="photo1/8.jpg" loading="lazy"></div><div class="card-meta"><span>ISO 200</span><span>f/1.8 1/800s</span></div></div></div>
-                <div class="card"><div class="card-inner"><div class="card-img-wrapper"><img src="photo1/9.jpg" data-full="photo1/9.jpg" loading="lazy"></div><div class="card-meta"><span>ISO 100</span><span>f/4.0 1/250s</span></div></div></div>
-                <div class="card"><div class="card-inner"><div class="card-img-wrapper"><img src="photo1/10.jpg" data-full="photo1/10.jpg" loading="lazy"></div><div class="card-meta"><span>ISO 1600</span><span>f/2.8 1/30s</span></div></div></div>
-                <div class="card"><div class="card-inner"><div class="card-img-wrapper"><img src="photo1/11.jpg" data-full="photo1/11.jpg" loading="lazy"></div><div class="card-meta"><span>ISO 100</span><span>f/2.0 1/1000s</span></div></div></div>
-                <div class="card"><div class="card-inner"><div class="card-img-wrapper"><img src="photo1/12.jpg" data-full="photo1/12.jpg" loading="lazy"></div><div class="card-meta"><span>ISO 100</span><span>f/2.8 1/160s</span></div></div></div>
-                <div class="card"><div class="card-inner"><div class="card-img-wrapper"><img src="photo1/13.jpg" data-full="photo1/13.jpg" loading="lazy"></div><div class="card-meta"><span>ISO 200</span><span>f/4.0 1/500s</span></div></div></div>
-                <div class="card"><div class="card-inner"><div class="card-img-wrapper"><img src="photo1/14.jpg" data-full="photo1/14.jpg" loading="lazy"></div><div class="card-meta"><span>ISO 100</span><span>f/1.4 1/400s</span></div></div></div>
-                <div class="card"><div class="card-inner"><div class="card-img-wrapper"><img src="photo1/15.jpg" data-full="photo1/15.jpg" loading="lazy"></div><div class="card-meta"><span>ISO 400</span><span>f/2.8 1/125s</span></div></div></div>
-                <div class="card"><div class="card-inner"><div class="card-img-wrapper"><img src="photo1/16.jpg" data-full="photo1/16.jpg" loading="lazy"></div><div class="card-meta"><span>ISO 100</span><span>f/8.0 1/250s</span></div></div></div>
+                <div class="card"><div class="card-inner"><div class="card-img-wrapper"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-src="photo1/1.jpg" data-full="photo1/1.jpg"></div><div class="card-meta"><span>ISO 100</span><span>f/2.8 1/250s</span></div></div></div>
+                <div class="card"><div class="card-inner"><div class="card-img-wrapper"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-src="photo1/2.jpg" data-full="photo1/2.jpg"></div><div class="card-meta"><span>ISO 200</span><span>f/4.0 1/160s</span></div></div></div>
+                <div class="card"><div class="card-inner"><div class="card-img-wrapper"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-src="photo1/3.jpg" data-full="photo1/3.jpg"></div><div class="card-meta"><span>ISO 100</span><span>f/1.4 1/500s</span></div></div></div>
+                <div class="card"><div class="card-inner"><div class="card-img-wrapper"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-src="photo1/4.jpg" data-full="photo1/4.jpg"></div><div class="card-meta"><span>ISO 400</span><span>f/2.0 1/125s</span></div></div></div>
+                <div class="card"><div class="card-inner"><div class="card-img-wrapper"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-src="photo1/5.jpg" data-full="photo1/5.jpg"></div><div class="card-meta"><span>ISO 100</span><span>f/8.0 1/200s</span></div></div></div>
+                <div class="card"><div class="card-inner"><div class="card-img-wrapper"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-src="photo1/6.jpg" data-full="photo1/6.jpg"></div><div class="card-meta"><span>ISO 800</span><span>f/2.8 1/60s</span></div></div></div>
+                <div class="card"><div class="card-inner"><div class="card-img-wrapper"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-src="photo1/7.jpg" data-full="photo1/7.jpg"></div><div class="card-meta"><span>ISO 100</span><span>f/5.6 1/400s</span></div></div></div>
+                <div class="card"><div class="card-inner"><div class="card-img-wrapper"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-src="photo1/8.jpg" data-full="photo1/8.jpg"></div><div class="card-meta"><span>ISO 200</span><span>f/1.8 1/800s</span></div></div></div>
+                <div class="card"><div class="card-inner"><div class="card-img-wrapper"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-src="photo1/9.jpg" data-full="photo1/9.jpg"></div><div class="card-meta"><span>ISO 100</span><span>f/4.0 1/250s</span></div></div></div>
+                <div class="card"><div class="card-inner"><div class="card-img-wrapper"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-src="photo1/10.jpg" data-full="photo1/10.jpg"></div><div class="card-meta"><span>ISO 1600</span><span>f/2.8 1/30s</span></div></div></div>
+                <div class="card"><div class="card-inner"><div class="card-img-wrapper"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-src="photo1/11.jpg" data-full="photo1/11.jpg"></div><div class="card-meta"><span>ISO 100</span><span>f/2.0 1/1000s</span></div></div></div>
+                <div class="card"><div class="card-inner"><div class="card-img-wrapper"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-src="photo1/12.jpg" data-full="photo1/12.jpg"></div><div class="card-meta"><span>ISO 100</span><span>f/2.8 1/160s</span></div></div></div>
+                <div class="card"><div class="card-inner"><div class="card-img-wrapper"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-src="photo1/13.jpg" data-full="photo1/13.jpg"></div><div class="card-meta"><span>ISO 200</span><span>f/4.0 1/500s</span></div></div></div>
+                <div class="card"><div class="card-inner"><div class="card-img-wrapper"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-src="photo1/14.jpg" data-full="photo1/14.jpg"></div><div class="card-meta"><span>ISO 100</span><span>f/1.4 1/400s</span></div></div></div>
+                <div class="card"><div class="card-inner"><div class="card-img-wrapper"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-src="photo1/15.jpg" data-full="photo1/15.jpg"></div><div class="card-meta"><span>ISO 400</span><span>f/2.8 1/125s</span></div></div></div>
+                <div class="card"><div class="card-inner"><div class="card-img-wrapper"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-src="photo1/16.jpg" data-full="photo1/16.jpg"></div><div class="card-meta"><span>ISO 100</span><span>f/8.0 1/250s</span></div></div></div>
 
-                <div class="card"><div class="card-inner"><div class="card-img-wrapper"><img src="photo2/17.jpg" data-full="photo2/17.jpg" loading="lazy"></div><div class="card-meta"><span>ISO 100</span><span>f/5.6 1/160s</span></div></div></div>
-                <div class="card"><div class="card-inner"><div class="card-img-wrapper"><img src="photo2/18.jpg" data-full="photo2/18.jpg" loading="lazy"></div><div class="card-meta"><span>ISO 800</span><span>f/2.0 1/80s</span></div></div></div>
-                <div class="card"><div class="card-inner"><div class="card-img-wrapper"><img src="photo2/19.jpg" data-full="photo2/19.jpg" loading="lazy"></div><div class="card-meta"><span>ISO 200</span><span>f/2.8 1/200s</span></div></div></div>
-                <div class="card"><div class="card-inner"><div class="card-img-wrapper"><img src="photo2/20.jpg" data-full="photo2/20.jpg" loading="lazy"></div><div class="card-meta"><span>ISO 100</span><span>f/4.0 1/320s</span></div></div></div>
-                <div class="card"><div class="card-inner"><div class="card-img-wrapper"><img src="photo2/21.jpg" data-full="photo2/21.jpg" loading="lazy"></div><div class="card-meta"><span>ISO 100</span><span>f/1.8 1/640s</span></div></div></div>
-                <div class="card"><div class="card-inner"><div class="card-img-wrapper"><img src="photo2/22.jpg" data-full="photo2/22.jpg" loading="lazy"></div><div class="card-meta"><span>ISO 400</span><span>f/2.8 1/160s</span></div></div></div>
-                <div class="card"><div class="card-inner"><div class="card-img-wrapper"><img src="photo2/23.jpg" data-full="photo2/23.jpg" loading="lazy"></div><div class="card-meta"><span>ISO 100</span><span>f/4.0 1/250s</span></div></div></div>
-                <div class="card"><div class="card-inner"><div class="card-img-wrapper"><img src="photo2/24.jpg" data-full="photo2/24.jpg" loading="lazy"></div><div class="card-meta"><span>ISO 200</span><span>f/5.6 1/125s</span></div></div></div>
-                <div class="card"><div class="card-inner"><div class="card-img-wrapper"><img src="photo2/25.jpg" data-full="photo2/25.jpg" loading="lazy"></div><div class="card-meta"><span>ISO 100</span><span>f/1.4 1/500s</span></div></div></div>
-                <div class="card"><div class="card-inner"><div class="card-img-wrapper"><img src="photo2/26.jpg" data-full="photo2/26.jpg" loading="lazy"></div><div class="card-meta"><span>ISO 800</span><span>f/2.8 1/60s</span></div></div></div>
-                <div class="card"><div class="card-inner"><div class="card-img-wrapper"><img src="photo2/27.jpg" data-full="photo2/27.jpg" loading="lazy"></div><div class="card-meta"><span>ISO 100</span><span>f/2.0 1/400s</span></div></div></div>
-                <div class="card"><div class="card-inner"><div class="card-img-wrapper"><img src="photo2/28.jpg" data-full="photo2/28.jpg" loading="lazy"></div><div class="card-meta"><span>ISO 100</span><span>f/8.0 1/200s</span></div></div></div>
-                <div class="card"><div class="card-inner"><div class="card-img-wrapper"><img src="photo2/29.jpg" data-full="photo2/29.jpg" loading="lazy"></div><div class="card-meta"><span>ISO 200</span><span>f/4.0 1/160s</span></div></div></div>
-                <div class="card"><div class="card-inner"><div class="card-img-wrapper"><img src="photo2/30.jpg" data-full="photo2/30.jpg" loading="lazy"></div><div class="card-meta"><span>ISO 100</span><span>f/2.8 1/250s</span></div></div></div>
-                <div class="card"><div class="card-inner"><div class="card-img-wrapper"><img src="photo2/31.jpg" data-full="photo2/31.jpg" loading="lazy"></div><div class="card-meta"><span>ISO 100</span><span>f/1.4 1/800s</span></div></div></div>
-                <div class="card"><div class="card-inner"><div class="card-img-wrapper"><img src="photo2/32.jpg" data-full="photo2/32.jpg" loading="lazy"></div><div class="card-meta"><span>ISO 400</span><span>f/2.8 1/200s</span></div></div></div>
+                <div class="card"><div class="card-inner"><div class="card-img-wrapper"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-src="photo2/17.jpg" data-full="photo2/17.jpg"></div><div class="card-meta"><span>ISO 100</span><span>f/5.6 1/160s</span></div></div></div>
+                <div class="card"><div class="card-inner"><div class="card-img-wrapper"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-src="photo2/18.jpg" data-full="photo2/18.jpg"></div><div class="card-meta"><span>ISO 800</span><span>f/2.0 1/80s</span></div></div></div>
+                <div class="card"><div class="card-inner"><div class="card-img-wrapper"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-src="photo2/19.jpg" data-full="photo2/19.jpg"></div><div class="card-meta"><span>ISO 200</span><span>f/2.8 1/200s</span></div></div></div>
+                <div class="card"><div class="card-inner"><div class="card-img-wrapper"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-src="photo2/20.jpg" data-full="photo2/20.jpg"></div><div class="card-meta"><span>ISO 100</span><span>f/4.0 1/320s</span></div></div></div>
+                <div class="card"><div class="card-inner"><div class="card-img-wrapper"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-src="photo2/21.jpg" data-full="photo2/21.jpg"></div><div class="card-meta"><span>ISO 100</span><span>f/1.8 1/640s</span></div></div></div>
+                <div class="card"><div class="card-inner"><div class="card-img-wrapper"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-src="photo2/22.jpg" data-full="photo2/22.jpg"></div><div class="card-meta"><span>ISO 400</span><span>f/2.8 1/160s</span></div></div></div>
+                <div class="card"><div class="card-inner"><div class="card-img-wrapper"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-src="photo2/23.jpg" data-full="photo2/23.jpg"></div><div class="card-meta"><span>ISO 100</span><span>f/4.0 1/250s</span></div></div></div>
+                <div class="card"><div class="card-inner"><div class="card-img-wrapper"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-src="photo2/24.jpg" data-full="photo2/24.jpg"></div><div class="card-meta"><span>ISO 200</span><span>f/5.6 1/125s</span></div></div></div>
+                <div class="card"><div class="card-inner"><div class="card-img-wrapper"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-src="photo2/25.jpg" data-full="photo2/25.jpg"></div><div class="card-meta"><span>ISO 100</span><span>f/1.4 1/500s</span></div></div></div>
+                <div class="card"><div class="card-inner"><div class="card-img-wrapper"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-src="photo2/26.jpg" data-full="photo2/26.jpg"></div><div class="card-meta"><span>ISO 800</span><span>f/2.8 1/60s</span></div></div></div>
+                <div class="card"><div class="card-inner"><div class="card-img-wrapper"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-src="photo2/27.jpg" data-full="photo2/27.jpg"></div><div class="card-meta"><span>ISO 100</span><span>f/2.0 1/400s</span></div></div></div>
+                <div class="card"><div class="card-inner"><div class="card-img-wrapper"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-src="photo2/28.jpg" data-full="photo2/28.jpg"></div><div class="card-meta"><span>ISO 100</span><span>f/8.0 1/200s</span></div></div></div>
+                <div class="card"><div class="card-inner"><div class="card-img-wrapper"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-src="photo2/29.jpg" data-full="photo2/29.jpg"></div><div class="card-meta"><span>ISO 200</span><span>f/4.0 1/160s</span></div></div></div>
+                <div class="card"><div class="card-inner"><div class="card-img-wrapper"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-src="photo2/30.jpg" data-full="photo2/30.jpg"></div><div class="card-meta"><span>ISO 100</span><span>f/2.8 1/250s</span></div></div></div>
+                <div class="card"><div class="card-inner"><div class="card-img-wrapper"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-src="photo2/31.jpg" data-full="photo2/31.jpg"></div><div class="card-meta"><span>ISO 100</span><span>f/1.4 1/800s</span></div></div></div>
+                <div class="card"><div class="card-inner"><div class="card-img-wrapper"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-src="photo2/32.jpg" data-full="photo2/32.jpg"></div><div class="card-meta"><span>ISO 400</span><span>f/2.8 1/200s</span></div></div></div>
             </div>
         </section>
 
@@ -439,7 +438,7 @@
             link.addEventListener('click', () => sidebar.classList.remove('show'), {passive: true});
         });
 
-        // 2. 原生大视频流精准硬件切源调度
+        // 2. 原生大体积视频流硬件加速切换调度
         const thumbs = document.querySelectorAll('.video-thumb');
         const mainVideo = document.getElementById('mainVideo');
         thumbs.forEach(thumb => {
@@ -461,6 +460,7 @@
             card.addEventListener('click', (e) => {
                 const img = card.querySelector('img');
                 if(img) {
+                    // 如果图片已经加载好，将 data-full 里的高清大图抓取过去
                     bigImg.src = img.dataset.full ? img.dataset.full : img.src;
                     popup.classList.add('active');
                     document.body.style.overflow = 'hidden';
@@ -471,10 +471,10 @@
         popup.addEventListener('click', () => {
             popup.classList.remove('active');
             document.body.style.overflow = '';
-            setTimeout(() => { bigImg.src = ''; }, 400); // 彻底释放移动端显存占用，防止长时间浏览后白屏闪退
+            setTimeout(() => { bigImg.src = ''; }, 400); // 关闭后断开路径清除内存，防手机白屏崩溃
         }, {passive: true});
 
-        // 4. 平面海报分流检索控制器
+        // 4. 高性能分批流控 ＋ 平面海报分类检索调度
         const filterBtns = document.querySelectorAll('.filter-menu .filter-btn');
         const galleryCards = document.querySelectorAll('#galleryGrid .card');
         const loadMoreBtn = document.getElementById('loadMoreBtn');
@@ -511,6 +511,11 @@
             } else {
                 loadContainer.style.display = 'none';
             }
+            
+            // 每次切换分类或点加载更多，触发一次全局懒加载器扫描
+            if (typeof window.triggerLazyLoad === 'function') {
+                window.triggerLazyLoad();
+            }
         }
 
         loadMoreBtn.addEventListener('click', () => {
@@ -531,31 +536,54 @@
             }, {passive: true});
         });
 
-        renderGallery();
+        // 5. 🎯【突破级流控】全自动化 JS 强力懒加载监听中心
+        // 彻底切断 CSS 瀑布流提前偷跑流量的弊端，保证非可视区完全零请求
+        const allLazyImgs = document.querySelectorAll('.content img[data-src]');
+        
+        const imgObserver = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const img = entry.target;
+                    
+                    // 只有滑到面前了，才把真实路径塞给 src，开始请求流量
+                    img.src = img.dataset.src;
+                    
+                    const forceShowTimeout = setTimeout(() => {
+                        img.classList.add('loaded');
+                    }, 1500); // 极端超时强制线
 
-        // 5. 高阶异步冷启动全网格图片加载监听器
-        const allImgs = document.querySelectorAll('.content img');
-        allImgs.forEach(img => {
-            const forceShowTimeout = setTimeout(() => {
-                img.classList.add('loaded');
-            }, 1500); // 极端环境强行显影安全线
-
-            if (img.complete) {
-                clearTimeout(forceShowTimeout);
-                img.classList.add('loaded');
-            } else {
-                img.onload = () => {
-                    clearTimeout(forceShowTimeout);
-                    img.classList.add('loaded');
-                };
-                img.onerror = () => {
-                    clearTimeout(forceShowTimeout);
-                    img.classList.add('loaded'); 
-                };
-            }
+                    img.onload = () => {
+                        clearTimeout(forceShowTimeout);
+                        img.classList.add('loaded');
+                    };
+                    img.onerror = () => {
+                        clearTimeout(forceShowTimeout);
+                        img.classList.add('loaded'); 
+                    };
+                    
+                    // 卸载观察，该图片这辈子只需请求一次
+                    observer.unobserve(img);
+                }
+            });
+        }, { 
+            root: null, 
+            rootMargin: '200px 0px 400px 0px', // 提前往下嗅探 400px，保证用户向下滚动时顺滑，不会有生硬的卡顿感
+            threshold: 0.01 
         });
 
-        // 6. 现代无损智能观察流 (Scrollspy) —— 100% 砍掉高开销 window.onscroll 滚动监听
+        window.triggerLazyLoad = function() {
+            allLazyImgs.forEach(img => {
+                // 如果父卡片没有被隐藏，且还挂着 data-src，继续激活观察
+                if (!img.closest('.card').classList.contains('hide')) {
+                    imgObserver.observe(img);
+                }
+            });
+        };
+
+        // 首次初始化运行
+        renderGallery();
+
+        // 6. 智能监控 (Scrollspy) + 触底自动激活关于我高亮
         const reveals = document.querySelectorAll('.reveal');
 
         const globalObserver = new IntersectionObserver((entries) => {

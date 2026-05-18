@@ -395,13 +395,13 @@
             <h2 class="section-title">动态视频作品</h2>
             <div class="video-show">
                 <div class="video-main">
-                    <video id="mainVideo" controls preload="metadata" poster="https://xxx.r2.dev/video1_poster.webp" muted playsinline loop src="https://xxx.r2.dev/video1.mp4"></video>
+                    <video id="mainVideo" controls preload="metadata" muted playsinline loop></video>
                 </div>
                 <div class="video-thumbs">
-                    <div class="video-thumb active" data-src="https://xxx.r2.dev/video1.mp4">· 壹</div>
-                    <div class="video-thumb" data-src="https://xxx.r2.dev/video2.mp4">· 貳</div>
-                    <div class="video-thumb" data-src="https://xxx.r2.dev/video3.mp4">· 叁</div>
-                    <div class="video-thumb" data-src="https://xxx.r2.dev/video4.mp4">· 肆</div>
+                    <div class="video-thumb active" data-src="">· 壹</div>
+                    <div class="video-thumb" data-src="">· 貳</div>
+                    <div class="video-thumb" data-src="">· 叁</div>
+                    <div class="video-thumb" data-src="">· 肆</div>
                 </div>
             </div>
         </section>
@@ -512,7 +512,7 @@
             </div>
         </section>
 
-        <section class="section" id="about">
+        <section class="section reveal" id="about">
             <h2 class="section-title">关于我</h2>
             <p style="font-family: 'Noto Serif SC', serif; font-size:18px; font-weight:700; color:var(--text-dark); letter-spacing: 2px; line-height: 1.6; border-left: 3px solid var(--line-solid); padding-left: 24px;">
                 以视觉为语，融极简意境，于方寸之间雕琢设计本心。
@@ -553,7 +553,6 @@
                 
                 mainVideo.src = thumb.dataset.src;
                 mainVideo.load();
-                mainVideo.play();
             });
         });
 
@@ -637,10 +636,8 @@
         renderGallery();
 
         // 5. 【Bug 修复核心】全页面（海报 ＋ 摄影）瀑布流图片渐进式冷启动加载监听器
-        // 优化点：将选择器扩大至全局 '.content img'，且加入 1.5 秒强行显影兜底与错误拦截，彻底杜绝空白现象
         const allImgs = document.querySelectorAll('.content img');
         allImgs.forEach(img => {
-            // 强行渲染防护线：若 1.5 秒内因网络慢或 404 没能加载成功，强制揭开透明度，确保破损占位符可见
             const forceShowTimeout = setTimeout(() => {
                 img.classList.add('loaded');
             }, 1500);
@@ -655,7 +652,7 @@
                 };
                 img.onerror = () => {
                     clearTimeout(forceShowTimeout);
-                    img.classList.add('loaded'); // 发生 404 时强行破开，使浏览器报错图标显影
+                    img.classList.add('loaded');
                 };
             }
         });

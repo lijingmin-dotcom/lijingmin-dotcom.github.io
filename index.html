@@ -5,6 +5,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>DESIGN & PHOTOGRAPHY | 李静敏作品集</title>
     <style>
+        /* --- 1. 字体异步感知与性能防抖 --- */
+        @font-face {
+            font-family: 'Noto Serif SC';
+            src: local('Source Han Serif CN'), local('Noto Serif CJK SC');
+            font-display: swap; /* 文字无延迟即刻渲染，杜绝大字体包下载期间的隐形闪烁 (FOIT) */
+        }
+
         /* --- 基础重置与轻奢砂岩包豪斯变量 --- */
         *{margin:0;padding:0;box-sizing:border-box;}
         html{scroll-behavior:smooth;}
@@ -32,33 +39,38 @@
             position: relative;
         }
 
+        /* --- 核心显影防护与GPU硬加速一体化 --- */
+        .content img {
+            will-change: transform, opacity, filter; /* 激活 GPU 加速硬件图层，防止手机端滚动掉帧 */
+        }
+        .content img.loaded { 
+            opacity: 1 !important; /* 核心修复：加重状态权重，确保图片100%显影 */
+        }
+
+        /* ==========================================================================
+           【🎨 核心安全防护重构】全站图片高级防盗与物理防下载锁定
+           ========================================================================== */
+        .content img, 
+        #bigImg {
+            pointer-events: none;         /* 核心防盗：让图片对鼠标交互“隐形”，直接免疫右键点击与左键拖拽 */
+            -webkit-touch-callout: none;  /* 移动端锁死：全线禁用 iOS/Android 手机端长按弹出“保存图片”系统菜单 */
+            -webkit-user-select: none;    /* 禁用系统手势选中图片框 */
+            user-select: none;            /* 禁止任何形式的物理选定 */
+        }
+
         /* --- 移动端汉堡按钮 --- */
         .menu-btn{
-            position: fixed;
-            top: 25px;
-            right: 25px;
-            width: 44px;
-            height: 44px;
-            background: var(--bg-card);
-            border: 1px solid var(--text-dark);
-            border-radius: 0; 
-            display: none;
-            align-items: center;
-            justify-content: center;
-            font-size: 14px;
-            color: var(--text-dark);
-            z-index: 9999;
-            cursor: pointer;
+            position: fixed; top: 25px; right: 25px; width: 44px; height: 44px;
+            background: var(--bg-card); border: 1px solid var(--text-dark);
+            display: none; align-items: center; justify-content: center;
+            font-size: 14px; color: var(--text-dark); z-index: 9999; cursor: pointer;
         }
 
         /* --- 左侧宣纸直角侧边栏 --- */
         .sidebar{
-            position: fixed;
-            top: 0; left: 0; width: 280px; height: 100vh;
-            background: var(--bg-card);
-            border-right: 1px solid var(--line-light);
-            padding: 80px 40px;
-            z-index: 999;
+            position: fixed; top: 0; left: 0; width: 280px; height: 100vh;
+            background: var(--bg-card); border-right: 1px solid var(--line-light);
+            padding: 80px 40px; z-index: 999;
             transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
         }
         .sidebar::after {
@@ -66,26 +78,15 @@
             background: var(--line-grid);
         }
         .sidebar .logo{
-            font-family: "Noto Serif SC", "Georgia", serif;
-            font-size: 16px;
-            font-weight: 700;
-            color: var(--text-dark);
-            letter-spacing: 5px;
-            margin-bottom: 80px;
-            text-align: center;
-            text-transform: uppercase;
+            font-family: "Noto Serif SC", "Georgia", serif; font-size: 16px; font-weight: 700;
+            color: var(--text-dark); letter-spacing: 5px; margin-bottom: 80px;
+            text-align: center; text-transform: uppercase;
         }
         .nav{ display: flex; flex-direction: column; gap: 4px; }
         .nav a{
-            padding: 14px 20px;
-            text-decoration: none;
-            color: var(--text-muted);
-            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-            font-size: 13px;
-            text-align: left;
-            letter-spacing: 3px;
-            font-weight: 500;
-            position: relative;
+            padding: 14px 20px; text-decoration: none; color: var(--text-muted);
+            font-size: 13px; text-align: left; letter-spacing: 3px; font-weight: 500; position: relative;
+            transition: color 0.4s cubic-bezier(0.16, 1, 0.3, 1), padding-left 0.4s cubic-bezier(0.16, 1, 0.3, 1);
         }
         .nav a:hover{ color: var(--text-dark); padding-left: 26px; }
         .nav a.active{ color: var(--text-dark); font-weight: 700; background: var(--bg-canvas); }
@@ -94,28 +95,19 @@
             background: var(--line-solid);
         }
 
-        /* --- 右侧内容观展区 --- */
+        /* --- 右侧主观内容区 --- */
         .content{ margin-left: 280px; padding: 100px 60px; min-height: 100vh; }
         
         .reveal {
-            opacity: 0;
-            transform: translateY(15px);
-            transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1), transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
-            margin-bottom: 140px; 
+            opacity: 0; transform: translateY(20px); margin-bottom: 140px; 
+            transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
         }
         .reveal.reveal-active { opacity: 1; transform: translateY(0); }
 
         /* 建筑标尺标题 */
         .section-title{
-            font-family: "Noto Serif SC", "Source Han Serif CN", serif;
-            font-size: 18px;
-            font-weight: 700;
-            color: var(--text-dark);
-            margin-bottom: 50px;
-            letter-spacing: 3px;
-            display: flex;
-            align-items: center;
-            gap: 20px;
+            font-family: "Noto Serif SC", "Source Han Serif CN", serif; font-size: 18px; font-weight: 700;
+            color: var(--text-dark); margin-bottom: 50px; letter-spacing: 3px; display: flex; align-items: center; gap: 20px;
         }
         .section-title::before { content: '┠'; font-family: monospace; color: var(--text-dark); }
         .section-title::after { content: ''; flex: 1; height: 1px; background: var(--line-solid); }
@@ -123,80 +115,42 @@
         /* --- 动态视频板块 --- */
         .video-show{ margin-bottom:30px; }
         .video-main{
-            width:100%;
-            height:500px;
-            overflow:hidden;
-            margin-bottom:25px;
-            background: #000;
-            border: 1px solid var(--text-dark);
+            width:100%; height:500px; overflow:hidden; margin-bottom:25px;
+            background: #000; border: 1px solid var(--text-dark);
         }
         .video-main video{ width:100%; height:100%; object-fit: contain; }
         .video-thumbs{ display: flex; gap: 8px; flex-wrap: wrap; }
         .video-thumb{
-            padding: 10px 24px;
-            background: var(--bg-card);
-            border: 1px solid var(--line-light);
-            cursor: pointer;
-            font-size: 12px;
-            font-weight: 600;
-            color: var(--text-muted);
-            letter-spacing: 2px;
-            transition: all 0.3s ease;
+            padding: 10px 24px; background: var(--bg-card); border: 1px solid var(--line-light);
+            cursor: pointer; font-size: 12px; font-weight: 600; color: var(--text-muted); letter-spacing: 2px;
+            transition: border-color 0.3s ease, color 0.3s ease, background-color 0.3s ease;
         }
         .video-thumb:hover { border-color: var(--text-dark); color: var(--text-dark); }
         .video-thumb.active{ background: var(--text-dark); color: var(--bg-card); border-color: var(--text-dark); }
 
 
         /* ==========================================================================
-           【基建基础】平面海报：紧凑型 4 列自适应瀑布流网格
+           【平面设计】板块：标准 4 列自适应紧凑型瀑布流网格
            ========================================================================== */
         .filter-menu {
-            display: flex;
-            gap: 10px;
-            margin-bottom: 45px;
-            border-top: 1px solid var(--text-dark);
-            border-bottom: 1px dashed var(--line-light);
-            padding: 15px 0;
-            flex-wrap: wrap;
+            display: flex; gap: 10px; margin-bottom: 45px; padding: 15px 0; flex-wrap: wrap;
+            border-top: 1px solid var(--text-dark); border-bottom: 1px dashed var(--line-light);
         }
         .filter-btn {
-            background: transparent;
-            border: 1px dashed var(--line-light);
-            padding: 8px 22px;
-            font-size: 11px;
-            letter-spacing: 2px;
-            color: var(--text-muted);
-            cursor: pointer;
-            font-weight: 600;
-            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            background: transparent; border: 1px dashed var(--line-light); padding: 8px 22px;
+            font-size: 11px; letter-spacing: 2px; color: var(--text-muted); cursor: pointer; font-weight: 600;
+            transition: border-color 0.3s ease, color 0.3s ease, background-color 0.3s ease;
         }
         .filter-btn:hover { border-color: var(--text-dark); color: var(--text-dark); }
         .filter-btn.active { background: var(--text-dark); color: var(--bg-card); border-color: var(--text-dark); }
 
-        .gallery { 
-            column-count: 4;     
-            column-gap: 32px;    
-            position: relative;
-        }
-        
-        .card {
-            break-inside: avoid; 
-            display: block; 
-            width: 100%;
-            margin-bottom: 35px; 
-            position: relative;
-            cursor: pointer;
-            background: none;
-            border: none;
-        }
-        
-        .card.hide { display: none !important; }
+        .gallery { column-count: 4; column-gap: 32px; position: relative; }
+        .gallery .card { break-inside: avoid; display: block; width: 100%; margin-bottom: 35px; position: relative; cursor: pointer; }
+        .gallery .card.hide { display: none !important; }
 
         .card::before, .card::after {
-            content: ''; position: absolute; width: 12px; height: 12px;
-            transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
-            opacity: 0.25; pointer-events: none;
-            z-index: 3;
+            content: ''; position: absolute; width: 12px; height: 12px; opacity: 0.25; pointer-events: none; z-index: 3;
+            transition: top 0.4s ease, left 0.4s ease, right 0.4s ease, bottom 0.4s ease, opacity 0.4s ease;
         }
         .card::before { top: -5px; left: -5px; border-top: 1px solid var(--text-dark); border-left: 1px solid var(--text-dark); }
         .card::after { bottom: -5px; right: -5px; border-bottom: 1px solid var(--text-dark); border-right: 1px solid var(--text-dark); }
@@ -206,112 +160,149 @@
             background: var(--bg-card); border: 1px solid var(--line-light);
             padding: 10px 10px 38px 10px; position: relative;
             box-shadow: 0 6px 20px rgba(50, 42, 34, 0.02), 0 1px 2px rgba(50, 42, 34, 0.01);
-            transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+            transition: border-color 0.5s ease, transform 0.5s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.5s ease;
+            will-change: transform, box-shadow;
         }
 
-        .card-img-wrapper { width: 100%; height: auto; display: block; }
+        /* 🛠️ 核心修改：全面开启双轴弹性对齐，让图片在任何分辨率下横竖绝对居中 */
+        .card-img-wrapper { 
+            width: 100%; min-height: 120px; position: relative; background: rgba(50, 42, 34, 0.02); 
+            display: flex;          /* 开启 Flexbox */
+            align-items: center;    /* 垂直方向绝对居中 */
+            justify-content: center;/* 水平方向绝对居中 */
+            overflow: hidden;
+        }
 
-        /* 统一的惰性图片淡入样式 */
         .card img {
-            width: 100%; height: auto; display: block;
-            filter: grayscale(5%) sepia(3%) contrast(98%);
-            opacity: 0;
-            transition: opacity 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+            max-width: 100%; height: auto; display: block; margin: 0 auto;
+            filter: grayscale(5%) sepia(3%) contrast(98%); opacity: 0;
+            transition: opacity 0.4s ease, transform 0.5s cubic-bezier(0.16, 1, 0.3, 1), filter 0.5s ease;
         }
-        .card img.loaded { opacity: 1 !important; }
 
-        .card-meta {
+        .gallery .card-meta {
             position: absolute; bottom: 10px; left: 12px; right: 12px;
             display: flex; justify-content: space-between; align-items: center;
             font-family: monospace; font-size: 9px; letter-spacing: 1.5px;
             color: var(--text-muted); border-top: 1px solid rgba(50, 42, 34, 0.05);
             padding-top: 6px; text-transform: uppercase;
         }
-        .card-meta::before { content: '┼'; font-size: 8px; }
+        .gallery .card-meta::before { content: '┼'; font-size: 8px; }
 
-        .gallery .card:hover .card-inner { 
-            border-color: var(--text-dark); transform: translateY(-6px); 
-            box-shadow: 0 20px 40px rgba(50, 42, 34, 0.06); 
-        }
+        .gallery .card:hover .card-inner { border-color: var(--text-dark); transform: translateY(-6px); box-shadow: 0 20px 40px rgba(50, 42, 34, 0.06); }
         .gallery .card:hover::before { top: -10px; left: -10px; opacity: 1; }
         .gallery .card:hover::after { bottom: -10px; right: -10px; opacity: 1; }
+        .gallery .card:hover img { filter: grayscale(0%) sepia(0%) contrast(100%); }
 
 
         /* ==========================================================================
-           【全新顶级视觉】摄影图集：12列不规则“蜿蜒大河”编排（突破常规，极度舒展高级）
-           ========================================================================== */
-        #photoGrid {
-            display: grid;
-            grid-template-columns: repeat(12, 1fr); /* 核心：12列主河道控制轴 */
-            gap: 0px 32px; /* 消除原生高间距，改由物理负外边距控制错落流动 */
-            position: relative;
-            column-count: auto; 
+           【摄影图集】板块：画廊志风格 3 列大呼吸瀑布流 + 内嵌渐变 Viewfinder
+           ========================================================================= */
+        .photo-gallery-masonry { column-count: 3; column-gap: 40px; position: relative; }
+        .photo-gallery-masonry .card { break-inside: avoid; display: block; width: 100%; margin-bottom: 40px; position: relative; cursor: pointer; }
+
+        .photo-gallery-masonry .card::before, .photo-gallery-masonry .card::after {
+            content: ''; position: absolute; width: 12px; height: 12px; opacity: 0.25; pointer-events: none; z-index: 3;
+            transition: top 0.4s ease, left 0.4s ease, right 0.4s ease, bottom 0.4s ease, opacity 0.4s ease;
         }
-        
-        #photoGrid .card { margin-bottom: 0; break-inside: auto; }
+        .photo-gallery-masonry .card::before { top: -5px; left: -5px; border-top: 1px solid var(--text-dark); border-left: 1px solid var(--text-dark); }
+        .photo-gallery-masonry .card::after { bottom: -5px; right: -5px; border-bottom: 1px solid var(--text-dark); border-right: 1px solid var(--text-dark); }
 
-        /* 🌊 大河非对称控制网：让 32 张照片如河流般在空间中曲折错落流动 */
-        #photoGrid .card:nth-child(6n+1) { grid-column: 1 / span 5; margin-top: 60px; margin-bottom: 80px; }   
-        #photoGrid .card:nth-child(6n+2) { grid-column: 5 / span 5; margin-top: -30px; margin-bottom: 120px; } 
-        #photoGrid .card:nth-child(6n+3) { grid-column: 8 / span 4; margin-top: 40px; margin-bottom: 90px; }   
-        #photoGrid .card:nth-child(6n+4) { grid-column: 4 / span 6; margin-top: -50px; margin-bottom: 140px; } 
-        #photoGrid .card:nth-child(6n+5) { grid-column: 2 / span 4; margin-top: 20px; margin-bottom: 100px; }  
-        #photoGrid .card:nth-child(6n+6) { grid-column: 7 / span 5; margin-top: -40px; margin-bottom: 15px; }  
-
-        #photoGrid .card:hover .card-inner {
-            border-color: var(--text-dark); transform: translateY(-8px);
-            box-shadow: 0 30px 60px rgba(50, 42, 34, 0.09);
+        .photo-gallery-masonry .card-inner {
+            width: 100%; height: auto; background: var(--bg-card); border: 1px solid var(--line-light); padding: 12px; position: relative;
+            box-shadow: 0 6px 25px rgba(50, 42, 34, 0.02); overflow: hidden;
+            transition: border-color 0.5s ease, transform 0.5s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.5s ease;
+            will-change: transform, box-shadow;
         }
-        #photoGrid .card:hover::before { top: -10px; left: -10px; opacity: 1; }
-        #photoGrid .card:hover::after { bottom: -10px; right: -10px; opacity: 1; }
-        #photoGrid .card:hover img { filter: grayscale(0%) sepia(0%) contrast(100%); }
+
+        /* 🛠️ 摄影图集容器同样开启横竖双轴心中央定位 */
+        .photo-gallery-masonry .card-img-wrapper {
+            width: 100%; position: relative;
+            display: flex; align-items: center; justify-content: center; overflow: hidden;
+        }
+
+        .photo-gallery-masonry .card img {
+            max-width: 100%; height: auto; display: block; margin: 0 auto;
+            filter: grayscale(6%) sepia(2%) contrast(97%); opacity: 0;
+            transition: opacity 0.4s ease, transform 0.6s cubic-bezier(0.16, 1, 0.3, 1), filter 0.6s ease;
+        }
+
+        /* 内嵌式 Hud 参数流 */
+        .photo-gallery-masonry .card-meta {
+            position: absolute; bottom: 0; left: 0; width: 100%;
+            display: flex; justify-content: space-between; align-items: center;
+            font-family: monospace; font-size: 10px; letter-spacing: 1px; color: #FAF6EE;
+            background: linear-gradient(to top, rgba(50, 42, 34, 0.8), rgba(50, 42, 34, 0));
+            padding: 30px 20px 15px 20px; opacity: 0; transform: translateY(8px); pointer-events: none; z-index: 4; border-top: none;
+            transition: opacity 0.4s cubic-bezier(0.16, 1, 0.3, 1), transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .photo-gallery-masonry .card-meta::before { display: none; }
+
+        .photo-gallery-masonry .card:hover .card-inner { border-color: var(--text-dark); transform: translateY(-6px); box-shadow: 0 25px 45px rgba(50, 42, 34, 0.08); }
+        .photo-gallery-masonry .card:hover::before { top: -10px; left: -10px; opacity: 1; }
+        .photo-gallery-masonry .card:hover::after { bottom: -10px; right: -10px; opacity: 1; }
+        .photo-gallery-masonry .card:hover img { filter: grayscale(0%) sepia(0%) contrast(100%); transform: scale(1.03); }
+        .photo-gallery-masonry .card:hover .card-meta { opacity: 1; transform: translateY(0); }
 
 
-        /* --- 磨砂卡纸放大弹窗 --- */
+        /* --- 页面功能控制台 --- */
+        .load-container { display: flex; justify-content: center; margin-top: 60px; }
+        .load-more-btn {
+            background: transparent; border: 1px solid var(--text-dark); padding: 14px 45px;
+            font-size: 11px; letter-spacing: 4px; font-weight: 700; color: var(--text-dark); cursor: pointer; text-transform: uppercase;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+        .load-more-btn:hover { background: var(--text-dark); color: var(--bg-card); }
+
+        /* ==========================================================================
+           【磨砂卡纸大图弹窗方案】—— 强效防盗 ＋ 极致大图横竖绝对居中
+           ========================================================================= */
         .img-popup{
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(42, 38, 34, 0.93); backdrop-filter: blur(12px);
-            z-index: 99999; display: flex; align-items: center; justify-content: center; padding: 40px;
-            opacity: 0; visibility: hidden; transition: opacity 0.5s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.5s cubic-bezier(0.16, 1, 0.3, 1);
-            cursor: zoom-out;
+            background: rgba(42, 38, 34, 0.93); backdrop-filter: blur(12px); z-index: 99999;
+            padding: 40px; opacity: 0; visibility: hidden; cursor: zoom-out;
+            display: flex;          /* 强制开启弹性盒模型 */
+            align-items: center;    /* 垂直绝对居中 */
+            justify-content: center;/* 水平绝对居中 */
+            transition: opacity 0.4s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.4s cubic-bezier(0.16, 1, 0.3, 1);
         }
         .img-popup img{
-            max-width: 92%; max-height: 92%; object-fit: contain; 
-            border: 1px solid rgba(255, 255, 255, 0.15); box-shadow: 0 30px 70px rgba(0,0,0,0.3);
-            transform: scale(0.95); transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+            max-width: 92%; max-height: 92%; object-fit: contain; border: 1px solid rgba(255, 255, 255, 0.15); box-shadow: 0 30px 70px rgba(0,0,0,0.3);
+            transform: scale(0.95); transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            margin: auto;           /* 锁死正中央 */
+            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 100 100"><circle cx="50" cy="50" r="40" stroke="%23FAF6EE" stroke-width="4" fill="none" stroke-dasharray="150 100"><animateTransform attributeName="transform" type="rotate" from="0 50 50" to="360 50 50" dur="0.8s" repeatCount="indefinite"/></circle></svg>') center no-repeat;
         }
         .img-popup.active{ opacity: 1; visibility: visible; }
         .img-popup.active img { transform: scale(1); }
 
-        /* 底栏 */
-        .footer{ 
-            text-align:center; padding:100px 0 40px; color:var(--text-muted); font-size:11px; letter-spacing: 3px;
-            border-top: 1px dashed var(--text-dark); text-transform: uppercase;
-        }
+        .footer{ text-align:center; padding:100px 0 40px; color:var(--text-muted); font-size:11px; letter-spacing: 3px; border-top: 1px dashed var(--text-dark); text-transform: uppercase; }
 
-        /* --- 响应式降维：保护中小屏幕下的极限排版 --- */
-        @media (max-width:1400px) { 
-            .gallery { column-count: 3; gap: 24px; } 
-            #photoGrid { grid-template-columns: repeat(2, 1fr); gap: 40px 24px; }
-            #photoGrid .card:nth-child(n) { grid-column: auto !important; margin-top: 0 !important; margin-bottom: 0 !important; }
-            #photoGrid .card:nth-child(even) { margin-top: 40px !important; }
-        }
+        /* --- 响应式布局自适应调节 --- */
+        @media (max-width:1400px) { .gallery { column-count: 3; gap: 24px; } .photo-gallery-masonry { column-count: 3; gap: 30px; } }
         @media (max-width:1100px) {
-            .sidebar{ width: 240px; padding: 40px 20px; }
-            .content{ margin-left: 240px; padding: 80px 30px; }
-            .gallery { column-count: 2; gap: 20px; }
+            .sidebar{ width: 240px; padding: 40px 20px; } .content{ margin-left: 240px; padding: 80px 30px; }
+            .gallery { column-count: 2; gap: 20px; } .photo-gallery-masonry { column-count: 2; gap: 24px; }
         }
+        
+        /* 针对 768px 以下手机端进行双列卡片无边框压缩排版 */
         @media (max-width:768px) {
-            .menu-btn{ display:flex; }
-            .sidebar{ transform: translateX(-100%); width: 260px; box-shadow: 15px 0 40px rgba(42,38,34,0.04); }
-            .sidebar.show{ transform: translateX(0); }
-            .content{ margin-left: 0; padding: 100px 20px 40px; }
-            .video-main{ height:260px; }
-            .reveal { margin-bottom: 80px; }
-            .gallery { column-count: 1; gap: 24px; }
-            /* 手机端平铺回归单列深度大河生态流 */
-            #photoGrid { grid-template-columns: 1fr; gap: 35px; }
-            #photoGrid .card:nth-child(n) { margin-top: 0 !important; margin-bottom: 0 !important; }
+            .menu-btn{ display:flex; } .sidebar{ transform: translateX(-100%); width: 260px; box-shadow: 15px 0 40px rgba(42,38,34,0.04); }
+            .sidebar.show{ transform: translateX(0); } 
+            
+            .content{ margin-left: 0; padding: 100px 16px 40px; } .video-main{ height:230px; } .reveal { margin-bottom: 70px; }
+            .section-title { margin-bottom: 30px; }
+
+            .gallery { column-count: 2; column-gap: 16px; } 
+            .gallery .card { margin-bottom: 18px; }
+            .gallery .card-inner { padding: 6px 6px 28px 6px; }
+            .gallery .card-meta { bottom: 6px; left: 8px; right: 8px; font-size: 8px; letter-spacing: 0.5px; }
+
+            .photo-gallery-masonry { column-count: 2; column-gap: 16px; }
+            .photo-gallery-masonry .card { margin-bottom: 18px; }
+            .photo-gallery-masonry .card-inner { padding: 6px; }
+            .photo-gallery-masonry .card-meta { padding: 20px 8px 6px 8px; font-size: 8px; letter-spacing: 0.5px; }
+            
+            .load-container { margin-top: 30px; }
+            .load-more-btn { width: 100%; text-align: center; padding: 12px 0; }
         }
     </style>
 </head>
@@ -345,7 +336,7 @@
             <h2 class="section-title">动态视频作品</h2>
             <div class="video-show">
                 <div class="video-main">
-                    <video id="mainVideo" controls autoplay muted playsinline loop preload="metadata" src="https://xxx.r2.dev/video1.mp4"></video>
+                    <video id="mainVideo" controls preload="metadata" poster="https://xxx.r2.dev/video1_poster.webp" muted playsinline loop src="https://xxx.r2.dev/video1.mp4"></video>
                 </div>
                 <div class="video-thumbs">
                     <div class="video-thumb active" data-src="https://xxx.r2.dev/video1.mp4">· 壹</div>
@@ -358,6 +349,7 @@
 
         <section class="section reveal" id="poster">
             <h2 class="section-title">平面设计作品</h2>
+            
             <div class="filter-menu">
                 <button class="filter-btn active" data-target="all">INDEX / 全部</button>
                 <button class="filter-btn" data-target="img1">PART 01 / 系列壹</button>
@@ -366,55 +358,55 @@
             </div>
 
             <div class="gallery" id="galleryGrid">
-                <div class="card" data-cat="img1"><div class="card-inner"><div class="card-img-wrapper"><img data-src="img1/1.jpg" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"></div><div class="card-meta"><span>img-01</span><span>archive</span></div></div></div>
-                <div class="card" data-cat="img1"><div class="card-inner"><div class="card-img-wrapper"><img data-src="img1/2.jpg" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"></div><div class="card-meta"><span>img-02</span><span>archive</span></div></div></div>
-                <div class="card" data-cat="img1"><div class="card-inner"><div class="card-img-wrapper"><img data-src="img1/3.jpg" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"></div><div class="card-meta"><span>img-03</span><span>archive</span></div></div></div>
-                <div class="card" data-cat="img1"><div class="card-inner"><div class="card-img-wrapper"><img data-src="img1/4.jpg" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"></div><div class="card-meta"><span>img-04</span><span>archive</span></div></div></div>
-                <div class="card" data-cat="img1"><div class="card-inner"><div class="card-img-wrapper"><img data-src="img1/5.jpg" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"></div><div class="card-meta"><span>img-05</span><span>archive</span></div></div></div>
-                <div class="card" data-cat="img1"><div class="card-inner"><div class="card-img-wrapper"><img data-src="img1/6.jpg" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"></div><div class="card-meta"><span>img-06</span><span>archive</span></div></div></div>
-                <div class="card" data-cat="img1"><div class="card-inner"><div class="card-img-wrapper"><img data-src="img1/7.jpg" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"></div><div class="card-meta"><span>img-07</span><span>archive</span></div></div></div>
-                <div class="card" data-cat="img1"><div class="card-inner"><div class="card-img-wrapper"><img data-src="img1/8.jpg" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"></div><div class="card-meta"><span>img-08</span><span>archive</span></div></div></div>
-                <div class="card" data-cat="img1"><div class="card-inner"><div class="card-img-wrapper"><img data-src="img1/9.jpg" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"></div><div class="card-meta"><span>img-09</span><span>archive</span></div></div></div>
-                <div class="card" data-cat="img1"><div class="card-inner"><div class="card-img-wrapper"><img data-src="img1/10.jpg" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"></div><div class="card-meta"><span>img-10</span><span>archive</span></div></div></div>
-                <div class="card" data-cat="img1"><div class="card-inner"><div class="card-img-wrapper"><img data-src="img1/11.jpg" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"></div><div class="card-meta"><span>img-11</span><span>archive</span></div></div></div>
-                <div class="card" data-cat="img1"><div class="card-inner"><div class="card-img-wrapper"><img data-src="img1/12.jpg" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"></div><div class="card-meta"><span>img-12</span><span>archive</span></div></div></div>
-                <div class="card" data-cat="img1"><div class="card-inner"><div class="card-img-wrapper"><img data-src="img1/13.jpg" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"></div><div class="card-meta"><span>img-13</span><span>archive</span></div></div></div>
-                <div class="card" data-cat="img1"><div class="card-inner"><div class="card-img-wrapper"><img data-src="img1/14.jpg" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"></div><div class="card-meta"><span>img-14</span><span>archive</span></div></div></div>
-                <div class="card" data-cat="img1"><div class="card-inner"><div class="card-img-wrapper"><img data-src="img1/15.jpg" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"></div><div class="card-meta"><span>img-15</span><span>archive</span></div></div></div>
+                <div class="card" data-cat="img1"><div class="card-inner"><div class="card-img-wrapper"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-src="img1/1.jpg" data-full="img1/1.jpg"></div><div class="card-meta"><span>img-01</span><span>archive</span></div></div></div>
+                <div class="card" data-cat="img1"><div class="card-inner"><div class="card-img-wrapper"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-src="img1/2.jpg" data-full="img1/2.jpg"></div><div class="card-meta"><span>img-02</span><span>archive</span></div></div></div>
+                <div class="card" data-cat="img1"><div class="card-inner"><div class="card-img-wrapper"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-src="img1/3.jpg" data-full="img1/3.jpg"></div><div class="card-meta"><span>img-03</span><span>archive</span></div></div></div>
+                <div class="card" data-cat="img1"><div class="card-inner"><div class="card-img-wrapper"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-src="img1/4.jpg" data-full="img1/4.jpg"></div><div class="card-meta"><span>img-04</span><span>archive</span></div></div></div>
+                <div class="card" data-cat="img1"><div class="card-inner"><div class="card-img-wrapper"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-src="img1/5.jpg" data-full="img1/5.jpg"></div><div class="card-meta"><span>img-05</span><span>archive</span></div></div></div>
+                <div class="card" data-cat="img1"><div class="card-inner"><div class="card-img-wrapper"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-src="img1/6.jpg" data-full="img1/6.jpg"></div><div class="card-meta"><span>img-06</span><span>archive</span></div></div></div>
+                <div class="card" data-cat="img1"><div class="card-inner"><div class="card-img-wrapper"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-src="img1/7.jpg" data-full="img1/7.jpg"></div><div class="card-meta"><span>img-07</span><span>archive</span></div></div></div>
+                <div class="card" data-cat="img1"><div class="card-inner"><div class="card-img-wrapper"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-src="img1/8.jpg" data-full="img1/8.jpg"></div><div class="card-meta"><span>img-08</span><span>archive</span></div></div></div>
+                <div class="card" data-cat="img1"><div class="card-inner"><div class="card-img-wrapper"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-src="img1/9.jpg" data-full="img1/9.jpg"></div><div class="card-meta"><span>img-09</span><span>archive</span></div></div></div>
+                <div class="card" data-cat="img1"><div class="card-inner"><div class="card-img-wrapper"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-src="img1/10.jpg" data-full="img1/10.jpg"></div><div class="card-meta"><span>img-10</span><span>archive</span></div></div></div>
+                <div class="card" data-cat="img1"><div class="card-inner"><div class="card-img-wrapper"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-src="img1/11.jpg" data-full="img1/11.jpg"></div><div class="card-meta"><span>img-11</span><span>archive</span></div></div></div>
+                <div class="card" data-cat="img1"><div class="card-inner"><div class="card-img-wrapper"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-src="img1/12.jpg" data-full="img1/12.jpg"></div><div class="card-meta"><span>img-12</span><span>archive</span></div></div></div>
+                <div class="card" data-cat="img1"><div class="card-inner"><div class="card-img-wrapper"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-src="img1/13.jpg" data-full="img1/13.jpg"></div><div class="card-meta"><span>img-13</span><span>archive</span></div></div></div>
+                <div class="card" data-cat="img1"><div class="card-inner"><div class="card-img-wrapper"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-src="img1/14.jpg" data-full="img1/14.jpg"></div><div class="card-meta"><span>img-14</span><span>archive</span></div></div></div>
+                <div class="card" data-cat="img1"><div class="card-inner"><div class="card-img-wrapper"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-src="img1/15.jpg" data-full="img1/15.jpg"></div><div class="card-meta"><span>img-15</span><span>archive</span></div></div></div>
                 
-                <div class="card" data-cat="img2"><div class="card-inner"><div class="card-img-wrapper"><img data-src="img2/16.jpg" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"></div><div class="card-meta"><span>img-16</span><span>archive</span></div></div></div>
-                <div class="card" data-cat="img2"><div class="card-inner"><div class="card-img-wrapper"><img data-src="img2/17.jpg" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"></div><div class="card-meta"><span>img-17</span><span>archive</span></div></div></div>
-                <div class="card" data-cat="img2"><div class="card-inner"><div class="card-img-wrapper"><img data-src="img2/18.jpg" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"></div><div class="card-meta"><span>img-18</span><span>archive</span></div></div></div>
-                <div class="card" data-cat="img2"><div class="card-inner"><div class="card-img-wrapper"><img data-src="img2/19.jpg" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"></div><div class="card-meta"><span>img-19</span><span>archive</span></div></div></div>
-                <div class="card" data-cat="img2"><div class="card-inner"><div class="card-img-wrapper"><img data-src="img2/20.jpg" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"></div><div class="card-meta"><span>img-20</span><span>archive</span></div></div></div>
-                <div class="card" data-cat="img2"><div class="card-inner"><div class="card-img-wrapper"><img data-src="img2/21.jpg" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"></div><div class="card-meta"><span>img-21</span><span>archive</span></div></div></div>
-                <div class="card" data-cat="img2"><div class="card-inner"><div class="card-img-wrapper"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-src="img2/22.jpg"></div><div class="card-meta"><span>img-22</span><span>archive</span></div></div></div>
-                <div class="card" data-cat="img2"><div class="card-inner"><div class="card-img-wrapper"><img data-src="img2/23.jpg" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"></div><div class="card-meta"><span>img-23</span><span>archive</span></div></div></div>
-                <div class="card" data-cat="img2"><div class="card-inner"><div class="card-img-wrapper"><img data-src="img2/24.jpg" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"></div><div class="card-meta"><span>img-24</span><span>archive</span></div></div></div>
-                <div class="card" data-cat="img2"><div class="card-inner"><div class="card-img-wrapper"><img data-src="img2/25.jpg" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"></div><div class="card-meta"><span>img-25</span><span>archive</span></div></div></div>
-                <div class="card" data-cat="img2"><div class="card-inner"><div class="card-img-wrapper"><img data-src="img2/26.jpg" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"></div><div class="card-meta"><span>img-26</span><span>archive</span></div></div></div>
-                <div class="card" data-cat="img2"><div class="card-inner"><div class="card-img-wrapper"><img data-src="img2/27.jpg" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"></div><div class="card-meta"><span>img-27</span><span>archive</span></div></div></div>
-                <div class="card" data-cat="img2"><div class="card-inner"><div class="card-img-wrapper"><img data-src="img2/28.jpg" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"></div><div class="card-meta"><span>img-28</span><span>archive</span></div></div></div>
-                <div class="card" data-cat="img2"><div class="card-inner"><div class="card-img-wrapper"><img data-src="img2/29.jpg" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"></div><div class="card-meta"><span>img-29</span><span>archive</span></div></div></div>
-                <div class="card" data-cat="img2"><div class="card-inner"><div class="card-img-wrapper"><img data-src="img2/30.jpg" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"></div><div class="card-meta"><span>img-30</span><span>archive</span></div></div></div>
+                <div class="card" data-cat="img2"><div class="card-inner"><div class="card-img-wrapper"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-src="img2/16.jpg" data-full="img2/16.jpg"></div><div class="card-meta"><span>img-16</span><span>archive</span></div></div></div>
+                <div class="card" data-cat="img2"><div class="card-inner"><div class="card-img-wrapper"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-src="img2/17.jpg" data-full="img2/17.jpg"></div><div class="card-meta"><span>img-17</span><span>archive</span></div></div></div>
+                <div class="card" data-cat="img2"><div class="card-inner"><div class="card-img-wrapper"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-src="img2/18.jpg" data-full="img2/18.jpg"></div><div class="card-meta"><span>img-18</span><span>archive</span></div></div></div>
+                <div class="card" data-cat="img2"><div class="card-inner"><div class="card-img-wrapper"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-src="img2/19.jpg" data-full="img2/19.jpg"></div><div class="card-meta"><span>img-19</span><span>archive</span></div></div></div>
+                <div class="card" data-cat="img2"><div class="card-inner"><div class="card-img-wrapper"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-src="img2/20.jpg" data-full="img2/20.jpg"></div><div class="card-meta"><span>img-20</span><span>archive</span></div></div></div>
+                <div class="card" data-cat="img2"><div class="card-inner"><div class="card-img-wrapper"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-src="img2/21.jpg" data-full="img2/21.jpg"></div><div class="card-meta"><span>img-21</span><span>archive</span></div></div></div>
+                <div class="card" data-cat="img2"><div class="card-inner"><div class="card-img-wrapper"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-src="img2/22.jpg" data-full="img2/22.jpg"></div><div class="card-meta"><span>img-22</span><span>archive</span></div></div></div>
+                <div class="card" data-cat="img2"><div class="card-inner"><div class="card-img-wrapper"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-src="img2/23.jpg" data-full="img2/23.jpg"></div><div class="card-meta"><span>img-23</span><span>archive</span></div></div></div>
+                <div class="card" data-cat="img2"><div class="card-inner"><div class="card-img-wrapper"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-src="img2/24.jpg" data-full="img2/24.jpg"></div><div class="card-meta"><span>img-24</span><span>archive</span></div></div></div>
+                <div class="card" data-cat="img2"><div class="card-inner"><div class="card-img-wrapper"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-src="img2/25.jpg" data-full="img2/25.jpg"></div><div class="card-meta"><span>img-25</span><span>archive</span></div></div></div>
+                <div class="card" data-cat="img2"><div class="card-inner"><div class="card-img-wrapper"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-src="img2/26.jpg" data-full="img2/26.jpg"></div><div class="card-meta"><span>img-26</span><span>archive</span></div></div></div>
+                <div class="card" data-cat="img2"><div class="card-inner"><div class="card-img-wrapper"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-src="img2/27.jpg" data-full="img2/27.jpg"></div><div class="card-meta"><span>img-27</span><span>archive</span></div></div></div>
+                <div class="card" data-cat="img2"><div class="card-inner"><div class="card-img-wrapper"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-src="img2/28.jpg" data-full="img2/28.jpg"></div><div class="card-meta"><span>img-28</span><span>archive</span></div></div></div>
+                <div class="card" data-cat="img2"><div class="card-inner"><div class="card-img-wrapper"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-src="img2/29.jpg" data-full="img2/29.jpg"></div><div class="card-meta"><span>img-29</span><span>archive</span></div></div></div>
+                <div class="card" data-cat="img2"><div class="card-inner"><div class="card-img-wrapper"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-src="img2/30.jpg" data-full="img2/30.jpg"></div><div class="card-meta"><span>img-30</span><span>archive</span></div></div></div>
                 
-                <div class="card" data-cat="img3"><div class="card-inner"><div class="card-img-wrapper"><img data-src="img3/31.jpg" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"></div><div class="card-meta"><span>img-31</span><span>archive</span></div></div></div>
-                <div class="card" data-cat="img3"><div class="card-inner"><div class="card-img-wrapper"><img data-src="img3/32.jpg" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"></div><div class="card-meta"><span>img-32</span><span>archive</span></div></div></div>
-                <div class="card" data-cat="img3"><div class="card-inner"><div class="card-img-wrapper"><img data-src="img3/33.jpg" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"></div><div class="card-meta"><span>img-33</span><span>archive</span></div></div></div>
-                <div class="card" data-cat="img3"><div class="card-inner"><div class="card-img-wrapper"><img data-src="img3/34.jpg" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"></div><div class="card-meta"><span>img-34</span><span>archive</span></div></div></div>
-                <div class="card" data-cat="img3"><div class="card-inner"><div class="card-img-wrapper"><img data-src="img3/35.jpg" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"></div><div class="card-meta"><span>img-35</span><span>archive</span></div></div></div>
-                <div class="card" data-cat="img3"><div class="card-inner"><div class="card-img-wrapper"><img data-src="img3/36.jpg" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"></div><div class="card-meta"><span>img-36</span><span>archive</span></div></div></div>
-                <div class="card" data-cat="img3"><div class="card-inner"><div class="card-img-wrapper"><img data-src="img3/37.jpg" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"></div><div class="card-meta"><span>img-37</span><span>archive</span></div></div></div>
-                <div class="card" data-cat="img3"><div class="card-inner"><div class="card-img-wrapper"><img data-src="img3/38.jpg" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"></div><div class="card-meta"><span>img-38</span><span>archive</span></div></div></div>
-                <div class="card" data-cat="img3"><div class="card-inner"><div class="card-img-wrapper"><img data-src="img3/39.jpg" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"></div><div class="card-meta"><span>img-39</span><span>archive</span></div></div></div>
-                <div class="card" data-cat="img3"><div class="card-inner"><div class="card-img-wrapper"><img data-src="img3/40.jpg" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"></div><div class="card-meta"><span>img-40</span><span>archive</span></div></div></div>
-                <div class="card" data-cat="img3"><div class="card-inner"><div class="card-img-wrapper"><img data-src="img3/41.jpg" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"></div><div class="card-meta"><span>img-41</span><span>archive</span></div></div></div>
-                <div class="card" data-cat="img3"><div class="card-inner"><div class="card-img-wrapper"><img data-src="img3/42.jpg" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"></div><div class="card-meta"><span>img-42</span><span>archive</span></div></div></div>
-                <div class="card" data-cat="img3"><div class="card-inner"><div class="card-img-wrapper"><img data-src="img3/43.jpg" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"></div><div class="card-meta"><span>img-43</span><span>archive</span></div></div></div>
-                <div class="card" data-cat="img3"><div class="card-inner"><div class="card-img-wrapper"><img data-src="img3/44.jpg" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"></div><div class="card-meta"><span>img-44</span><span>archive</span></div></div></div>
-                <div class="card" data-cat="img3"><div class="card-inner"><div class="card-img-wrapper"><img data-src="img3/45.jpg" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"></div><div class="card-meta"><span>img-45</span><span>archive</span></div></div></div>
-                <div class="card" data-cat="img3"><div class="card-inner"><div class="card-img-wrapper"><img data-src="img3/46.jpg" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"></div><div class="card-meta"><span>img-46</span><span>archive</span></div></div></div>
-                <div class="card" data-cat="img3"><div class="card-inner"><div class="card-img-wrapper"><img data-src="img3/47.jpg" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"></div><div class="card-meta"><span>img-47</span><span>archive</span></div></div></div>
+                <div class="card" data-cat="img3"><div class="card-inner"><div class="card-img-wrapper"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-src="img3/31.jpg" data-full="img3/31.jpg"></div><div class="card-meta"><span>img-31</span><span>archive</span></div></div></div>
+                <div class="card" data-cat="img3"><div class="card-inner"><div class="card-img-wrapper"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-src="img3/32.jpg" data-full="img3/32.jpg"></div><div class="card-meta"><span>img-32</span><span>archive</span></div></div></div>
+                <div class="card" data-cat="img3"><div class="card-inner"><div class="card-img-wrapper"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-src="img3/33.jpg" data-full="img3/33.jpg"></div><div class="card-meta"><span>img-33</span><span>archive</span></div></div></div>
+                <div class="card" data-cat="img3"><div class="card-inner"><div class="card-img-wrapper"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-src="img3/34.jpg" data-full="img3/34.jpg"></div><div class="card-meta"><span>img-34</span><span>archive</span></div></div></div>
+                <div class="card" data-cat="img3"><div class="card-inner"><div class="card-img-wrapper"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-src="img3/35.jpg" data-full="img3/35.jpg"></div><div class="card-meta"><span>img-35</span><span>archive</span></div></div></div>
+                <div class="card" data-cat="img3"><div class="card-inner"><div class="card-img-wrapper"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-src="img3/36.jpg" data-full="img3/36.jpg"></div><div class="card-meta"><span>img-36</span><span>archive</span></div></div></div>
+                <div class="card" data-cat="img3"><div class="card-inner"><div class="card-img-wrapper"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-src="img3/37.jpg" data-full="img3/37.jpg"></div><div class="card-meta"><span>img-37</span><span>archive</span></div></div></div>
+                <div class="card" data-cat="img3"><div class="card-inner"><div class="card-img-wrapper"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-src="img3/38.jpg" data-full="img3/38.jpg"></div><div class="card-meta"><span>img-38</span><span>archive</span></div></div></div>
+                <div class="card" data-cat="img3"><div class="card-inner"><div class="card-img-wrapper"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-src="img3/39.jpg" data-full="img3/39.jpg"></div><div class="card-meta"><span>img-39</span><span>archive</span></div></div></div>
+                <div class="card" data-cat="img3"><div class="card-inner"><div class="card-img-wrapper"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-src="img3/40.jpg" data-full="img3/40.jpg"></div><div class="card-meta"><span>img-40</span><span>archive</span></div></div></div>
+                <div class="card" data-cat="img3"><div class="card-inner"><div class="card-img-wrapper"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-src="img3/41.jpg" data-full="img3/41.jpg"></div><div class="card-meta"><span>img-41</span><span>archive</span></div></div></div>
+                <div class="card" data-cat="img3"><div class="card-inner"><div class="card-img-wrapper"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-src="img3/42.jpg" data-full="img3/42.jpg"></div><div class="card-meta"><span>img-42</span><span>archive</span></div></div></div>
+                <div class="card" data-cat="img3"><div class="card-inner"><div class="card-img-wrapper"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-src="img3/43.jpg" data-full="img3/43.jpg"></div><div class="card-meta"><span>img-43</span><span>archive</span></div></div></div>
+                <div class="card" data-cat="img3"><div class="card-inner"><div class="card-img-wrapper"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-src="img3/44.jpg" data-full="img3/44.jpg"></div><div class="card-meta"><span>img-44</span><span>archive</span></div></div></div>
+                <div class="card" data-cat="img3"><div class="card-inner"><div class="card-img-wrapper"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-src="img3/45.jpg" data-full="img3/45.jpg"></div><div class="card-meta"><span>img-45</span><span>archive</span></div></div></div>
+                <div class="card" data-cat="img3"><div class="card-inner"><div class="card-img-wrapper"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-src="img3/46.jpg" data-full="img3/46.jpg"></div><div class="card-meta"><span>img-46</span><span>archive</span></div></div></div>
+                <div class="card" data-cat="img3"><div class="card-inner"><div class="card-img-wrapper"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-src="img3/47.jpg" data-full="img3/47.jpg"></div><div class="card-meta"><span>img-47</span><span>archive</span></div></div></div>
             </div>
 
             <div class="load-container" id="loadContainer">
@@ -424,44 +416,44 @@
 
         <section class="section reveal" id="photography">
             <h2 class="section-title">摄影镜头叙事</h2>
-            <div class="gallery" id="photoGrid">
-                <div class="card"><div class="card-inner"><div class="card-img-wrapper"><img data-src="photo1/1.jpg" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"></div><div class="card-meta"><span>ISO 100</span><span>f/2.8 1/250s</span></div></div></div>
-                <div class="card"><div class="card-inner"><div class="card-img-wrapper"><img data-src="photo1/2.jpg" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"></div><div class="card-meta"><span>ISO 200</span><span>f/4.0 1/160s</span></div></div></div>
-                <div class="card"><div class="card-inner"><div class="card-img-wrapper"><img data-src="photo1/3.jpg" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"></div><div class="card-meta"><span>ISO 100</span><span>f/1.4 1/500s</span></div></div></div>
-                <div class="card"><div class="card-inner"><div class="card-img-wrapper"><img data-src="photo1/4.jpg" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"></div><div class="card-meta"><span>ISO 400</span><span>f/2.0 1/125s</span></div></div></div>
-                <div class="card"><div class="card-inner"><div class="card-img-wrapper"><img data-src="photo1/5.jpg" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"></div><div class="card-meta"><span>ISO 100</span><span>f/8.0 1/200s</span></div></div></div>
-                <div class="card"><div class="card-inner"><div class="card-img-wrapper"><img data-src="photo1/6.jpg" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"></div><div class="card-meta"><span>ISO 800</span><span>f/2.8 1/60s</span></div></div></div>
-                <div class="card"><div class="card-inner"><div class="card-img-wrapper"><img data-src="photo1/7.jpg" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"></div><div class="card-meta"><span>ISO 100</span><span>f/5.6 1/400s</span></div></div></div>
-                <div class="card"><div class="card-inner"><div class="card-img-wrapper"><img data-src="photo1/8.jpg" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"></div><div class="card-meta"><span>ISO 200</span><span>f/1.8 1/800s</span></div></div></div>
-                <div class="card"><div class="card-inner"><div class="card-img-wrapper"><img data-src="photo1/9.jpg" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"></div><div class="card-meta"><span>ISO 100</span><span>f/4.0 1/250s</span></div></div></div>
-                <div class="card"><div class="card-inner"><div class="card-img-wrapper"><img data-src="photo1/10.jpg" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"></div><div class="card-meta"><span>ISO 1600</span><span>f/2.8 1/30s</span></div></div></div>
-                <div class="card"><div class="card-inner"><div class="card-img-wrapper"><img data-src="photo1/11.jpg" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"></div><div class="card-meta"><span>ISO 100</span><span>f/2.0 1/1000s</span></div></div></div>
-                <div class="card"><div class="card-inner"><div class="card-img-wrapper"><img data-src="photo1/12.jpg" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"></div><div class="card-meta"><span>ISO 100</span><span>f/2.8 1/160s</span></div></div></div>
-                <div class="card"><div class="card-inner"><div class="card-img-wrapper"><img data-src="photo1/13.jpg" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"></div><div class="card-meta"><span>ISO 200</span><span>f/4.0 1/500s</span></div></div></div>
-                <div class="card"><div class="card-inner"><div class="card-img-wrapper"><img data-src="photo1/14.jpg" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"></div><div class="card-meta"><span>ISO 100</span><span>f/1.4 1/400s</span></div></div></div>
-                <div class="card"><div class="card-inner"><div class="card-img-wrapper"><img data-src="photo1/15.jpg" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"></div><div class="card-meta"><span>ISO 400</span><span>f/2.8 1/125s</span></div></div></div>
-                <div class="card"><div class="card-inner"><div class="card-img-wrapper"><img data-src="photo1/16.jpg" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"></div><div class="card-meta"><span>ISO 100</span><span>f/8.0 1/250s</span></div></div></div>
+            <div class="photo-gallery-masonry" id="photoGrid">
+                <div class="card"><div class="card-inner"><div class="card-img-wrapper"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-src="photo1/1.jpg" data-full="photo1/1.jpg"></div><div class="card-meta"><span>ISO 100</span><span>f/2.8 1/250s</span></div></div></div>
+                <div class="card"><div class="card-inner"><div class="card-img-wrapper"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-src="photo1/2.jpg" data-full="photo1/2.jpg"></div><div class="card-meta"><span>ISO 200</span><span>f/4.0 1/160s</span></div></div></div>
+                <div class="card"><div class="card-inner"><div class="card-img-wrapper"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-src="photo1/3.jpg" data-full="photo1/3.jpg"></div><div class="card-meta"><span>ISO 100</span><span>f/1.4 1/500s</span></div></div></div>
+                <div class="card"><div class="card-inner"><div class="card-img-wrapper"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-src="photo1/4.jpg" data-full="photo1/4.jpg"></div><div class="card-meta"><span>ISO 400</span><span>f/2.0 1/125s</span></div></div></div>
+                <div class="card"><div class="card-inner"><div class="card-img-wrapper"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-src="photo1/5.jpg" data-full="photo1/5.jpg"></div><div class="card-meta"><span>ISO 100</span><span>f/8.0 1/200s</span></div></div></div>
+                <div class="card"><div class="card-inner"><div class="card-img-wrapper"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-src="photo1/6.jpg" data-full="photo1/6.jpg"></div><div class="card-meta"><span>ISO 800</span><span>f/2.8 1/60s</span></div></div></div>
+                <div class="card"><div class="card-inner"><div class="card-img-wrapper"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-src="photo1/7.jpg" data-full="photo1/7.jpg"></div><div class="card-meta"><span>ISO 100</span><span>f/5.6 1/400s</span></div></div></div>
+                <div class="card"><div class="card-inner"><div class="card-img-wrapper"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-src="photo1/8.jpg" data-full="photo1/8.jpg"></div><div class="card-meta"><span>ISO 200</span><span>f/1.8 1/800s</span></div></div></div>
+                <div class="card"><div class="card-inner"><div class="card-img-wrapper"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-src="photo1/9.jpg" data-full="photo1/9.jpg"></div><div class="card-meta"><span>ISO 100</span><span>f/4.0 1/250s</span></div></div></div>
+                <div class="card"><div class="card-inner"><div class="card-img-wrapper"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-src="photo1/10.jpg" data-full="photo1/10.jpg"></div><div class="card-meta"><span>ISO 1600</span><span>f/2.8 1/30s</span></div></div></div>
+                <div class="card"><div class="card-inner"><div class="card-img-wrapper"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-src="photo1/11.jpg" data-full="photo1/11.jpg"></div><div class="card-meta"><span>ISO 100</span><span>f/2.0 1/1000s</span></div></div></div>
+                <div class="card"><div class="card-inner"><div class="card-img-wrapper"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-src="photo1/12.jpg" data-full="photo1/12.jpg"></div><div class="card-meta"><span>ISO 100</span><span>f/2.8 1/160s</span></div></div></div>
+                <div class="card"><div class="card-inner"><div class="card-img-wrapper"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-src="photo1/13.jpg" data-full="photo1/13.jpg"></div><div class="card-meta"><span>ISO 200</span><span>f/4.0 1/500s</span></div></div></div>
+                <div class="card"><div class="card-inner"><div class="card-img-wrapper"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-src="photo1/14.jpg" data-full="photo1/14.jpg"></div><div class="card-meta"><span>ISO 100</span><span>f/1.4 1/400s</span></div></div></div>
+                <div class="card"><div class="card-inner"><div class="card-img-wrapper"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-src="photo1/15.jpg" data-full="photo1/15.jpg"></div><div class="card-meta"><span>ISO 400</span><span>f/2.8 1/125s</span></div></div></div>
+                <div class="card"><div class="card-inner"><div class="card-img-wrapper"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-src="photo1/16.jpg" data-full="photo1/16.jpg"></div><div class="card-meta"><span>ISO 100</span><span>f/8.0 1/250s</span></div></div></div>
 
-                <div class="card"><div class="card-inner"><div class="card-img-wrapper"><img data-src="photo2/17.jpg" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"></div><div class="card-meta"><span>ISO 100</span><span>f/5.6 1/160s</span></div></div></div>
-                <div class="card"><div class="card-inner"><div class="card-img-wrapper"><img data-src="photo2/18.jpg" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"></div><div class="card-meta"><span>ISO 800</span><span>f/2.0 1/80s</span></div></div></div>
-                <div class="card"><div class="card-inner"><div class="card-img-wrapper"><img data-src="photo2/19.jpg" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"></div><div class="card-meta"><span>ISO 200</span><span>f/2.8 1/200s</span></div></div></div>
-                <div class="card"><div class="card-inner"><div class="card-img-wrapper"><img data-src="photo2/20.jpg" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"></div><div class="card-meta"><span>ISO 100</span><span>f/4.0 1/320s</span></div></div></div>
-                <div class="card"><div class="card-inner"><div class="card-img-wrapper"><img data-src="photo2/21.jpg" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"></div><div class="card-meta"><span>ISO 100</span><span>f/1.8 1/640s</span></div></div></div>
-                <div class="card"><div class="card-inner"><div class="card-img-wrapper"><img data-src="photo2/22.jpg" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"></div><div class="card-meta"><span>ISO 400</span><span>f/2.8 1/160s</span></div></div></div>
-                <div class="card"><div class="card-inner"><div class="card-img-wrapper"><img data-src="photo2/23.jpg" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"></div><div class="card-meta"><span>ISO 100</span><span>f/4.0 1/250s</span></div></div></div>
-                <div class="card"><div class="card-inner"><div class="card-img-wrapper"><img data-src="photo2/24.jpg" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"></div><div class="card-meta"><span>ISO 200</span><span>f/5.6 1/125s</span></div></div></div>
-                <div class="card"><div class="card-inner"><div class="card-img-wrapper"><img data-src="photo2/25.jpg" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"></div><div class="card-meta"><span>ISO 100</span><span>f/1.4 1/500s</span></div></div></div>
-                <div class="card"><div class="card-inner"><div class="card-img-wrapper"><img data-src="photo2/26.jpg" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"></div><div class="card-meta"><span>ISO 800</span><span>f/2.8 1/60s</span></div></div></div>
-                <div class="card"><div class="card-inner"><div class="card-img-wrapper"><img data-src="photo2/27.jpg" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"></div><div class="card-meta"><span>ISO 100</span><span>f/2.0 1/400s</span></div></div></div>
-                <div class="card"><div class="card-inner"><div class="card-img-wrapper"><img data-src="photo2/28.jpg" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"></div><div class="card-meta"><span>ISO 100</span><span>f/8.0 1/200s</span></div></div></div>
-                <div class="card"><div class="card-inner"><div class="card-img-wrapper"><img data-src="photo2/29.jpg" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"></div><div class="card-meta"><span>ISO 200</span><span>f/4.0 1/160s</span></div></div></div>
-                <div class="card"><div class="card-inner"><div class="card-img-wrapper"><img data-src="photo2/30.jpg" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"></div><div class="card-meta"><span>ISO 100</span><span>f/2.8 1/250s</span></div></div></div>
-                <div class="card"><div class="card-inner"><div class="card-img-wrapper"><img data-src="photo2/31.jpg" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"></div><div class="card-meta"><span>ISO 100</span><span>f/1.4 1/800s</span></div></div></div>
-                <div class="card"><div class="card-inner"><div class="card-img-wrapper"><img data-src="photo2/32.jpg" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"></div><div class="card-meta"><span>ISO 400</span><span>f/2.8 1/200s</span></div></div></div>
+                <div class="card"><div class="card-inner"><div class="card-img-wrapper"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-src="photo2/17.jpg" data-full="photo2/17.jpg"></div><div class="card-meta"><span>ISO 100</span><span>f/5.6 1/160s</span></div></div></div>
+                <div class="card"><div class="card-inner"><div class="card-img-wrapper"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-src="photo2/18.jpg" data-full="photo2/18.jpg"></div><div class="card-meta"><span>ISO 800</span><span>f/2.0 1/80s</span></div></div></div>
+                <div class="card"><div class="card-inner"><div class="card-img-wrapper"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-src="photo2/19.jpg" data-full="photo2/19.jpg"></div><div class="card-meta"><span>ISO 200</span><span>f/2.8 1/200s</span></div></div></div>
+                <div class="card"><div class="card-inner"><div class="card-img-wrapper"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-src="photo2/20.jpg" data-full="photo2/20.jpg"></div><div class="card-meta"><span>ISO 100</span><span>f/4.0 1/320s</span></div></div></div>
+                <div class="card"><div class="card-inner"><div class="card-img-wrapper"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-src="photo2/21.jpg" data-full="photo2/21.jpg"></div><div class="card-meta"><span>ISO 100</span><span>f/1.8 1/640s</span></div></div></div>
+                <div class="card"><div class="card-inner"><div class="card-img-wrapper"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-src="photo2/22.jpg" data-full="photo2/22.jpg"></div><div class="card-meta"><span>ISO 400</span><span>f/2.8 1/160s</span></div></div></div>
+                <div class="card"><div class="card-inner"><div class="card-img-wrapper"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-src="photo2/23.jpg" data-full="photo2/23.jpg"></div><div class="card-meta"><span>ISO 100</span><span>f/4.0 1/250s</span></div></div></div>
+                <div class="card"><div class="card-inner"><div class="card-img-wrapper"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-src="photo2/24.jpg" data-full="photo2/24.jpg"></div><div class="card-meta"><span>ISO 200</span><span>f/5.6 1/125s</span></div></div></div>
+                <div class="card"><div class="card-inner"><div class="card-img-wrapper"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-src="photo2/25.jpg" data-full="photo2/25.jpg"></div><div class="card-meta"><span>ISO 100</span><span>f/1.4 1/500s</span></div></div></div>
+                <div class="card"><div class="card-inner"><div class="card-img-wrapper"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-src="photo2/26.jpg" data-full="photo2/26.jpg"></div><div class="card-meta"><span>ISO 800</span><span>f/2.8 1/60s</span></div></div></div>
+                <div class="card"><div class="card-inner"><div class="card-img-wrapper"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-src="photo2/27.jpg" data-full="photo2/27.jpg"></div><div class="card-meta"><span>ISO 100</span><span>f/2.0 1/400s</span></div></div></div>
+                <div class="card"><div class="card-inner"><div class="card-img-wrapper"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-src="photo2/28.jpg" data-full="photo2/28.jpg"></div><div class="card-meta"><span>ISO 100</span><span>f/8.0 1/200s</span></div></div></div>
+                <div class="card"><div class="card-inner"><div class="card-img-wrapper"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-src="photo2/29.jpg" data-full="photo2/29.jpg"></div><div class="card-meta"><span>ISO 200</span><span>f/4.0 1/160s</span></div></div></div>
+                <div class="card"><div class="card-inner"><div class="card-img-wrapper"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-src="photo2/30.jpg" data-full="photo2/30.jpg"></div><div class="card-meta"><span>ISO 100</span><span>f/2.8 1/250s</span></div></div></div>
+                <div class="card"><div class="card-inner"><div class="card-img-wrapper"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-src="photo2/31.jpg" data-full="photo2/31.jpg"></div><div class="card-meta"><span>ISO 100</span><span>f/1.4 1/800s</span></div></div></div>
+                <div class="card"><div class="card-inner"><div class="card-img-wrapper"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-src="photo2/32.jpg" data-full="photo2/32.jpg"></div><div class="card-meta"><span>ISO 400</span><span>f/2.8 1/200s</span></div></div></div>
             </div>
         </section>
 
-        <section class="section" id="about">
+        <section class="section reveal" id="about">
             <h2 class="section-title">关于我</h2>
             <p style="font-family: 'Noto Serif SC', serif; font-size:18px; font-weight:700; color:var(--text-dark); letter-spacing: 2px; line-height: 1.6; border-left: 3px solid var(--line-solid); padding-left: 24px;">
                 以视觉为语，融极简意境，于方寸之间雕琢设计本心。
@@ -478,7 +470,7 @@
     </div>
 
     <script>
-        // 1. 移动端菜单逻辑
+        // 1. 移动端菜单控制
         const menuBtn = document.getElementById('menuBtn');
         const sidebar = document.getElementById('sidebar');
         const navLinks = document.querySelectorAll('.nav a');
@@ -486,13 +478,13 @@
         menuBtn.addEventListener('click', (e) => {
             sidebar.classList.toggle('show');
             e.stopPropagation();
-        });
-        document.addEventListener('click', () => sidebar.classList.remove('show'));
+        }, {passive: true});
+        document.addEventListener('click', () => sidebar.classList.remove('show'), {passive: true});
         navLinks.forEach(link => {
-            link.addEventListener('click', () => sidebar.classList.remove('show'));
+            link.addEventListener('click', () => sidebar.classList.remove('show'), {passive: true});
         });
 
-        // 2. 原生大视频流硬件加速切换调度
+        // 2. 原生大体积视频流硬件加速切换
         const thumbs = document.querySelectorAll('.video-thumb');
         const mainVideo = document.getElementById('mainVideo');
         thumbs.forEach(thumb => {
@@ -503,10 +495,10 @@
                 mainVideo.src = thumb.dataset.src;
                 mainVideo.load();
                 mainVideo.play();
-            });
+            }, {passive: true});
         });
 
-        // 3. 画廊全局弹窗放大预览控制面板
+        // 3. 弹窗放大（双阶冷热按需分离提取大图）
         const popup = document.getElementById('imgPopup');
         const bigImg = document.getElementById('bigImg');
         
@@ -514,18 +506,18 @@
             card.addEventListener('click', (e) => {
                 const img = card.querySelector('img');
                 if(img) {
-                    // 弹窗时提取真正的 data-src 高清原画资源
-                    bigImg.src = img.dataset.src || img.src;
+                    bigImg.src = img.dataset.full ? img.dataset.full : img.src;
                     popup.classList.add('active');
                     document.body.style.overflow = 'hidden';
                     e.stopPropagation();
                 }
-            });
+            }, {passive: true});
         });
         popup.addEventListener('click', () => {
             popup.classList.remove('active');
             document.body.style.overflow = '';
-        });
+            setTimeout(() => { bigImg.src = ''; }, 400); 
+        }, {passive: true});
 
         // 4. 高性能分批流控 ＋ 平面海报分类检索调度
         const filterBtns = document.querySelectorAll('.filter-menu .filter-btn');
@@ -565,14 +557,15 @@
                 loadContainer.style.display = 'none';
             }
             
-            // 每次平面海报切换类别或点击更多，重新初始化该范围内的懒加载监听
-            triggerLazyLoadCheck();
+            if (typeof window.triggerLazyLoad === 'function') {
+                window.triggerLazyLoad();
+            }
         }
 
         loadMoreBtn.addEventListener('click', () => {
             initialLimit += 12; 
             renderGallery();
-        });
+        }, {passive: true});
 
         filterBtns.forEach(btn => {
             btn.addEventListener('click', () => {
@@ -584,55 +577,52 @@
                     initialLimit = 12; 
                 }
                 renderGallery();
-            });
+            }, {passive: true});
         });
 
+        // 5. 【工业级流控懒加载】全自动化 JS 视口观察监听中心
+        const allLazyImgs = document.querySelectorAll('.content img[data-src]');
+        
+        const imgObserver = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const img = entry.target;
+                    img.src = img.dataset.src;
+                    
+                    const forceShowTimeout = setTimeout(() => {
+                        img.classList.add('loaded');
+                    }, 1500); 
+
+                    img.onload = () => {
+                        clearTimeout(forceShowTimeout);
+                        img.classList.add('loaded');
+                    };
+                    img.onerror = () => {
+                        clearTimeout(forceShowTimeout);
+                        img.classList.add('loaded'); 
+                    };
+                    
+                    observer.unobserve(img);
+                }
+            });
+        }, { 
+            root: null, 
+            rootMargin: '200px 0px 400px 0px', 
+            threshold: 0.01 
+        });
+
+        window.triggerLazyLoad = function() {
+            allLazyImgs.forEach(img => {
+                if (!img.closest('.card').classList.contains('hide')) {
+                    imgObserver.observe(img);
+                }
+            });
+        };
+
+        // 首次初始化运行
         renderGallery();
 
-
-        // ==========================================================================
-        // 5. 【极限速度救星】：核心 IntersectionObserver 真实惰性懒加载控制机制
-        // ==========================================================================
-        let lazyObserver;
-        
-        function initLazyLoad() {
-            const allLazyImages = document.querySelectorAll('img[data-src]');
-            // 移动端安全触发线放宽至 150 像素，在触及视窗前提前后台载入，保障丝滑
-            let rootMarginMargin = window.innerWidth > 768 ? "0px 0px 80px 0px" : "0px 0px 150px 0px";
-
-            if ('IntersectionObserver' in window) {
-                lazyObserver = new IntersectionObserver((entries, observer) => {
-                    entries.forEach(entry => {
-                        if (entry.isIntersecting) {
-                            const img = entry.target;
-                            img.src = img.dataset.src; // 读取真实物理资源，按需下载
-                            
-                            img.addEventListener('load', () => img.classList.add('loaded'));
-                            img.addEventListener('error', () => img.classList.add('loaded')); // 容错边界
-                            
-                            observer.unobserve(img);
-                        }
-                    });
-                }, { root: null, rootMargin: rootMarginMargin, threshold: 0.01 });
-
-                allLazyImages.forEach(img => lazyObserver.observe(img));
-            } else {
-                // 极老旧浏览器直接直出
-                allLazyImages.forEach(img => {
-                    img.src = img.dataset.src;
-                    img.classList.add('loaded');
-                });
-            }
-        }
-
-        function triggerLazyLoadCheck() {
-            if (lazyObserver) lazyObserver.disconnect();
-            initLazyLoad();
-        }
-
-
         // 6. 智能监控 (Scrollspy) + 触底自动激活关于我高亮
-        let mobileMargin = window.innerWidth > 768 ? '-20% 0px -40% 0px' : '0px 0px -10% 0px';
         const reveals = document.querySelectorAll('.reveal');
 
         const globalObserver = new IntersectionObserver((entries) => {
@@ -643,7 +633,7 @@
                     updateNav(id);
                 }
             });
-        }, { root: null, rootMargin: mobileMargin, threshold: 0.02 });
+        }, { root: null, rootMargin: '-15% 0px -30% 0px', threshold: 0.02 });
 
         reveals.forEach(el => globalObserver.observe(el));
 
@@ -657,9 +647,18 @@
             });
         }
 
-        window.addEventListener('scroll', () => {
-            if ((window.innerHeight + window.scrollY) >= document.documentElement.scrollHeight - 50) {
-                updateNav('about');
+        /* ==========================================================================
+           【🚀 JS防盗加强层】全面拦截右键、保存长按和拖拽，将偷图成本提高到最大
+           ========================================================================== */
+        document.addEventListener('contextmenu', function(e) {
+            if (e.target.tagName === 'IMG') {
+                e.preventDefault(); // 强行拦截并扼杀右键保存弹出菜单
+            }
+        });
+
+        document.addEventListener('dragstart', function(e) {
+            if (e.target.tagName === 'IMG') {
+                e.preventDefault(); // 强行锁死直接用鼠标左键拖拽图片的越权行为
             }
         });
     </script>

@@ -5,234 +5,275 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>DESIGN WORKS | 李静敏设计集</title>
     <style>
-        /* --- 基础重置与高级侘寂调色盘 --- */
+        /* --- 基础重置与包豪斯几何变量 --- */
         *{margin:0;padding:0;box-sizing:border-box;}
         html{scroll-behavior:smooth;}
 
         :root {
-            --wabi-bg: #F2EFE9;       /* 宣纸落灰底色 */
-            --wabi-card: #FAF8F5;     /* 素胚陶器白 */
-            --wabi-text: #36322E;     /* 烧炭黑 */
-            --wabi-light: #E2DDD5;    /* 砂砾灰 */
-            --wabi-accent: #85796D;   /* 枯木苔藓 */
-            --wabi-dark: #23201E;     /* 深黛 */
+            --bg-canvas: #F5F5F3;     /* 艺术纸冷白 / 浅冷灰 */
+            --bg-sidebar: #FFFFFF;    /* 纯白结构板块 */
+            --text-dark: #111111;     /* 曜石纯黑 */
+            --text-muted: #7E8185;    /* 工业冷灰 */
+            --line-grid: rgba(17, 17, 17, 0.035);  /* 超级微弱的背景网格线 */
+            --line-solid: #111111;    /* 强烈的结构实体线 */
+            --line-light: #E0E2E5;    /* 测绘辅助线灰 */
         }
 
         body{
-            background: var(--wabi-bg);
-            font-family: "PingFang SC", "Noto Serif SC", sans-serif;
-            color: var(--wabi-text);
-            line-height: 1.8;
+            background: var(--bg-canvas);
+            /* 【特效一：建筑测绘微网格背景】 */
+            background-image: 
+                linear-gradient(to right, var(--line-grid) 1px, transparent 1px),
+                linear-gradient(to bottom, var(--line-grid) 1px, transparent 1px);
+            background-size: 80px 80px; /* 80px 精密几何方格 */
+            font-family: "Helvetica Neue", Helvetica, "PingFang SC", sans-serif;
+            color: var(--text-dark);
+            line-height: 1.7;
             -webkit-font-smoothing: antialiased;
             position: relative;
         }
 
-        /* 全屏粗陶/宣纸微弱有机肌理 */
-        body::before {
-            content: "";
-            position: fixed;
-            top: 0; left: 0; width: 100vw; height: 100vh;
-            opacity: 0.04;
-            pointer-events: none;
-            z-index: 99999;
-            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
-        }
-
-        /* --- 移动端汉堡按钮 --- */
+        /* --- 移动端汉堡按钮（纯几何线条化） --- */
         .menu-btn{
             position: fixed;
-            top: 20px;
-            right: 20px;
-            width: 48px;
-            height: 48px;
-            background: var(--wabi-card);
-            border: 1px solid var(--wabi-light);
-            border-radius: 50%;
+            top: 25px;
+            right: 25px;
+            width: 44px;
+            height: 44px;
+            background: var(--bg-sidebar);
+            border: 1px solid var(--text-dark);
+            border-radius: 0; /* 彻底干掉圆角，采用凌厉的直角几何 */
             display: none;
             align-items: center;
             justify-content: center;
-            font-size: 20px;
-            color: var(--wabi-text);
-            box-shadow: 0 4px 12px rgba(0,0,0,0.02);
+            font-size: 16px;
+            color: var(--text-dark);
             z-index: 9999;
             cursor: pointer;
-            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            transition: all 0.3s ease;
         }
-        .menu-btn:hover { transform: scale(1.05); border-color: var(--wabi-accent); }
+        .menu-btn:hover { background: var(--text-dark); color: #fff; }
 
-        /* --- 左侧侧边栏 --- */
+        /* --- 左侧侧边栏（几何悬浮块） --- */
         .sidebar{
             position: fixed;
             top: 0; left: 0; width: 280px; height: 100vh;
-            background: var(--wabi-card);
-            border-right: 1px solid var(--wabi-light);
-            padding: 60px 40px;
+            background: var(--bg-sidebar);
+            border-right: 1px solid var(--line-light);
+            padding: 80px 40px;
             z-index: 999;
-            transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+            transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        /* 侧边栏装饰几何线条 */
+        .sidebar::after {
+            content: ''; position: absolute; top: 0; right: 9px; width: 1px; height: 100%;
+            background: var(--line-grid);
         }
         .sidebar .logo{
-            font-size: 18px;
-            font-weight: 600;
-            color: var(--wabi-dark);
-            letter-spacing: 6px;
-            margin-bottom: 60px;
+            font-size: 16px;
+            font-weight: 700;
+            color: var(--text-dark);
+            letter-spacing: 5px;
+            margin-bottom: 80px;
             text-align: center;
             text-transform: uppercase;
         }
-        .nav{ display: flex; flex-direction: column; gap: 8px; }
+        .nav{ display: flex; flex-direction: column; gap: 4px; }
         .nav a{
-            padding: 12px 20px;
+            padding: 14px 20px;
             text-decoration: none;
-            color: var(--wabi-accent);
-            border-radius: 8px;
+            color: var(--text-muted);
             transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-            font-size: 14px;
-            text-align: center;
-            letter-spacing: 2px;
+            font-size: 13px;
+            text-align: left;
+            letter-spacing: 3px;
+            font-weight: 500;
+            position: relative;
         }
-        .nav a:hover{ color: var(--wabi-dark); background: var(--wabi-bg); }
-        .nav a.active{ background: var(--wabi-dark); color: var(--wabi-card); font-weight: 500; }
+        .nav a:hover{ color: var(--text-dark); padding-left: 28px; }
+        /* 激活状态：左侧出现绝对硬朗的几何直角线 */
+        .nav a.active{
+            color: var(--text-dark);
+            font-weight: 700;
+            background: var(--bg-canvas);
+        }
+        .nav a.active::before {
+            content: ''; position: absolute; left: 0; top: 0; width: 3px; height: 100%;
+            background: var(--line-solid);
+        }
 
         /* --- 右侧内容区 --- */
-        .content{ margin-left: 280px; padding: 90px 80px; min-height: 100vh; }
+        .content{ margin-left: 280px; padding: 100px 80px; min-height: 100vh; }
         
-        /* 流体感滚动复苏显现动画 */
+        /* 几何淡入流动动画 */
         .reveal {
             opacity: 0;
-            transform: translateY(40px) scale(0.99);
-            transition: opacity 1.2s cubic-bezier(0.215, 0.610, 0.355, 1), transform 1.2s cubic-bezier(0.215, 0.610, 0.355, 1);
-            margin-bottom: 160px;
+            transform: translateY(30px);
+            transition: opacity 1s cubic-bezier(0.16, 1, 0.3, 1), transform 1s cubic-bezier(0.16, 1, 0.3, 1);
+            margin-bottom: 180px;
         }
-        .reveal.reveal-active { opacity: 1; transform: translateY(0) scale(1); }
+        .reveal.reveal-active { opacity: 1; transform: translateY(0); }
 
+        /* 几何横线与十字标（+）板块主标题 */
         .section-title{
-            font-size: 20px;
-            font-weight: 500;
-            color: var(--wabi-dark);
-            margin-bottom: 60px;
-            letter-spacing: 3px;
+            font-size: 16px;
+            font-weight: 700;
+            color: var(--text-dark);
+            margin-bottom: 70px;
+            letter-spacing: 4px;
             display: flex;
             align-items: center;
             gap: 20px;
+            text-transform: uppercase;
         }
-        .section-title::after { content: ''; flex: 1; height: 1px; background: var(--wabi-light); }
+        .section-title::before {
+            content: '+'; /* 工业制图标志性的十字坐标点 */
+            font-family: monospace;
+            color: var(--text-dark);
+        }
+        .section-title::after { content: ''; flex: 1; height: 1px; background: var(--line-solid); }
 
-        /* --- 视频交互区 --- */
+        /* --- 视频板块结构优化 --- */
         .video-show{ margin-bottom:30px; }
         .video-main{
             width:100%;
-            height:520px;
-            border-radius:12px;
+            height:540px;
             overflow:hidden;
-            box-shadow: 0 20px 40px rgba(54,50,46,0.03);
-            margin-bottom:28px;
+            margin-bottom:30px;
             background: #000;
-            border: 1px solid var(--wabi-light);
+            border: 1px solid var(--text-dark); /* 直角刚性黑色边框 */
         }
         .video-main iframe{ width:100%; height:100%; border:none; }
-        .video-thumbs{ display: flex; gap: 14px; flex-wrap: wrap; }
+        .video-thumbs{ display: flex; gap: 10px; flex-wrap: wrap; }
         .video-thumb{
-            padding: 12px 26px;
-            background: var(--wabi-card);
-            border: 1px solid var(--wabi-light);
-            border-radius: 30px;
+            padding: 10px 24px;
+            background: var(--bg-sidebar);
+            border: 1px solid var(--line-light);
             cursor: pointer;
-            font-size: 13px;
-            color: var(--wabi-accent);
-            letter-spacing: 1px;
-            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--text-muted);
+            letter-spacing: 2px;
+            transition: all 0.3s ease;
         }
-        .video-thumb:hover { border-color: var(--wabi-accent); color: var(--wabi-dark); transform: translateY(-2px); }
-        .video-thumb.active{ background: var(--wabi-dark); color: var(--wabi-card); border-color: var(--wabi-dark); }
+        .video-thumb:hover { border-color: var(--text-dark); color: var(--text-dark); }
+        .video-thumb.active{ background: var(--text-dark); color: #fff; border-color: var(--text-dark); }
 
-        /* --- 平面海报板块：高级杂志奢华独立排版 --- */
+        /* ==========================================================================
+           【全新布局重构】平面海报板块：高级包豪斯几何线构风（大间距、图幅自适应）
+           ========================================================================== */
         .gallery { 
             column-count: 2;     
             column-gap: 80px;    
-            padding-top: 20px;
         }
         
         .card {
             break-inside: avoid; 
             display: block; 
             width: 100%;
-            margin-bottom: 110px; 
+            margin-bottom: 120px; 
             position: relative;
             cursor: pointer;
-            background: none;     
-            padding: 0;           
-            border-radius: 0;
-            border: none;
-            box-shadow: none;
+        }
+
+        /* 核心几何框：为海报垫底的直角测绘虚线框 */
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            border: 1px dashed var(--text-dark); /* 几何直角虚线线框 */
+            opacity: 0;
+            transform: translate(0, 0);
+            transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.4s ease;
+            z-index: 1;
+            pointer-events: none;
         }
 
         .card img {
             width: 100%;
             height: auto;        
             display: block;
-            border-radius: 2px;  
-            box-shadow: 0 30px 70px rgba(54, 53, 48, 0.05); 
-            filter: grayscale(12%) contrast(96%);
+            border-radius: 0; /* 彻底直角化，消灭柔和圆角 */
+            border: 1px solid var(--line-light); /* 默认极淡结构线定界 */
             
-            transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1),
-                        filter 0.8s cubic-bezier(0.16, 1, 0.3, 1),
-                        box-shadow 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+            /* 纯净纸张质感，静止时保持无偏色的工业高级冷灰色调 */
+            filter: grayscale(10%) brightness(98%);
+            
+            position: relative;
+            z-index: 2; /* 压在虚线框上方 */
+            transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1),
+                        border-color 0.6s cubic-bezier(0.16, 1, 0.3, 1),
+                        filter 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        /* 【特效三：几何偏移线框唤醒】 */
+        .card:hover::before {
+            opacity: 0.8;
+            /* 虚线框往右下方几何偏移 12px，勾勒出强烈的平面解构线条感 */
+            transform: translate(12px, 12px); 
         }
 
         .card:hover img {
-            transform: translateY(-6px) scale(1.015); 
-            filter: grayscale(0%) contrast(100%);
-            box-shadow: 0 4px 90px rgba(54, 53, 48, 0.1); 
+            transform: translate(-4px, -4px); /* 大图往相反方向（左上方）微漂移，拉开错位感 */
+            border-color: var(--text-dark);    /* 边界线瞬间变黑加粗 */
+            filter: grayscale(0%) brightness(100%);
         }
 
-        /* --- 磨砂玻璃放大弹窗 --- */
+        /* --- 磨砂玻璃放大弹窗（硬朗几何直角） --- */
         .img-popup{
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(35, 32, 30, 0.9);
-            backdrop-filter: blur(10px);
+            background: rgba(17, 17, 17, 0.94); /* 极深纯净暗场 */
+            backdrop-filter: blur(12px);
             z-index: 99999;
-            display: flex; align-items: center; justify-content: center; padding: 20px;
+            display: flex; align-items: center; justify-content: center; padding: 40px;
             opacity: 0; visibility: hidden;
             transition: opacity 0.5s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.5s cubic-bezier(0.16, 1, 0.3, 1);
             cursor: zoom-out;
         }
         .img-popup img{
-            max-width: 94%; max-height: 94%; object-fit: contain;
-            border-radius: 2px;
-            transform: scale(0.94);
+            max-width: 92%; max-height: 92%; object-fit: contain;
+            border-radius: 0; /* 直角 */
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transform: scale(0.95);
             transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
         }
         .img-popup.active{ opacity: 1; visibility: visible; }
         .img-popup.active img { transform: scale(1); }
 
-        .footer{ text-align:center; padding:100px 0 40px; color:var(--wabi-accent); font-size:13px; letter-spacing: 2px; }
+        /* 底栏几何对齐线 */
+        .footer{ 
+            text-align:center; padding:120px 0 40px; color:var(--text-muted); font-size:11px; letter-spacing: 3px;
+            border-top: 1px dashed var(--line-light);
+            text-transform: uppercase;
+        }
 
         /* --- 响应式布局 --- */
         @media (max-width:1024px){
             .sidebar{ width: 240px; padding: 40px 20px; }
-            .content{ margin-left: 240px; padding: 60px 40px; }
+            .content{ margin-left: 240px; padding: 80px 40px; }
             .gallery { column-gap: 50px; }
         }
         @media (max-width:768px){
             .menu-btn{ display:flex; }
-            .sidebar{ transform: translateX(-100%); box-shadow: 10px 0 30px rgba(0,0,0,0.03); width: 260px; }
+            .sidebar{ transform: translateX(-100%); width: 260px; box-shadow: 15px 0 40px rgba(0,0,0,0.05); }
             .sidebar.show{ transform: translateX(0); }
-            .content{ margin-left: 0; padding: 80px 24px 40px; }
+            .content{ margin-left: 0; padding: 100px 24px 40px; }
             .video-main{ height:260px; }
-            .reveal { margin-bottom: 80px; }
+            .reveal { margin-bottom: 100px; }
             .gallery { column-count: 1; column-gap: 0; }
-            .card { margin-bottom: 50px; }
+            .card { margin-bottom: 60px; }
+            .card:hover::before { transform: translate(8px, 8px); } /* 手机端微调偏离度 */
         }
     </style>
 </head>
 
 <body>
 
-    <button class="menu-btn" id="menuBtn">☰</button>
+    <button class="menu-btn" id="menuBtn">☰ LINE</button>
 
     <div class="sidebar" id="sidebar">
-        <div class="logo">Wabi·Sabi</div>
+        <div class="logo">M.LI / STUDIO</div>
         <div class="nav" id="navLinks">
             <a href="#home" class="active">首页</a>
             <a href="#video">动态视频</a>
@@ -243,12 +284,12 @@
 
     <div class="content">
         <!-- 首页板块 -->
-        <section class="section reveal" id="home" style="min-height: 50vh; display: flex; flex-direction: column; justify-content: center;">
-            <h1 style="font-size:36px; font-weight:500; color:var(--wabi-dark); margin-bottom:20px; text-align:center; letter-spacing: 6px;">
+        <section class="section reveal" id="home" style="min-height: 45vh; display: flex; flex-direction: column; justify-content: center; border-left: 1px solid var(--text-dark); padding-left: 40px;">
+            <h1 style="font-size:40px; font-weight:700; color:var(--text-dark); margin-bottom:15px; letter-spacing: 4px; text-transform: uppercase;">
                 李静敏设计集
             </h1>
-            <p style="text-align:center; color:var(--wabi-accent); font-size:14px; letter-spacing: 8px; text-transform: uppercase;">
-                Less is more · Natural textures
+            <p style="color:var(--text-muted); font-size:12px; letter-spacing: 6px; text-transform: uppercase; font-family: monospace;">
+                Structural Geometry & Visual Compilation
             </p>
         </section>
 
@@ -267,7 +308,7 @@
             </div>
         </section>
 
-        <!-- 平面海报板块 -->
+        <!-- 平面海报板块（包豪斯几何线构流） -->
         <section class="section reveal" id="poster">
             <h2 class="section-title">平面设计作品</h2>
             <div class="gallery">
@@ -327,13 +368,13 @@
         <!-- 关于我 -->
         <section class="section reveal" id="about">
             <h2 class="section-title">关于我</h2>
-            <p style="font-size:18px; font-weight:500; color:var(--wabi-dark); margin-bottom:15px; letter-spacing: 1.5px; line-height: 1.6;">
+            <p style="font-size:20px; font-weight:700; color:var(--text-dark); letter-spacing: 2px; line-height: 1.6; border-left: 3px solid var(--line-solid); padding-left: 24px;">
                 以视觉为语，融极简意境，于方寸之间雕琢设计本心。
             </p>
         </section>
 
         <div class="footer">
-            © 李静敏设计集 · 原创视觉
+            © LI JINGMIN PORTFOLIO · ALL RIGHTS RESERVED
         </div>
     </div>
 
